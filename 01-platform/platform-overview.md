@@ -1,28 +1,56 @@
-# CAS Platform — Overview
+# Документация платформы CAS
 
-Purpose:
-Describe CAS as a platform from a top-level perspective.
+## Что это за репозиторий
+Лёгкий top-down репозиторий документации платформы CAS.
+Он предназначен для:
+- чтения людьми
+- постепенного и контролируемого развития
+- использования как структурированного контекста для AI-агентов (Claude Code / ChatGPT)
 
-What CAS is:
-CAS is a platform connecting developers and publishers with monetization,
-analytics, payments, and growth infrastructure.
+## Как мы работаем (человеческий процесс)
+Мы улучшаем документацию по одному файлу за раз.
+Для каждого документа:
+1. Фиксируем назначение и границы (что входит / что не входит)
+2. Добавляем только те факты, в которых уверены
+3. Держим один уровень абстракции
+4. Коммитим изменения в Git
 
-Core idea:
-CAS is not a single product but a platform composed of multiple subsystems
-with different users and business roles.
+## Как AI должен использовать этот репозиторий
+AI не должен пытаться загружать всё сразу.
+Правила работы:
+1. Всегда начинать с этого README
+2. Загружать только документы, релевантные текущей задаче
+3. Если информации не хватает — задавать вопросы и предлагать, куда добавить новый раздел/файл
+4. Никогда не выдумывать отсутствующие продуктовые факты
 
-High-level components:
-- Business model layer
-- User-facing cabinet
-- Internal tooling (to be described later)
-- Data & analytics (to be described later)
+## Порядок чтения
+1. `/01-platform/platform-overview.md`
+2. `/02-business-model/cas-business-model.md`
+3. `/03-user-cabinet/user-cabinet-overview.md`
+4. `/90-ai/ai-context-rules.md`
 
-User types (high level):
-- Developer (client)
-- Publisher
-- Internal CAS teams
+## В рамках текущей версии
+- Верхнеуровневое описание платформы
+- Бизнес-модель
+- Пользовательский кабинет
 
-Non-goals:
-- No technical implementation details
-- No KPI definitions
-- No roadmap here
+## Вне рамок текущей версии
+- Технические детали SDK
+- Реализация BI
+- Механика платежей
+- Внутренности паблишинга
+
+## Конвенции документов
+- Один документ — один уровень абстракции (не смешивать бизнес, технику и UI)
+- Ясность важнее полноты
+- Короткие секции и списки
+- При необходимости добавлять ссылки на другие документы
+
+## Структура репозитория
+- `01-platform/` — что такое CAS и из каких крупных компонентов он состоит
+- `02-business-model/` — ценность, источники дохода, ограничения
+- `03-user-cabinet/` — цели и блоки пользовательского кабинета
+- `90-ai/` — правила работы AI с этим репозиторием
+
+## История изменений
+- v0: начальный скелет

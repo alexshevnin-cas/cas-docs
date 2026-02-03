@@ -1,32 +1,43 @@
-# CAS Business Model
+# Бизнес-модель CAS
 
-Purpose:
-Describe how CAS creates, delivers, and captures value.
+## Назначение
+Зафиксировать, за счёт чего CAS создаёт ценность и как эта ценность конвертируется в доход.
 
-Primary value propositions:
-- Monetization infrastructure
-- Analytics and transparency
-- Payments and settlements
-- Publishing and growth support
+Документ служит рамкой для продуктовых, BI и платёжных решений.
 
-Revenue streams (high level):
-- Mediation fees
-- Revenue share
-- Publishing revenue
-- Service-based fees (if applicable)
+## Кому CAS создаёт ценность
 
-Cost structure (high level):
-- Infrastructure
-- SDK & R&D
-- BI & data
-- Operations and support
+### Разработчики
+- Быстрое подключение монетизации
+- Работа через рекламные аккаунты CAS без необходимости самостоятельной регистрации в сетях
+- Консолидация выплат из разных сетей в одном месте
+- Экспертиза и более качественный монетизационный сетап по сравнению с "из коробки"
 
-Key business constraints:
-- Trust and transparency
-- Scalability
-- Dependency on external ad networks
+### Паблишеры
+- Рост за счёт платной закупки трафика со стороны CAS
+- Рост за счёт продуктовых и продюсерских рекомендаций CAS
+- Рост за счёт качественно настроенной монетизации (аналогично девелоперам)
 
-Out of scope:
-- Exact percentages
-- Contract specifics
-- Financial calculations
+## Основные источники дохода
+- Комиссия за использование рекламных аккаунтов CAS (фиксированный процент)
+- Revenue share с паблишинга
+
+## Экономическая логика
+- Доход зависит от объёма и качества монетизации
+- Рост достигается через:
+  - масштабирование приложений и портфеля
+  - рост eCPM / ARPDAU
+  - увеличение числа активных клиентов
+
+## Ограничения бизнес-модели
+- Зависимость от рекламных сетей, используемых CAS
+- Привязка клиентов к технологическому стеку CAS
+- Ограниченная пропускная способность команды
+
+Связанные системные ограничения:  
+`01-platform/known-constraints.md`
+
+## Границы документа
+- Без финансовых расчётов
+- Без контрактных условий
+- Без детализации по отдельным продуктам
