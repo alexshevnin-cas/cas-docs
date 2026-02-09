@@ -1,0 +1,53 @@
+Category,Parameter,Value,Unit,Status,Notes
+,,,,,
+ICP SIZES,L1,$5000,Gross Rev/мес,Confirmed,Базовые клиенты
+,L2,$12500,Gross Rev/мес,Confirmed,Продвинутые клиенты
+,L3,$50000,Gross Rev/мес,Confirmed,Крупные клиенты
+,Unicorn,$150000,Gross Rev/мес,Confirmed,Enterprise
+,,,,,
+LEAD WEIGHTING,L0 (cold),$3000,Avg DAO,NEW,Нужна методика оценки
+,L1 (warm),$6000,Avg DAO,NEW,Средний размер лида
+,L2 (hot),$15000,Avg DAO,NEW,Квалифицированный лид
+,,,,,
+CONVERSION,Pipeline to Client,20-25%,%,NEW,Из диалога: целевая конверсия
+,Lookback Period,2-3,месяцев,CHANGED,"Было 1, теперь 2-3"
+,,,,,
+RND,Прирост от SDK фич,8%,%,Target,Цель на конец года
+,SDK Rollout Target,80%,%,Target,% DAU на новом SDK
+,SDK Rollout Current,60%,%,Baseline,Текущий уровень
+,,,,,
+VIP MONETIZATION,Uplift от VIP настройки,15%,%,Hypothesis,Или 8%? Нужен анализ
+,% клиентов для VIP,25%,%,Current,Расширить до 35%?
+,Факт выполнения января,80%,%,Fact,$48K из $60K
+,,,,,
+CUSTOMER RESOURCES,Прирост от делегирования,10%,%,Confirmed,Customer Free Resources Uplift
+,,,,,
+PUBLISHING,% новых на паблишинг,10%,%,Current,Конверсия из медиации
+,Growth Multiplier,5,x,Hypothesis,"Клиент растёт в 3-5x, нужен ретро"
+,Profit Share,50%,%,Confirmed,Наша доля прибыли
+,Churn Rate,30%,%,Assumption,Отсев в pipeline
+,,,,,
+CHURN,Natural Churn (годовой),8%,%,Confirmed,К декабрю 92% от января
+,Prevention Effect,1%,%,Assumption,Точечное удержание
+,,,,,
+SEASONALITY,Q1 (январь),0.9,coef,Confirmed,Низкий сезон
+,Q2-Q3,1.0,coef,Confirmed,Нормальный
+,Q4 (окт-дек),1.05-1.1,coef,Confirmed,Высокий сезон
+,,,,,
+FORCE MAJEURE,Turkish Apps Risk,-$180000,$/мес,Fact,Сезонные просадки
+,Digital Turbine Risk,-$20000,$/мес,Fact,Проблемы сети
+,Total Risk Buffer,-$200000,$/мес,Fact,Суммарно
+,,,,,
+BD TARGETS,Igor Annual,$450000,$,Target,Существующий BD
+,Vika Annual,$400000,$,NEW,Новый BD с апреля
+,Synergy Potential,$1300000,$,Hypothesis,Потенциал Вики к концу года
+,Combined Target,$480000-$600000,$,Target,Минимальный таргет двух BD
+,,,,,
+PIPELINE TARGETS,Total DAO Pipeline,$1500000-$2000000,$,Target,Из HubSpot
+,Mediation Share,40%,%,Assumption,Лиды на медиацию
+,Publishing Share,60%,%,Assumption,Лиды на publishing
+,,,,,
+OPEN QUESTIONS,(?) Антифрод,TBD,,TODO,Учёт потерь от фрода
+,(?) Сезонность детали,TBD,,TODO,Уточнение по историческим данным
+,(?) DAU привязка,TBD,,TODO,Выручка к DAU для точности
+,(?) Периметр модели,CAS vs CAS+PSV,,TODO,"Олег: $3800K, модель: $2100K"

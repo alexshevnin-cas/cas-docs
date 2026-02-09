@@ -59,6 +59,6 @@
 - Нет сохранённых отчётов / пресетов
 
 ## Связанные документы
-- Целевой scope для L1: `03-user-cabinet/l1-metrics-scope.md`
+- Целевой scope для L1: `03-product/l1-metrics-scope.md`
 - BI обзор: `04-bi/bi-overview.md`
 - Словарь метрик: `04-bi/metrics-dictionary.md`

@@ -86,6 +86,9 @@
 | m62 | Ad ARPU MREC | Ad Revenue_mrec ÷ Active Users_mrec | Сколько рекламной выручки в среднем приносит один пользователь MREC-рекламы? | — | ✓ | — |
 | m63 | Ad ARPU Native | Ad Revenue_native ÷ Active Users_native | Сколько рекламной выручки в среднем приносит один пользователь native-рекламы? | — | ✓ | — |
 | m64 | Ad ARPU Rewarded Video | Ad Revenue_rewarded ÷ Active Users_rewarded | Сколько рекламной выручки в среднем приносит один пользователь rewarded video-рекламы? | — | ✓ | — |
+| m71 | ARPU Forecast D7 | Predicted ARPU at day 7 based on early cohort data | Какой прогнозируемый ARPU на D7? | — | Pub | — |
+| m72 | ARPU Forecast D14 | Predicted ARPU at day 14 based on cohort model | Какой прогнозируемый ARPU на D14? | — | Pub | — |
+| m73 | ARPU Forecast D30 | Predicted ARPU at day 30 based on cohort model | Какой прогнозируемый ARPU на D30? | — | Pub | — |
 
 ---
 
@@ -235,6 +238,21 @@
 
 ---
 
+## Diagnostic Metrics
+
+| ID | Метрика | Описание / Формула | Бизнес-вопрос | L1 | L2 | PubC |
+|----|--------|--------------------|---------------|----|----|------|
+| d1 | Revenue by SDK Version | Ad Revenue с разбивкой по версии CAS SDK | Как повлияло обновление SDK на выручку? | — | ✓ | — |
+| d2 | Revenue by App Version | Ad Revenue с разбивкой по версии приложения | Есть ли проблемы в конкретном билде? | — | ✓ | — |
+| d3 | Anomaly Flag | Автоматическая метка дней с аномальными данными (отсутствие данных, резкие провалы) | Где данные не поступали или резко упали? | — | ✓ | — |
+| d4 | Network Data Gap | Дни, когда сеть не передала данные | Какая сеть отваливалась? | — | ✓ | — |
+| d5 | DAU Discrepancy | Разница DAU между CAS и Firebase/GA | Корректно ли считается DAU? | — | ✓ | — |
+| d6 | Revenue by Mediation Platform | Ad Revenue с разбивкой по медиационной платформе (CAS, MAX, ironSource) | Какая медиация приносит больше? | — | ✓ | — |
+| d7 | eCPM by Mediation Platform | eCPM с разбивкой по медиационной платформе | Какая медиация платит лучше? | — | ✓ | — |
+| d8 | Fill Rate by Mediation Platform | Fill Rate с разбивкой по медиационной платформе | Какая медиация лучше заполняет? | — | ✓ | — |
+
+---
+
 ## Network Metrics
 
 | ID | Метрика | Описание / Формула | Бизнес-вопрос | L1 | L2 | PubC |
@@ -278,6 +296,12 @@
 | m43 | ROAS, To-Date | Cumulative Total Revenue (Ad + IAP) ÷ UA Spend × 100% (from install date to current moment) | Окупился ли трафик на текущий момент? | — | Pub | — |
 | m44 | Profit (Calendar) | Total Revenue − UA Spend (calculated for a specific calendar day or selected period) | Прибыльны ли мы за выбранный день или период? | — | Pub | — |
 | m45 | ATT Opt-In Rate | Percentage of users who select "Allow" when presented with the App Tracking Transparency (ATT) prompt | Какой процент пользователей разрешает трекинг (ATT)? | — | Pub | — |
+| m65 | MMP Installs | Installs attributed by MMP (Adjust, AppsFlyer, Singular) | Сколько установок по данным MMP? | — | Pub | — |
+| m66 | SSOT Installs | Single Source of Truth installs (unified attribution) | Сколько установок по единому источнику правды? | — | Pub | — |
+| m67 | eROAS Forecast D60 | Predicted ROAS at day 60 based on early cohort data | Какой прогнозируемый ROAS на D60? | — | Pub | — |
+| m68 | eROAS Forecast D365 | Predicted ROAS at day 365 based on cohort model | Какой прогнозируемый ROAS на D365? | — | Pub | — |
+| m69 | eROAS Forecast D730 | Predicted ROAS at day 730 (2 years) based on cohort model | Какой прогнозируемый ROAS на D730? | — | Pub | — |
+| m70 | eProfit Forecast D730 | Predicted profit at day 730 = eRevenue D730 − UA Spend | Какая прогнозируемая прибыль на D730? | — | Pub | — |
 
 ---
 
@@ -287,5 +311,5 @@
 |---------|-------------------|-------|
 | PubC | 7 + 5○ | Валидация: DAU, Active Users, Retention D1/D3, CPI, ROAS, Session Length. Планируется: Revenue, ARPDAU, eCPM, Impressions |
 | L1 | 12 | Базовая монетизация: + Fill Rate, CTR, Impressions/DAU |
-| L2 | 70+ | Углублённая аналитика: сессии, retention (D1-D14, Stickiness), детализация по типам рекламы, сети |
+| L2 | 75+ | Углублённая аналитика: сессии, retention (D1-D14), сети, диагностика (SDK/App version, anomalies) |
 | Pub | 100+ | Полная картина: когорты, LTV, retention (D30-D90), IAP, UA, эксперименты |

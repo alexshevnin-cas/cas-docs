@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>План модернизации — CAS.AI</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #1a1a2e;
+    background: #f8f9fb;
+    line-height: 1.6;
+    padding: 40px 20px;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .header {
+    margin-bottom: 40px;
+  }
+  .header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .header .meta {
+    display: flex;
+    gap: 20px;
+    font-size: 13px;
+    color: #6b7280;
+  }
+  .header .meta span {
+    background: #eef1f6;
+    padding: 4px 12px;
+    border-radius: 6px;
+  }
+
+  /* Section */
+  h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 48px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e5e7eb;
+  }
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 28px 0 10px;
+    color: #374151;
+  }
+  h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 20px 0 8px;
+    color: #4b5563;
+  }
+
+  /* Principle block */
+  .principle {
+    background: #f0f4ff;
+    border-left: 4px solid #58A6FF;
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+    margin: 20px 0 32px;
+  }
+  .principle p { margin-bottom: 10px; }
+  .principle p:last-child { margin-bottom: 0; }
+  .principle strong { color: #1e3a5f; }
+  .principle ul {
+    margin: 8px 0 0 20px;
+  }
+  .principle li {
+    margin-bottom: 6px;
+  }
+
+  /* Phase table */
+  .phase-table-wrap {
+    overflow-x: auto;
+    margin: 20px 0;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  .phase-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    background: #fff;
+  }
+  .phase-table thead th {
+    background: #1a1a2e;
+    color: #fff;
+    font-weight: 600;
+    text-align: left;
+    padding: 12px 16px;
+    white-space: nowrap;
+  }
+  .phase-table thead th:first-child {
+    border-radius: 10px 0 0 0;
+  }
+  .phase-table thead th:last-child {
+    border-radius: 0 10px 0 0;
+  }
+  .phase-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #f0f0f4;
+    vertical-align: top;
+  }
+  .phase-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+  .phase-table tbody tr:hover {
+    background: #fafbff;
+  }
+  .phase-table .phase-num {
+    font-weight: 700;
+    font-size: 15px;
+    color: #58A6FF;
+    white-space: nowrap;
+    width: 40px;
+  }
+  .phase-table .phase-name {
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  /* Certainty badges */
+  .cert-high {
+    display: inline-block;
+    background: #d1fae5;
+    color: #065f46;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 12px;
+  }
+  .cert-mid {
+    display: inline-block;
+    background: #fef3c7;
+    color: #92400e;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 12px;
+  }
+  .cert-low {
+    display: inline-block;
+    background: #fee2e2;
+    color: #991b1b;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 12px;
+  }
+
+  /* Detail sections */
+  .detail-section {
+    background: #fff;
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin: 20px 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .detail-section h3:first-child {
+    margin-top: 0;
+  }
+
+  .detail-section ul {
+    margin: 6px 0 12px 20px;
+  }
+  .detail-section li {
+    margin-bottom: 4px;
+  }
+
+  /* Simple table inside detail */
+  .simple-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    margin: 12px 0;
+  }
+  .simple-table th {
+    background: #f3f4f6;
+    text-align: left;
+    padding: 10px 14px;
+    font-weight: 600;
+    border-bottom: 2px solid #e5e7eb;
+  }
+  .simple-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #f0f0f4;
+    vertical-align: top;
+  }
+  .simple-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* Done / Not done */
+  .do-dont {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 12px 0;
+  }
+  .do-block, .dont-block {
+    border-radius: 8px;
+    padding: 16px 18px;
+  }
+  .do-block {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+  }
+  .dont-block {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+  }
+  .do-block h4, .dont-block h4 { margin-top: 0; }
+  .do-block h4 { color: #166534; }
+  .dont-block h4 { color: #991b1b; }
+  .do-block ul, .dont-block ul {
+    margin: 6px 0 0 18px;
+    font-size: 13.5px;
+  }
+  .do-block li, .dont-block li {
+    margin-bottom: 3px;
+  }
+
+  /* Done criteria */
+  .done-criteria {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 13.5px;
+    margin: 12px 0;
+  }
+
+  /* Questions */
+  .questions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 16px 0;
+  }
+  .q-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px 18px;
+  }
+  .q-card .q-category {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #6b7280;
+    margin-bottom: 8px;
+  }
+  .q-card .q-num {
+    display: inline-block;
+    background: #58A6FF;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    border-radius: 50%;
+    margin-right: 6px;
+  }
+  .q-card p {
+    font-size: 13.5px;
+    margin-bottom: 4px;
+  }
+
+  /* Arrow connector */
+  .arrow {
+    color: #58A6FF;
+    font-weight: 500;
+  }
+
+  /* Muted */
+  .muted { color: #9ca3af; }
+
+  /* Story ref */
+  .story-ref {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 12px;
+    background: #eef1f6;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #4b5563;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <h1>План модернизации BI и кабинета CAS</h1>
+    <div class="meta">
+      <span>9 февраля 2026</span>
+      <span>Поэтапная модернизация</span>
+    </div>
+  </div>
+
+  <!-- Preparation summary -->
+  <div class="principle">
+    <p style="font-weight:600; margin-bottom:12px;">Подготовка</p>
+    <table class="simple-table" style="margin:0; background:transparent;">
+      <tbody>
+        <tr><td style="border-color:#d0d9e8; white-space:nowrap; font-weight:500;">Типы клиентов</td><td style="border-color:#d0d9e8;">4 внешних (L1, L2, PubC, Pub) + 4 внутренние роли (Admin, RND, UA, Account Management)</td></tr>
+        <tr><td style="border-color:#d0d9e8; white-space:nowrap; font-weight:500;">Интервью</td><td style="border-color:#d0d9e8;">6 респондентов — L2 (2), Pub (2), Ex-client (1), Internal (1). Покрыты 4 из 4 типов</td></tr>
+        <tr><td style="border-color:#d0d9e8; white-space:nowrap; font-weight:500;">Конкурентный анализ</td><td style="border-color:#d0d9e8;">4 референса (Voodoo, Amplitude, Appodeal, AppsFlyer)</td></tr>
+        <tr><td style="border-color:#d0d9e8; white-space:nowrap; font-weight:500;">User Stories</td><td style="border-color:#d0d9e8;">76 историй по 8 ролям (L1: 8, L2: 24, PubC: 7, Pub: 10, Payments: 6, Admin: 5, RND: 6, UA: 5, AM: 5)</td></tr>
+        <tr><td style="border-color:#d0d9e8; white-space:nowrap; font-weight:500;">Метрики</td><td style="border-color:#d0d9e8;">70 метрик с формулами, уровнями доступа и источниками</td></tr>
+        <tr><td style="border-color:#d0d9e8; white-space:nowrap; font-weight:500;">Фильтры и срезы</td><td style="border-color:#d0d9e8;">Каталогизированы по категориям (common, mediation, attribution)</td></tr>
+        <tr><td style="border-bottom:none; white-space:nowrap; font-weight:500;">Обсуждение с командой</td><td style="border-bottom:none;">H1/H2 roadmap, BI-инфра ~$50K, Superset отклонён</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:14px;">На основании этого — таблица фаз, наложенная на текущие ограничения и реальность.</p>
+  </div>
+
+  <!-- Phase Table -->
+  <h2>Фазы</h2>
+  <div class="phase-table-wrap">
+    <table class="phase-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Фаза</th>
+          <th>Определённость</th>
+          <th>Что разблокирует</th>
+          <th>Клиенты получают</th>
+          <th>CAS получает</th>
+          <th>Побочный эффект</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="phase-num">1</td>
+          <td class="phase-name">BI Design + шаблон</td>
+          <td><span class="cert-high">Высокая</span><br>Понятно что и как</td>
+          <td>Новый UI на текущих данных (Network&nbsp;Reports)</td>
+          <td>L1: новый вид, нет тормозов, экспорт, eCPM per type</td>
+          <td>Единый вид из 1С без тормозов. Данные объединены даже на тех же источниках</td>
+          <td>Калибровка команды: бэклоги, прозрачность, скорость</td>
+        </tr>
+        <tr>
+          <td class="phase-num">2a</td>
+          <td class="phase-name">ILRD</td>
+          <td><span class="cert-mid">Средняя</span><br>Зависит от инфры</td>
+          <td>Impression-level данные</td>
+          <td>Когортный анализ, разбивка по SDK/App version, диагностика по сетям</td>
+          <td>Совместная работа с Денисом (SDK): анализ по версиям <span class="arrow">→</span> стабильнее релизы</td>
+          <td class="muted">—</td>
+        </tr>
+        <tr>
+          <td class="phase-num">2b</td>
+          <td class="phase-name">ILRD + сплитовалка</td>
+          <td><span class="cert-mid">Средняя</span><br>Зависит от 2a</td>
+          <td>A/B тесты на ILRD</td>
+          <td>Self-service эксперименты, experiment registry</td>
+          <td>Таргетинг по параметрам <span class="arrow">→</span> система экспериментов. RND-гипотезы (13 шт.) проверяются в BI</td>
+          <td class="muted">—</td>
+        </tr>
+        <tr>
+          <td class="phase-num">3</td>
+          <td class="phase-name">Подключение MMP</td>
+          <td><span class="cert-low">Низкая</span><br>Data platform + договорённости</td>
+          <td>Данные MMP клиента (AppsFlyer, Adjust)</td>
+          <td>Unified Report (Spend + Revenue + Events), прогноз LTV, ROAS</td>
+          <td>Единый пайплайн — новый MMP = только адаптер</td>
+          <td class="muted">—</td>
+        </tr>
+        <tr>
+          <td class="phase-num">4</td>
+          <td class="phase-name">Publishing</td>
+          <td><span class="cert-low">Низкая</span><br>Зависит от всего выше</td>
+          <td>Полный контур UA + Monetization</td>
+          <td>PubC: self-service тест игры. Pub: profit, predictive LTV, health indicator</td>
+          <td>Масштабирование паблишинга без ручного труда. Выход из 1С</td>
+          <td class="muted">—</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Phase 1 Detail -->
+  <h2>Фаза 1: BI Design + шаблон</h2>
+  <div class="detail-section">
+    <h3>Почему первая</h3>
+    <ul>
+      <li>Минимальные зависимости — работаем на текущих данных (Network Reports)</li>
+      <li>Быстрый видимый результат для клиентов</li>
+      <li>Устанавливает процессы работы с командой</li>
+    </ul>
+
+    <div class="do-dont">
+      <div class="do-block">
+        <h4>Что делаем</h4>
+        <ul>
+          <li>Новый UI: тёмная тема, chip-фильтры, graph + table (Amplitude-стиль)</li>
+          <li>Quick View: 5 виджетов (Revenue, DAU, ARPDAU, eCPM per type, Fill Rate)</li>
+          <li>Reports: гибкие отчёты с экспортом (CSV, Excel)</li>
+          <li>Сравнение периодов (inline, как AppsFlyer)</li>
+          <li>Toggle комиссии gross/net — данные с комиссией CAS или без (per app)</li>
+          <li>Карточка приложения: владелец, портфолио, менеджер, комиссия</li>
+          <li>UX-фиксы: 10 багов из интервью Савенкова</li>
+        </ul>
+      </div>
+      <div class="dont-block">
+        <h4>Чего НЕ делаем</h4>
+        <ul>
+          <li>Когорты (нужен ILRD)</li>
+          <li>Unified Report (нужен MMP)</li>
+          <li>Предиктивный LTV (нужен MMP)</li>
+          <li>Сплитовалку (нужен ILRD)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="done-criteria">
+      <strong>Критерий готовности:</strong> L1-клиент видит Revenue, DAU, ARPDAU, eCPM per ad type, Fill Rate с разбивкой по дате / app / country / network / ad type. Экспорт и сравнение работают. Не тормозит.
+    </div>
+
+    <h3>Техническая реализация (подтверждено 09.02)</h3>
+    <ul>
+      <li>Борис создаёт агрегированные таблицы (materialized views) из существующих данных</li>
+      <li>Не переносим данные из 1С — воспроизводим вид на уже оптимизированных данных</li>
+      <li>Переезд на self-hosted ClickHouse (500 ГБ ILRD в облаке → дешевле и быстрее)</li>
+    </ul>
+
+    <h3>Внутренний бонус</h3>
+    <ul>
+      <li>Те же данные, объединённые в новом движке = правильный вид вместо 1С (без тормозов)</li>
+      <li>Portfolio overview для Management — группировка по менеджерам</li>
+      <li>Процессы: бэклоги, таск-трекер, прозрачность, ретро</li>
+    </ul>
+  </div>
+
+  <!-- Phase 2a Detail -->
+  <h2>Фаза 2a: ILRD</h2>
+  <div class="detail-section">
+    <h3>Что разблокирует ILRD</h3>
+    <p style="margin-bottom:12px">Переход с агрегированных Network Reports на Impression-Level Revenue Data.</p>
+    <table class="simple-table">
+      <thead>
+        <tr><th>Было (Network Reports)</th><th>Стало (ILRD)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Агрегаты за день</td><td>Данные по каждому показу</td></tr>
+        <tr><td>Нет версий SDK/App</td><td>Разбивка по SDK version, App version</td></tr>
+        <tr><td>Нет когорт</td><td>Когортный анализ</td></tr>
+        <tr><td>Средний eCPM</td><td>eCPM по сети + версии + стране</td></tr>
+        <tr><td>Нет диагностики</td><td>Аномалии, gaps, version impact</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Ценность для Дениса и SDK-команды</h3>
+    <p style="margin-bottom:12px">Денис — глава разработки SDK. Сейчас у команды SDK нет инструментов для анализа влияния релизов. ILRD меняет это в два шага:</p>
+
+    <h4>Шаг 1 (фаза 2a): Анализ по версиям</h4>
+    <ul>
+      <li>Сравнение Revenue / eCPM / Fill Rate между версиями SDK — быстро видно, сломал ли релиз монетизацию</li>
+      <li>Скорость раскатки: % пользователей на каждой версии по дням <span class="story-ref">US-RND-02</span></li>
+      <li>Поиск клиентов на старой SDK для коммуникации <span class="story-ref">US-RND-03</span></li>
+      <li>Диагностика проблем у конкретного клиента по версии <span class="story-ref">US-RND-05</span></li>
+      <li><strong>Результат:</strong> выпуск SDK стабильнее, проблемы находятся быстрее</li>
+    </ul>
+
+    <h4>Шаг 2 (фаза 2b): Таргетинг + эксперименты</h4>
+    <ul>
+      <li>Таргетинг по параметрам (версия, страна, сегмент) <span class="arrow">→</span> грамотная система A/B тестов</li>
+      <li>Детерминированная сплитовалка <span class="arrow">→</span> self-service запуск экспериментов</li>
+      <li>Experiment Registry с результатами в BI</li>
+      <li><strong>Результат:</strong> 13 RND-гипотез проверяются системно, а не в spreadsheets</li>
+    </ul>
+    <p style="margin-top:12px">Это совместная работа Product + SDK — начинаем с простого (анализ версий), наращиваем до полного контура экспериментов.</p>
+
+    <h3>Ценность для клиентов (L2)</h3>
+    <p style="margin-bottom:8px">Клиенты тоже просят стабильность SDK — из интервью:</p>
+    <ul>
+      <li><span class="story-ref">US-L2-01</span> Оценка влияния SDK-обновления на монетизацию</li>
+      <li><span class="story-ref">US-L2-02</span> Поиск багов в конкретных билдах</li>
+      <li><span class="story-ref">US-L2-03</span> Сравнение версий приложения</li>
+      <li><span class="story-ref">US-L2-12</span> Отслеживание раскатки версии (Active Users by Version by Day)</li>
+      <li><span class="story-ref">US-L2-13</span> Поиск проблемной версии (Impressions by Version)</li>
+      <li>Saved Views, Deep Linking</li>
+    </ul>
+  </div>
+
+  <!-- Phase 3 Detail -->
+  <h2>Фаза 3: Подключение MMP</h2>
+  <div class="detail-section">
+    <h3>Предпосылка</h3>
+    <p style="margin-bottom:12px">Клиент разрешает CAS доступ к данным своей MMP (AppsFlyer, Adjust, Tenjin).</p>
+
+    <table class="simple-table">
+      <thead>
+        <tr><th>Данные MMP</th><th>Что появляется</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Installs + Attribution</td><td>Unified Report: Spend + Revenue + Events по GEO + AdType</td></tr>
+        <tr><td>Events</td><td>Фанлы, retention по источникам</td></tr>
+        <tr><td>Spend</td><td>ROAS, CPI</td></tr>
+        <tr><td>Cohorts</td><td>Предиктивный LTV, payback days</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Архитектурный принцип (R2)</h3>
+    <p>Новый MMP = новый адаптер на Ingestion Layer. Semantic Layer, витрины и UI не меняются.</p>
+  </div>
+
+  <!-- Phase 4 Detail -->
+  <h2>Фаза 4: Publishing</h2>
+  <div class="detail-section">
+    <div class="do-dont">
+      <div class="do-block" style="background:#f8fafc; border-color:#e2e8f0;">
+        <h4 style="color:#1e3a5f;">PubC (Candidate Portal)</h4>
+        <ul>
+          <li>Upload APK <span class="arrow">→</span> автотест <span class="arrow">→</span> результаты за 3 дня</li>
+          <li>CPI, Retention D1/D3/D7, Playtime</li>
+          <li>Status badge (green / yellow / red)</li>
+          <li>Креативы: upload + performance table</li>
+        </ul>
+      </div>
+      <div class="do-block" style="background:#f8fafc; border-color:#e2e8f0;">
+        <h4 style="color:#1e3a5f;">Pub (Publishing Partners)</h4>
+        <ul>
+          <li>Net income (Revenue - UA Cost - CAS commission)</li>
+          <li>Predictive LTV для приоритизации разработки</li>
+          <li>Health indicator</li>
+          <li>ROAS в кабинете</li>
+          <li>A/B тесты в дашборде</li>
+        </ul>
+      </div>
+    </div>
+    <h3>Внутренний бонус</h3>
+    <ul>
+      <li>Масштабирование паблишинга без ручного труда</li>
+      <li>Выход из 1С для Publishing-учёта</li>
+    </ul>
+  </div>
+
+  <!-- Decisions from meeting -->
+  <h2>Решения (встреча 09.02)</h2>
+  <div class="detail-section" style="font-size:13.5px;">
+    <p style="font-weight:600; margin-bottom:10px; color:#6b7280; font-size:12px; text-transform:uppercase; letter-spacing:0.5px;">Процессы и команда</p>
+    <p style="margin-bottom:6px;">1. <strong>Таск-трекер</strong> → ClickUp (пока). Ждём решение холдинга по Asana</p>
+    <p style="margin-bottom:6px;">2. <strong>Прозрачность</strong> → Алексей создаёт шаблон проектного пространства, критика от команды</p>
+    <p style="margin-bottom:20px;">3. <strong>Ритуалы</strong> → по мере поступления, формализуем позже</p>
+
+    <p style="font-weight:600; margin-bottom:10px; color:#6b7280; font-size:12px; text-transform:uppercase; letter-spacing:0.5px;">Фаза 1</p>
+    <p style="margin-bottom:6px;">4. <strong>Источник данных</strong> → агрегированные таблицы (materialized views). Борис делает. Не миграция из 1С</p>
+    <p style="margin-bottom:6px;">5. <strong>Дизайнер</strong> → внешний фрилансер. Кандидат найден, бюджет утверждает Саша</p>
+    <p style="margin-bottom:20px;">6. <strong>Объединение данных</strong> → вид "анализ приложений" из 1С + менеджер/портфолио/комиссия. Toggle gross/net</p>
+
+    <p style="font-weight:600; margin-bottom:10px; color:#6b7280; font-size:12px; text-transform:uppercase; letter-spacing:0.5px;">Фаза 2</p>
+    <p style="margin-bottom:6px;">7. <strong>ILRD</strong> → 500 ГБ уже пишутся. Переезд на self-hosted ClickHouse запланирован</p>
+    <p style="margin-bottom:20px;">8. <strong>Денис (SDK)</strong> → свой roadmap (server bidding, стабильность). Алексей выровняет словари. Начать обсуждение 2b заранее</p>
+
+    <p style="font-weight:600; margin-bottom:10px; color:#6b7280; font-size:12px; text-transform:uppercase; letter-spacing:0.5px;">Архитектура</p>
+    <p>9. <strong>MMP</strong> → "решается на уровне API". Заложить в архитектуру атрибуцию (свой Tenjin или клиентский Adjust)</p>
+  </div>
+
+  <!-- Next steps -->
+  <h2>Следующие шаги</h2>
+  <div class="detail-section">
+    <table class="simple-table">
+      <thead>
+        <tr><th>#</th><th>Действие</th><th>Кто</th><th>Срок</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Встреча с дизайнером, оценка бюджета</td><td>Алексей</td><td>Эта неделя</td></tr>
+        <tr><td>2</td><td>Утверждение бюджета на дизайнера</td><td>Алексей + Саша</td><td>Эта неделя</td></tr>
+        <tr><td>3</td><td>Митинг с Борисом + новым дата-инженером по Фазе 1</td><td>Алексей + Вова</td><td>Ближайшее</td></tr>
+        <tr><td>4</td><td>Выровнять словари и roadmap с Денисом</td><td>Алексей</td><td>Ближайшее</td></tr>
+        <tr><td>5</td><td>Создать проектное пространство в ClickUp</td><td>Алексей</td><td>Эта неделя</td></tr>
+        <tr><td>6</td><td>Макет → Руслан (фронтенд)</td><td>—</td><td>После дизайна</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+Section,Row,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Formula/Notes
+,,,,,,,,,,,,,
+REVENUE,Total Revenue CAS.AI,=SUM(Old Users:Publishing Profit),=SUM(...),=SUM(...),=SUM(...),=SUM(...),=SUM(...),=SUM(...),=SUM(...),=SUM(...),=SUM(...),=SUM(...),=SUM(...),Сумма всех источников минус Force Majeure
+,,,,,,,,,,,,,
+OLD USERS,Old Users Base,$1494571,=prev×Churn×Season,=prev×Churn×Season,=prev×Churn×Season,=prev×Churn×Season,=prev×Churn×Season,=prev×Churn×Season,=prev×Churn×Season,=prev×Churn×Season,=prev×Churn×Season,=prev×Churn×Season,=prev×Churn×Season,База существующих клиентов
+,Natural Churn Coef,1,0.99,0.98,0.97,0.96,0.95,0.95,0.94,0.93,0.93,0.92,0.92,Накопительный коэффициент
+,Prevention by Accounting,0,0,0,0,0,0.01,0,0,0.01,0,0.01,0,Удержание через аккаунтинг
+,Seasonality,0.9,1,1,1,1,1,1,1,1,1.05,1.1,1.1,Q1 низкий / Q4 высокий
+,,,,,,,,,,,,,
+NEW USERS,New Users (Mediation),$27500,=pipeline×conv,=pipeline×conv,=pipeline×conv,=pipeline×conv,=pipeline×conv,=pipeline×conv,=pipeline×conv,=pipeline×conv,=pipeline×conv,=pipeline×conv,=pipeline×conv,"Lookback 2-3 мес, не 1"
+,Pipeline from HubSpot,$1500000,$1600000,$1700000,$1800000,$1900000,$2000000,$2100000,$2200000,$2300000,$2400000,$2500000,$2600000,Сумма DAO лидов из CRM
+,Conversion Rate,20%,22%,23%,24%,25%,25%,25%,25%,25%,25%,25%,25%,Целевая конверсия
+,Lead Weighting L0/L1/L2,L1=$6000,L1=$6000,L1=$6000,L1=$6000,L1=$6000,L1=$6000,L1=$6000,L1=$6000,L1=$6000,L1=$6000,L1=$6000,L1=$6000,Средний размер лида
+,,,,,,,,,,,,,
+NEW USERS BD,BD Igor,$5000,$10000,$22500,$35000,$47500,$110000,$172500,$240000,$300000,$350000,$400000,$450000,Outbound BD
+,BD Vika (NEW),0,0,$5000,$15000,$30000,$50000,$80000,$120000,$180000,$250000,$320000,$400000,Второй BD с июня ramp-up
+,BD Total,=Igor+Vika,=Igor+Vika,=Igor+Vika,=Igor+Vika,=Igor+Vika,=Igor+Vika,=Igor+Vika,=Igor+Vika,=Igor+Vika,=Igor+Vika,=Igor+Vika,=Igor+Vika,Таргет $480-600K к концу года
+,,,,,,,,,,,,,
+RND UPLIFT,RND Optimal Setup %,1%,1.5%,2%,2.5%,3%,3.5%,4%,4.5%,5%,6%,7%,8%,Прирост от новых фич SDK
+,SDK Rollout %,60%,60%,60%,60%,60%,60%,65%,65%,65%,75%,80%,80%,% DAU на новом SDK
+,RND MMR Uplift,=OldUsers×RND%×SDK%,=...,=...,=...,=...,=...,=...,=...,=...,=...,=...,=...,Эффект от R&D
+,,,,,,,,,,,,,
+VIP SETUP,VIP Mon Setup Target,$60000,$65000,$67000,$69000,$71000,$77000,$79000,$82000,$87000,$93000,$101000,$109000,План
+,VIP Mon Setup Fact,$48000,,,,,,,,,,,,"Факт (80% от плана в январе)"
+,VIP Coverage %,25%,25%,25%,25%,25%,30%,30%,30%,30%,35%,35%,35%,% клиентов на VIP (расширение?)
+,VIP Uplift %,15%,15%,15%,15%,15%,15%,15%,15%,15%,15%,15%,15%,Или 8%? Нужен анализ
+,,,,,,,,,,,,,
+PUBLISHING,Publishing Revenue,$13750,=clients×growth×share,=...,=...,=...,=...,=...,=...,=...,=...,=...,=...,ОТДЕЛЬНАЯ СЕКЦИЯ
+,Publishing Pipeline (clients),30,32,35,38,40,42,45,48,50,52,55,58,Лиды на publishing
+,Publishing Churn %,30%,30%,30%,30%,30%,30%,30%,30%,30%,30%,30%,30%,Отсев
+,Publishing Growth Multiplier,5,5,5,5,5,5,5,5,5,5,5,5,"Гипотеза 3-5x, нужен ретро-анализ"
+,Publishing Profit Share,50%,50%,50%,50%,50%,50%,50%,50%,50%,50%,50%,50%,Наша доля прибыли
+,,,,,,,,,,,,,
+CUSTOMER UPLIFT,Customer Free Resources,10%,10%,10%,10%,10%,10%,10%,10%,10%,10%,10%,10%,Прирост от делегирования рутины
+,,,,,,,,,,,,,
+FORCE MAJEURE,Force Majeure Total,-$200000,0,0,0,0,0,0,0,0,-$100000,0,0,Внешние факторы
+,Turkish Music Apps,-$180000,0,0,0,0,0,0,0,0,-$80000,0,0,Сезонные просадки VIP
+,Digital Turbine,-$20000,0,0,0,0,0,0,0,0,-$20000,0,0,Проблемы сети
+,Other Networks,0,0,0,0,0,0,0,0,0,0,0,0,Pangle и др.
+,,,,,,,,,,,,,
+VALIDATION,Fact Total,,$1683027,,,,,,,,,,Фактические данные
+,Variance vs Plan,,=-6.74%,,,,,,,,,,План vs Факт
+,Discrepancy Check,,$10000-$23000,,,,,,,,,,Расхождение в отчетах (устранить!)
