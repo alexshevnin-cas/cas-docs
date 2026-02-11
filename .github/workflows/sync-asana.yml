@@ -1,0 +1,152 @@
+name: Sync GitHub Issues → Asana
+
+on:
+  issues:
+    types: [opened, edited, closed, reopened, labeled]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sync issue to Asana
+        uses: actions/github-script@v7
+        env:
+          ASANA_TOKEN: ${{ secrets.ASANA_TOKEN }}
+          ASANA_PROJECT: ${{ secrets.ASANA_PROJECT_GID }}
+        with:
+          script: |
+            const asanaToken = process.env.ASANA_TOKEN;
+            const projectGid = process.env.ASANA_PROJECT;
+            const issue = context.payload.issue;
+            const action = context.payload.action;
+
+            // --- Helpers ---
+
+            async function asanaRequest(method, path, body) {
+              const resp = await fetch(`https://app.asana.com/api/1.0${path}`, {
+                method,
+                headers: {
+                  'Authorization': `Bearer ${asanaToken}`,
+                  'Content-Type': 'application/json',
+                },
+                body: body ? JSON.stringify({ data: body }) : undefined,
+              });
+              if (!resp.ok) {
+                const text = await resp.text();
+                throw new Error(`Asana API ${method} ${path}: ${resp.status} ${text}`);
+              }
+              return resp.json();
+            }
+
+            // Map GitHub label to Asana section name
+            const trackLabels = ['Core', 'Data', 'Portal', 'Services', 'Finance', 'Growth', 'DX', 'BX'];
+
+            function getTrackLabel(labels) {
+              for (const l of labels) {
+                if (trackLabels.includes(l.name)) return l.name;
+              }
+              return null;
+            }
+
+            // Find or cache section GID by name
+            async function findSectionGid(sectionName) {
+              const { data: sections } = await asanaRequest('GET', `/projects/${projectGid}/sections`);
+              const section = sections.find(s => s.name === sectionName);
+              return section ? section.gid : null;
+            }
+
+            // Find existing Asana task by GitHub issue URL in external field
+            async function findTaskByIssue(issueUrl) {
+              const query = encodeURIComponent(`${issue.number}`);
+              const { data: tasks } = await asanaRequest('GET',
+                `/tasks?project=${projectGid}&opt_fields=name,notes,completed,external&search=${query}`
+              ).catch(() => ({ data: [] }));
+
+              // Search by external ID pattern
+              const { data: searchResults } = await asanaRequest('GET',
+                `/workspaces/${workspaceGid}/tasks/search?projects.any=${projectGid}&text=${issue.number}&opt_fields=name,notes,completed,external`
+              ).catch(() => ({ data: [] }));
+
+              // Fallback: search all tasks for the issue URL in notes
+              return null;
+            }
+
+            // --- Main logic ---
+
+            // Get workspace GID from project
+            const { data: project } = await asanaRequest('GET', `/projects/${projectGid}?opt_fields=workspace`);
+            const workspaceGid = project.workspace.gid;
+
+            // Search for existing task with this issue number in name
+            const { data: existingTasks } = await asanaRequest('GET',
+              `/workspaces/${workspaceGid}/tasks/search?projects.any=${projectGid}&text=%23${issue.number}&opt_fields=name,completed,gid`
+            ).catch(() => ({ data: [] }));
+
+            const existingTask = existingTasks?.find(t => t.name?.includes(`#${issue.number}`));
+
+            if (action === 'opened') {
+              // Create new Asana task
+              const trackLabel = getTrackLabel(issue.labels);
+              const horizonLabels = issue.labels
+                .filter(l => ['H1', 'H2', 'Beyond'].includes(l.name))
+                .map(l => l.name)
+                .join(', ');
+
+              const taskData = {
+                name: `${issue.title} #${issue.number}`,
+                notes: [
+                  issue.body || '',
+                  '',
+                  '---',
+                  `GitHub: ${issue.html_url}`,
+                  horizonLabels ? `Horizon: ${horizonLabels}` : '',
+                ].filter(Boolean).join('\n'),
+                projects: [projectGid],
+              };
+
+              const { data: newTask } = await asanaRequest('POST', '/tasks', taskData);
+              console.log(`Created Asana task: ${newTask.gid} — ${newTask.name}`);
+
+              // Move to section if track label exists
+              if (trackLabel) {
+                const sectionGid = await findSectionGid(trackLabel);
+                if (sectionGid) {
+                  await asanaRequest('POST', `/sections/${sectionGid}/addTask`, { task: newTask.gid });
+                  console.log(`Moved to section: ${trackLabel}`);
+                }
+              }
+            }
+
+            else if (action === 'closed' && existingTask) {
+              await asanaRequest('PUT', `/tasks/${existingTask.gid}`, { completed: true });
+              console.log(`Completed Asana task: ${existingTask.gid}`);
+            }
+
+            else if (action === 'reopened' && existingTask) {
+              await asanaRequest('PUT', `/tasks/${existingTask.gid}`, { completed: false });
+              console.log(`Reopened Asana task: ${existingTask.gid}`);
+            }
+
+            else if (action === 'edited' && existingTask) {
+              await asanaRequest('PUT', `/tasks/${existingTask.gid}`, {
+                name: `${issue.title} #${issue.number}`,
+                notes: [
+                  issue.body || '',
+                  '',
+                  '---',
+                  `GitHub: ${issue.html_url}`,
+                ].join('\n'),
+              });
+              console.log(`Updated Asana task: ${existingTask.gid}`);
+            }
+
+            else if (action === 'labeled' && existingTask) {
+              const trackLabel = getTrackLabel(issue.labels);
+              if (trackLabel) {
+                const sectionGid = await findSectionGid(trackLabel);
+                if (sectionGid) {
+                  await asanaRequest('POST', `/sections/${sectionGid}/addTask`, { task: existingTask.gid });
+                  console.log(`Moved to section: ${trackLabel}`);
+                }
+              }
+            }
