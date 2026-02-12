@@ -24,7 +24,7 @@ CAS развивается в условиях ограниченных ресу
 | CTO / Tech Lead | Владимир Капацын | Frontend-команда, архитектура |
 | Data/BI Lead | Борис Шифрин | Автономен, формируется команда |
 | Frontend Lead | Руслан Новиков | Координация frontend-задач |
-| SDK Lead | Денис Ященко | Свой roadmap (server bidding, стабильность) |
+| SDK Lead | Денис Ещенко | Свой roadmap (server bidding, стабильность) |
 | Designer | Павел Савинский | Фрилансер, UI Kit (блокер Фазы 1 закрыт) |
 | Data Engineer (new) | — | Выходит |
 

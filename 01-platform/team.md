@@ -45,7 +45,7 @@
 - **Контекст:** Работает автономно, формирует команду data-инженеров. Создаёт агрегированные таблицы для ускорения B2B дашбордов. Superset — только для внутреннего использования (ограничения multi-tenancy, клиентам не даём). Передаёт данные команде Владимира для клиентских дашбордов в b2b.cas.ai
 - **Упоминания:** `known-constraints.md`, `internal-osyka-payments-b2b.md`, `roadmaptalk-analysis.md`
 
-### Денис Ященко (Denis Yashchenko)
+### Денис Ещенко (Denis Yeshchenko)
 - **Роль:** SDK Lead / SDK Engineering
 - **Зона:** CAS SDK, server bidding, стабильность, ILRD
 - **Контекст:** Свой roadmap (server bidding = аукционы с SDK на сервер). Раньше фичи выходили без тестирования — сейчас исправлено. PSV-студии на 2-3 версии позади актуальной SDK. Алексей выравнивает с ним словари и показывает что ILRD = его же потребности
@@ -122,6 +122,7 @@
 
 ### Никита Жалковский (Mykyta Zhalkovskyi)
 - **Роль:** Marketing Manager
+- **Email:** marketing.nick@cas.ai
 - **Зона:** Лендинги, CPC-кампании, SEO-координация, контент-стратегия
 - **Контекст:** Пишет тексты для лендингов, отдаёт в дизайн. Координирует SEO-подрядчиков (аудит 10-15 стр.). Участвует в маркетинговых встречах и контент-планировании
 - **Упоминания:** `website-plan.md`, `internal-osyka-payments-b2b.md`
@@ -194,7 +195,7 @@
 | Алексей Шевнин | Product Owner | Продукт | Кабинет, BI, roadmap |
 | Владимир Капацын | CTO | Технология | Архитектура, frontend-команда |
 | Борис Шифрин | Data/BI Lead | Технология | ClickHouse, data pipelines |
-| Денис Ященко | SDK Lead | Технология | CAS SDK, server bidding |
+| Денис Ещенко | SDK Lead | Технология | CAS SDK, server bidding |
 | Юра | SDK Engineer | Технология | Publishing SDK |
 | Руслан Новиков | Frontend Lead | Frontend | Кабинет, координация |
 | Евгений Чуйко | Frontend Dev | Frontend | Сайт cas.ai (~1 нед/мес) |

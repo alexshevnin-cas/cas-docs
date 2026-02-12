@@ -31,6 +31,8 @@ assets/              — Картинки (mockups, конкурентный а�
 | UX-референсы конкурентов | `05-research/competitive-ux-reference.md` + `assets/competitive/` |
 | Финмодель | `02-business-model/fin-model-*.md` + CSV |
 | Маркетинговый сайт | `06-marketing-site/website-plan.md` |
+| Команда и роли | `01-platform/team.md` |
+| Roadmap и синхронизация | `03-product/roadmap.md` + `scripts/roadmap_sync.py` |
 
 ## Правила
 

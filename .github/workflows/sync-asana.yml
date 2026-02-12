@@ -8,7 +8,21 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
+      - name: Skip roadmap-managed issues
+        id: check-roadmap
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = context.payload.issue.title;
+            if (title.startsWith('[Track]')) {
+              console.log(`Skipping roadmap-managed issue: ${title}`);
+              return 'skip';
+            }
+            return 'sync';
+          result-encoding: string
+
       - name: Sync issue to Asana
+        if: steps.check-roadmap.outputs.result != 'skip'
         uses: actions/github-script@v7
         env:
           ASANA_TOKEN: ${{ secrets.ASANA_TOKEN }}
