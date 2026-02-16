@@ -32,7 +32,8 @@ jobs:
 
       - name: Build public site
         run: |
-          # Copy source files into public/ (replacing symlinks)
+          # Remove symlinks first, then copy real files
+          find public/ -type l -delete
           cp 03-product/user-stories.md public/user-stories.md
           cp 03-product/bi-mvp-project-plan.md public/bi-mvp-project-plan.md
           cp 03-product/bi-mvp-clickup-tasks.md public/bi-mvp-clickup-tasks.md
