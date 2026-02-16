@@ -1,1 +1,0 @@
-../03-product/bi-mvp-clickup-tasks.md

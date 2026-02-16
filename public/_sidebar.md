@@ -1,6 +1,5 @@
 - **BI MVP**
   - [Project Plan](bi-mvp-project-plan.md)
-  - [ClickUp Tasks](bi-mvp-clickup-tasks.md)
 
 - **Product**
   - [User Stories](user-stories.md)

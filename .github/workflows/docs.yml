@@ -7,7 +7,6 @@ on:
       - 'public/**'
       - '03-product/user-stories.md'
       - '03-product/bi-mvp-project-plan.md'
-      - '03-product/bi-mvp-clickup-tasks.md'
       - '04-bi/metrics-dictionary.md'
       - '04-bi/filters.md'
       - '.github/workflows/docs.yml'
@@ -36,7 +35,6 @@ jobs:
           find public/ -type l -delete
           cp 03-product/user-stories.md public/user-stories.md
           cp 03-product/bi-mvp-project-plan.md public/bi-mvp-project-plan.md
-          cp 03-product/bi-mvp-clickup-tasks.md public/bi-mvp-clickup-tasks.md
           cp 04-bi/metrics-dictionary.md public/metrics-dictionary.md
           cp 04-bi/filters.md public/filters.md
 
