@@ -9,6 +9,7 @@ on:
       - '03-product/bi-mvp-project-plan.md'
       - '04-bi/metrics-dictionary.md'
       - '04-bi/filters.md'
+      - '05-research/bitrix-crm-analysis.md'
       - '.github/workflows/docs.yml'
 
 permissions:
@@ -37,6 +38,7 @@ jobs:
           cp 03-product/bi-mvp-project-plan.md public/bi-mvp-project-plan.md
           cp 04-bi/metrics-dictionary.md public/metrics-dictionary.md
           cp 04-bi/filters.md public/filters.md
+          cp 05-research/bitrix-crm-analysis.md public/bitrix-crm-analysis.md
 
       - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3

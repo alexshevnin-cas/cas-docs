@@ -155,5 +155,5 @@ CAS инвестирует в закупку трафика, делит приб
 
 ## Связанные документы
 - Типы клиентов: `02-business-model/client-types.md`
-- Финмодель (источник): `02-business-model/CAS Fin Model 0.4 - *.csv`
+- Финмодель: `02-business-model/fin-model.md`
 - Системные ограничения: `01-platform/known-constraints.md`

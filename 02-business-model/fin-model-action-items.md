@@ -148,6 +148,5 @@
 ---
 
 ## Связанные документы
-- Финмодель: `02-business-model/CAS Fin Model 0.4 - *.csv`
-- Глоссарий модели: `02-business-model/fin-model-glossary.md`
+- Финмодель: `02-business-model/fin-model.md`
 - Бизнес-модель: `02-business-model/cas-business-model.md`
