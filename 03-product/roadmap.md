@@ -91,6 +91,11 @@ PubC: Growth → DX → Core → Portal (минимальный)
 | C10 | Desktop/Extension SDK (новая ниша) | Beyond | Готово | Исследование (Савенков) | | |
 | C11 | Manager Toolkit — аналитика для менеджеров, автоматизация A/B, чеклисты онбординга, верификация интеграций | H1-H2 | Планируется | C4, регламент Осыки | | |
 | C12 | Google Play SDK Partnership — сертификация в программе SDK Product Portfolio (SDK Console, App Integrity, Family Ads, deprecation notifications) | H1-H2 | Планируется | C5, C9 | Денис Ещенко | Q2-Q3 |
+| C13 | CASExchange развитие — VAST 3.0/4.0+, VPAID, video progress, Native ads, AppOpen format, OM SDK integration | H1-H2 | В работе | — | Денис Ещенко | |
+| C14 | Cross-platform SDK — Godot plugin, Expo (React Native), Unreal на Epic Store | H1-H2 | Планируется | C5 | Денис Ещенко | |
+| C15 | Crash & Background Services — crash reporting сервисы, WorkManager (Android), beginBackgroundTask (iOS) | H1 | Планируется | — | Денис Ещенко | |
+| C16 | Placement ID & AdUnit фильтры — серверная конфигурация placement с фильтрами по AdUnit | H1 | Планируется | — | Денис Ещенко | |
+| C17 | Tracking & Events — session event throttling (30 мин), IAP/Attribution public API, splitting tracking endpoint | H1 | Планируется | — | Денис Ещенко | |
 
 ### Data / Данные
 
@@ -115,7 +120,7 @@ PubC: Growth → DX → Core → Portal (минимальный)
 
 | # | Инициатива | Горизонт | Статус | Зависимости | Владелец | Срок |
 |---|-----------|----------|--------|-------------|----------|------|
-| P1 | **MVP BI** — Quick View + Reports, тёмная тема, экспорт CSV, eCPM per ad type, сравнение периодов, chip-фильтры | H1 | Ждёт дизайн | Data: D1, дизайнер | | |
+| P1 | **MVP BI** — Quick View + Reports, тёмная тема, экспорт CSV, eCPM per ad type, сравнение периодов, chip-фильтры | H1 | В работе | Data: D1 | Руслан | |
 | P1a | Toggle gross/net (комиссия CAS) | H1 | Планируется | P1 | | |
 | P1b | Карточка приложения (owner, portfolio, manager, commission) | H1 | Планируется | P1 | | |
 | P1c | UX-фиксы (10 багов из интервью Савенкова) | H1 | Планируется | P1 | | |

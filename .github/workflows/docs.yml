@@ -1,0 +1,47 @@
+name: Deploy Docs to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'public/**'
+      - '03-product/user-stories.md'
+      - '03-product/bi-mvp-project-plan.md'
+      - '03-product/bi-mvp-clickup-tasks.md'
+      - '04-bi/metrics-dictionary.md'
+      - '04-bi/filters.md'
+      - '.github/workflows/docs.yml'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build public site
+        run: |
+          # Copy source files into public/ (replacing symlinks)
+          cp 03-product/user-stories.md public/user-stories.md
+          cp 03-product/bi-mvp-project-plan.md public/bi-mvp-project-plan.md
+          cp 03-product/bi-mvp-clickup-tasks.md public/bi-mvp-clickup-tasks.md
+          cp 04-bi/metrics-dictionary.md public/metrics-dictionary.md
+          cp 04-bi/filters.md public/filters.md
+
+      - uses: actions/configure-pages@v4
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+      - id: deployment
+        uses: actions/deploy-pages@v4
