@@ -10,6 +10,7 @@ on:
       - '04-bi/metrics-dictionary.md'
       - '04-bi/filters.md'
       - '05-research/bitrix-crm-analysis.md'
+      - '05-research/hubspot-pipeline-analysis.md'
       - '.github/workflows/docs.yml'
 
 permissions:
@@ -39,6 +40,7 @@ jobs:
           cp 04-bi/metrics-dictionary.md public/metrics-dictionary.md
           cp 04-bi/filters.md public/filters.md
           cp 05-research/bitrix-crm-analysis.md public/bitrix-crm-analysis.md
+          cp 05-research/hubspot-pipeline-analysis.md public/hubspot-pipeline-analysis.md
 
       - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3
