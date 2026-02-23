@@ -2,3 +2,4 @@
 *.env
 .env.*
 .cas-sync.env
+.envrc
