@@ -11,3 +11,4 @@
 - **Research**
   - [Битрикс CRM — анализ pipeline](bitrix-crm-analysis.md)
   - [HubSpot — оценка пайплайна по менеджерам](hubspot-pipeline-analysis.md)
+  - [Dashboard Speed Test](dashboard-speed-results.md)
