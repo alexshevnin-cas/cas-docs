@@ -3,6 +3,8 @@
 
 - **Product**
   - [User Stories](user-stories.md)
+  - [Roadmap](roadmap.md)
+  - [Component Map](component-map.md)
 
 - **BI Reference**
   - [Metrics Dictionary](metrics-dictionary.md)
