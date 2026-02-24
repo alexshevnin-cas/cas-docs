@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>CAS.AI — Architecture Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #0d1117;
+      color: #c9d1d9;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      padding: 24px 40px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    header h1 {
+      font-size: 28px;
+      font-weight: 600;
+      color: #e6edf3;
+    }
+    header .meta {
+      font-size: 13px;
+      color: #7d8590;
+    }
+    .legend {
+      padding: 12px 40px;
+      display: flex;
+      gap: 24px;
+      font-size: 13px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+    }
+    .dot-prod { background: #1a472a; border: 1px solid #42b983; }
+    .dot-wip { background: #2a3a5c; border: 1px solid #58A6FF; }
+    .dot-plan { background: #3a2a1a; border: 1px solid #d29922; }
+    .dot-legacy { background: #4a1a1a; border: 1px solid #f85149; }
+
+    .diagram-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 24px 24px;
+      overflow: auto;
+    }
+    .mermaid {
+      width: 100%;
+      max-width: 1800px;
+    }
+    .mermaid svg {
+      width: 100%;
+      height: auto;
+      max-height: 85vh;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>CAS.AI — Component Architecture</h1>
+    <div class="meta">v1.1 / 2026-02-24 / 87 initiatives across 10 tracks</div>
+  </header>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot dot-prod"></div> Production</div>
+    <div class="legend-item"><div class="legend-dot dot-wip"></div> In Progress</div>
+    <div class="legend-item"><div class="legend-dot dot-plan"></div> Planned</div>
+    <div class="legend-item"><div class="legend-dot dot-legacy"></div> Legacy</div>
+  </div>
+  <div class="diagram-container">
+    <pre class="mermaid">
+graph TB
+    subgraph CLIENTS["CLIENTS"]
+        direction LR
+        L1["<b>L1</b><br/>Basic ~5K/mo<br/>12 metrics"]
+        L2["<b>L2</b><br/>Advanced ~12.5K/mo<br/>75+ metrics"]
+        PubC["<b>PubC</b><br/>Pub Candidate<br/>7 metrics"]
+        Pub["<b>Pub</b><br/>Publisher 50K+/mo<br/>100+ metrics"]
+    end
+
+    subgraph ROLES["INTERNAL ROLES"]
+        direction LR
+        CLev["<b>C-level</b><br/>Oleg, Osyka"]
+        AdminR["<b>Admin</b><br/>Portfolio"]
+        AMR["<b>Account Manager</b><br/>Onboarding"]
+        BDR["<b>BizDev</b><br/>Igor, Vika"]
+        RNDR["<b>RnD</b><br/>Experiments"]
+    end
+
+    subgraph PLATFORM["UNIFIED PLATFORM - OneBI"]
+        direction TB
+
+        subgraph B2B["B2B Views"]
+            direction LR
+            QV["<b>Quick View</b><br/>KPI cards, trends<br/>P1 MVP"]
+            REP["<b>Reports</b><br/>BI analytics, splits<br/>P1 MVP"]
+            L2F["<b>L2 Features</b><br/>SDK splits, saved views<br/>P2"]
+            PAYV["<b>Payments</b><br/>Balance, withdraw<br/>F1"]
+            ONBV["<b>Onboarding</b><br/>Welcome, SDK setup<br/>P3"]
+        end
+
+        subgraph PUBV["Publisher Views"]
+            direction LR
+            PUBD["<b>Pub Dashboard</b><br/>Profit, ROAS, health<br/>P5"]
+            PUBCV["<b>PubC Portal</b><br/>Self-service test<br/>P4"]
+            HLTH["<b>Product Health</b><br/>App lifecycle<br/>P11"]
+        end
+
+        subgraph INTV["Internal Views"]
+            direction LR
+            ADMD["<b>Admin Dashboard</b><br/>Portfolio, anomalies<br/>P6"]
+            AMPR["<b>AM Performance</b><br/>Conversion, time<br/>P14"]
+            MFUN["<b>Marketing Funnel</b><br/>Channel-Lead-MRR<br/>P13"]
+        end
+
+        subgraph SSPV["SSP Views"]
+            direction LR
+            SCMS["<b>SSP CMS</b><br/>Configuration<br/>SSP-3"]
+            SANA["<b>SSP Analytics</b><br/>SSP metrics<br/>SSP-4"]
+        end
+    end
+
+    subgraph APILAY["API LAYER"]
+        REST["<b>REST API</b><br/>JSON"]
+    end
+
+    subgraph DATA["DATA PLATFORM - ClickHouse"]
+        direction TB
+
+        subgraph STORE["Storage"]
+            direction LR
+            MVIE["<b>Materialized Views</b><br/>Network Reports agg<br/>D1 - IN PROGRESS"]
+            ILRDP["<b>ILRD Processing</b><br/>Impression-level data<br/>D3"]
+            SEML["<b>Semantic Layer</b><br/>Canonical entities<br/>D4"]
+        end
+
+        subgraph CONN["Connectors"]
+            direction LR
+            BXCO["<b>Bitrix Connector</b><br/>Leads, stages, AM<br/>D10"]
+            MMPC["<b>MMP Connectors</b><br/>AF, Adjust, Tenjin<br/>D5"]
+            SPCO["<b>Spend Import</b><br/>Google Ads, channels<br/>D11"]
+            ATTR["<b>Attribution Bridge</b><br/>Lead-Client-Revenue<br/>D12"]
+        end
+
+        subgraph PROC["Processing"]
+            direction LR
+            EVTS["<b>Event Server</b><br/>Sessions, IAP<br/>D7"]
+            DQUA["<b>Data Quality</b><br/>Monitoring<br/>D6"]
+        end
+    end
+
+    subgraph SDKP["SDK PRODUCTS"]
+        direction TB
+
+        subgraph CORE_SDK["Core"]
+            direction LR
+            SDK4["<b>CAS SDK v4</b><br/>Mediation<br/>5000+ apps, 1B imp/mo"]
+            PSDK["<b>Publishing SDK</b><br/>Auto-init, ILRD<br/>C18 - IN PROGRESS"]
+        end
+
+        subgraph BIDD["Bidding"]
+            direction LR
+            SBID["<b>Server Bidding</b><br/>s2s auctions<br/>C3a Stage 1"]
+        end
+    end
+
+    subgraph SSPP["CAS SSP"]
+        direction LR
+        EXCH["<b>CAS Exchange</b><br/>Internal ad exchange"]
+        VAST["<b>VAST 3.0/4.0+</b><br/>VPAID, Native, AppOpen<br/>SSP-1"]
+    end
+
+    subgraph NETS["AD NETWORKS"]
+        direction LR
+        GADM["AdMob"]
+        GAPPL["AppLovin"]
+        GUNITY["Unity Ads"]
+        GIRON["ironSource"]
+        GMETA["Meta AN"]
+        GPANG["Pangle"]
+        GBIGO["Bigo Ads"]
+        GLIFT["Liftoff"]
+    end
+
+    subgraph FINSYS["FINANCE"]
+        direction LR
+        ONEC["<b>1C</b><br/>Legacy accounting"]
+        BILL["<b>Billing</b><br/>Payments"]
+        REFP["<b>Referral Program</b><br/>F5"]
+    end
+
+    subgraph CRMSYS["CRM"]
+        direction LR
+        BITX["<b>Bitrix24</b><br/>3111 leads/18mo"]
+        HUBS["<b>HubSpot</b><br/>BD pipeline"]
+    end
+
+    subgraph MKTSYS["MARKETING"]
+        direction LR
+        CASI["<b>cas.ai</b><br/>8 languages"]
+        BLOG["<b>Content Machine</b><br/>Blog, TG, LinkedIn"]
+        MAIL["<b>MailChimp</b><br/>Email triggers"]
+    end
+
+    %% Client to Platform
+    L1 --> QV & REP
+    L2 --> QV & REP & L2F
+    Pub --> QV & REP & PUBD
+    PubC --> ONBV & PUBCV
+
+    %% Internal to Platform
+    CLev --> ADMD & MFUN & AMPR
+    AdminR --> ADMD & HLTH
+    AMR --> AMPR & HLTH
+    BDR --> MFUN & ADMD
+    RNDR --> REP & HLTH
+
+    %% Platform to API
+    B2B & PUBV & INTV & SSPV --> REST
+
+    %% API to Data
+    REST --> MVIE & ILRDP & SEML
+
+    %% Connectors feed
+    BXCO --> SEML
+    MMPC --> SEML
+    SPCO --> SEML
+    ATTR --> BXCO & MVIE
+    EVTS --> SEML
+
+    %% SDK to Data
+    SDK4 -->|"ILRD events"| ILRDP
+    SDK4 -->|"session, IAP"| EVTS
+    PSDK --> SDK4
+    SBID -->|"auction logs"| MVIE
+
+    %% SDK to Networks
+    SDK4 --> GADM & GAPPL & GUNITY & GIRON & GMETA & GPANG & GBIGO
+    SBID -->|"s2s bid"| GLIFT & GPANG & GBIGO
+
+    %% SSP
+    EXCH --- SDK4
+    EXCH --> VAST
+
+    %% Finance
+    ONEC -->|"D9 migration"| SEML
+    BILL --> ONEC
+    REFP --> ONEC
+
+    %% CRM
+    BITX -->|"D10 API"| BXCO
+    HUBS -.-> BITX
+    CASI -->|"signup"| BITX
+    BLOG --> CASI
+    CASI --> MAIL
+
+    %% Styles
+    classDef prod fill:#1a472a,stroke:#42b983,color:#e6edf3,font-size:12px
+    classDef wip fill:#2a3a5c,stroke:#58A6FF,color:#e6edf3,font-size:12px
+    classDef plan fill:#3a2a1a,stroke:#d29922,color:#e6edf3,font-size:12px
+    classDef legacy fill:#4a1a1a,stroke:#f85149,color:#e6edf3,font-size:12px
+    classDef platform fill:#161b22,stroke:#30363d,color:#e6edf3
+
+    class SDK4,EXCH,BITX,HUBS,CASI,BILL,GADM,GAPPL,GUNITY,GIRON,GMETA,GPANG,GBIGO prod
+    class MVIE,SBID,PSDK,QV,REP,VAST wip
+    class ILRDP,SEML,EVTS,BXCO,MMPC,SPCO,ATTR,DQUA,ADMD,AMPR,PUBD,PUBCV,MFUN,PAYV,ONBV,HLTH,L2F,SCMS,SANA,REFP,BLOG,MAIL,GLIFT plan
+    class ONEC legacy
+    </pre>
+  </div>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        darkMode: true,
+        background: '#0d1117',
+        primaryColor: '#2a3a5c',
+        primaryTextColor: '#e6edf3',
+        primaryBorderColor: '#58A6FF',
+        lineColor: '#484f58',
+        secondaryColor: '#1a472a',
+        tertiaryColor: '#3a2a1a',
+        fontFamily: '-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial',
+        fontSize: '13px'
+      },
+      flowchart: {
+        useMaxWidth: true,
+        htmlLabels: true,
+        curve: 'basis',
+        rankSpacing: 60,
+        nodeSpacing: 30,
+        padding: 15
+      }
+    });
+  </script>
+</body>
+</html>
