@@ -120,6 +120,7 @@
     .status-wip { background: #1a2a4a; color: #58A6FF; }
     .status-plan { background: #2a2010; color: #d29922; }
     .status-legacy { background: #3a1515; color: #f85149; }
+    .status-misc { background: #1a2030; color: #768390; }
 
     .card-desc {
       font-size: 13px;
@@ -148,6 +149,7 @@
     .init-list.done li::before { background: #42b983; }
     .init-list.wip li::before { background: #58A6FF; }
     .init-list.next li::before { background: #d29922; }
+    .init-list.misc li::before { background: #768390; }
 
     .next-steps {
       border-top: 1px solid #21262d;
@@ -198,7 +200,7 @@
 
 <div class="header">
   <h1>CAS.AI — Product Map & Initiatives</h1>
-  <div class="sub">87 initiatives / 10 tracks / 11 goals — Roadmap v3.0, February 2026</div>
+  <div class="sub">Roadmap v3.0, February 2026</div>
 </div>
 
 <!-- ════════ ARCHITECTURE MAP ════════ -->
@@ -212,8 +214,8 @@
 <span class="cl-dim">                   │</span>  Onboarding             <span class="cl-dim">│</span>  App Card / Product Health <span class="cl-dim">│</span>
 <span class="cl-dim">                   │</span>                         <span class="cl-dim">│</span>  <span class="cl-accent">Marketing Funnel</span>          <span class="cl-dim">│</span>
 <span class="cl-dim">                   │</span>  <span class="cl-platform">Publisher Views</span>        <span class="cl-dim">│</span>                             <span class="cl-dim">│</span>
-<span class="cl-dim">                   │</span>  Pub Dashboard           <span class="cl-dim">│</span>  <span class="cl-accent">SSP Views</span>                 <span class="cl-dim">│</span>
-<span class="cl-dim">                   │</span>  PubC Portal             <span class="cl-dim">│</span>  SSP CMS / SSP Analytics   <span class="cl-dim">│</span>
+<span class="cl-dim">                   │</span>  Pub Dashboard           <span class="cl-dim">│</span>                             <span class="cl-dim">│</span>
+<span class="cl-dim">                   │</span>  PubC Portal             <span class="cl-dim">│</span>                             <span class="cl-dim">│</span>
 <span class="cl-dim">                   │</span>  Inventory               <span class="cl-dim">│</span>                             <span class="cl-dim">│</span>
 <span class="cl-dim">                   │</span>                                                          <span class="cl-dim">│</span>
 <span class="cl-dim">                   │</span>  <span class="cl-label">PSV Cross Promo</span>                                       <span class="cl-dim">│</span>
@@ -228,23 +230,19 @@
 <span class="cl-label"> Sessions, IAP,</span>                   <span class="cl-data">+ ILRD Processing</span>                   <span class="cl-legacy">  → ClickHouse)</span>
 <span class="cl-label"> Attribution</span>                       <span class="cl-data">+ Materialized Views</span>
                                       <span class="cl-data">+ Semantic Layer</span>
-<span class="cl-dim">       │</span>                                        <span class="cl-connect">│</span>
-<span class="cl-dim">       │</span>           <span class="cl-dim">┌───────────────────────────┼────────────────────────────┐</span>
-<span class="cl-dim">       │</span>           <span class="cl-dim">│</span>                           <span class="cl-connect">│</span>                            <span class="cl-dim">│</span>
-<span class="cl-dim">       │</span>           <span class="cl-dim">▼</span>                           <span class="cl-connect">▼</span>                            <span class="cl-dim">▼</span>
-<span class="cl-dim">       │</span>    <span class="cl-label">Bitrix Connector</span>          <span class="cl-label">MMP Connectors</span>              <span class="cl-label">Spend Import</span>
-<span class="cl-dim">       │</span>    <span class="cl-label">Leads, stages, AM</span>         <span class="cl-label">AF, Adjust, Tenjin</span>          <span class="cl-label">Google Ads, channels</span>
-<span class="cl-dim">       │</span>
-<span class="cl-dim">       │</span>                           <span class="cl-connect">│</span>
-<span class="cl-dim">       │</span>              <span class="cl-dim">┌──────────────┼──────────────┐</span>
-<span class="cl-dim">       │</span>              <span class="cl-dim">▼</span>              <span class="cl-connect">▼</span>              <span class="cl-dim">▼</span>
-<span class="cl-dim">       │</span>
-<span class="cl-dim">       ▼</span>         <span class="cl-sdk">CAS SDK v4</span>      <span class="cl-sdk">Server Bidding</span>    <span class="cl-sdk">CAS Exchange</span>
-                 <span class="cl-label">5000+ apps</span>       <span class="cl-label">s2s auctions</span>       <span class="cl-label">→ CAS SSP</span>
-                 <span class="cl-label">1B imp/mo</span>        <span class="cl-label">8+ networks</span>        <span class="cl-label">VAST 4.0+</span>
-                      <span class="cl-connect">│</span>
-                 <span class="cl-sdk">Publishing SDK</span>
-                 <span class="cl-label">Auto ILRD</span>
+<span class="cl-dim">                                        │</span>
+<span class="cl-dim">           ┌────────────────────────────┼────────────────────────────┐</span>
+<span class="cl-dim">           │</span>                            <span class="cl-connect">│</span>                            <span class="cl-dim">│</span>
+<span class="cl-dim">           ▼</span>                            <span class="cl-connect">▼</span>                            <span class="cl-dim">▼</span>
+    <span class="cl-label">Bitrix Connector</span>          <span class="cl-label">MMP Connectors</span>              <span class="cl-label">Spend Import</span>
+    <span class="cl-label">Leads, stages, AM</span>         <span class="cl-label">AF, Adjust, Tenjin</span>          <span class="cl-label">Google Ads, channels</span>
+                                        <span class="cl-connect">│</span>
+                           <span class="cl-dim">┌──────────────┼──────────────┐</span>
+                           <span class="cl-dim">▼</span>              <span class="cl-connect">▼</span>              <span class="cl-dim">▼</span>
+
+                      <span class="cl-sdk">CAS SDK v4</span>      <span class="cl-sdk">Server Bidding</span>    <span class="cl-sdk">Publishing SDK</span>
+                      <span class="cl-label">5000+ apps</span>       <span class="cl-label">s2s auctions</span>       <span class="cl-label">Auto ILRD</span>
+                      <span class="cl-label">1B imp/mo</span>        <span class="cl-label">8+ networks</span>
                                             <span class="cl-connect">│</span>
 <span class="cl-dim">                              ┌──────────────┼──────────────┐</span>
 <span class="cl-dim">                              ▼              ▼              ▼</span>
@@ -266,7 +264,7 @@
         <div class="card-icon" style="background:#1a2a4a;border:1px solid #58A6FF;">B</div>
         <div>
           <div class="card-title">OneBI — Unified Platform</div>
-          <div class="card-subtitle">14 initiatives / Portal track</div>
+          <div class="card-subtitle">Portal track</div>
         </div>
         <div class="card-status status-wip">In Progress</div>
       </div>
@@ -299,7 +297,7 @@
         <div class="card-icon" style="background:#2a2010;border:1px solid #d29922;">D</div>
         <div>
           <div class="card-title">Data Platform — ClickHouse</div>
-          <div class="card-subtitle">12 initiatives / Data track</div>
+          <div class="card-subtitle">Data track</div>
         </div>
         <div class="card-status status-wip">In Progress</div>
       </div>
@@ -332,7 +330,7 @@
         <div class="card-icon" style="background:#1a472a;border:1px solid #42b983;">S</div>
         <div>
           <div class="card-title">CAS SDK</div>
-          <div class="card-subtitle">17 initiatives / Core track</div>
+          <div class="card-subtitle">Core track</div>
         </div>
         <div class="card-status status-prod">Production</div>
       </div>
@@ -363,42 +361,13 @@
       </div>
     </div>
 
-    <!-- ── CAS SSP ── -->
-    <div class="product-card">
-      <div class="card-header">
-        <div class="card-icon" style="background:#1a472a;border:1px solid #42b983;">X</div>
-        <div>
-          <div class="card-title">CAS Exchange → CAS SSP</div>
-          <div class="card-subtitle">4 initiatives / SSP track</div>
-        </div>
-        <div class="card-status status-wip">Evolving</div>
-      </div>
-      <div class="card-desc">Internal ad exchange evolving into a full SSP product with CMS, analytics, and new ad formats.</div>
-      <ul class="init-list wip">
-        <li><b>SSP-1</b> VAST 3.0/4.0+, VPAID, video progress, OM SDK</li>
-      </ul>
-      <ul class="init-list next">
-        <li>SSP-2 New formats — Native, AppOpen, customization</li>
-        <li>SSP-3 SSP CMS — configuration management</li>
-        <li>SSP-4 SSP Analytics — metrics and filters</li>
-      </ul>
-      <div class="next-steps">
-        <div class="next-label">Next Steps</div>
-        <ul>
-          <li>Complete VAST 4.0+ and VPAID support <span class="owner">Denis</span></li>
-          <li>Build SSP CMS for configuration <span class="owner">CMS team</span></li>
-          <li>Position Exchange as a standalone SSP product <span class="owner">CTO</span></li>
-        </ul>
-      </div>
-    </div>
-
     <!-- ── Finance / 1C ── -->
     <div class="product-card">
       <div class="card-header">
         <div class="card-icon" style="background:#3a1515;border:1px solid #f85149;">F</div>
         <div>
           <div class="card-title">Finance & 1C</div>
-          <div class="card-subtitle">5 initiatives / Finance track</div>
+          <div class="card-subtitle">Finance track</div>
         </div>
         <div class="card-status status-legacy">Legacy</div>
       </div>
@@ -426,7 +395,7 @@
         <div class="card-icon" style="background:#2a1030;border:1px solid #a371f7;">M</div>
         <div>
           <div class="card-title">Marketing Funnel</div>
-          <div class="card-subtitle">GOAL-11 / Cross-track</div>
+          <div class="card-subtitle">Cross-track</div>
         </div>
         <div class="card-status status-plan">Planned</div>
       </div>
@@ -456,7 +425,7 @@
         <div class="card-icon" style="background:#102a2a;border:1px solid #39d2c0;">G</div>
         <div>
           <div class="card-title">Growth & Marketing</div>
-          <div class="card-subtitle">13 initiatives / Growth track</div>
+          <div class="card-subtitle">Growth track</div>
         </div>
         <div class="card-status status-plan">Planned</div>
       </div>
@@ -479,36 +448,27 @@
       </div>
     </div>
 
-    <!-- ── Org & Infra ── -->
+    <!-- ── Misc ── -->
     <div class="product-card">
       <div class="card-header">
-        <div class="card-icon" style="background:#1a2030;border:1px solid #768390;">O</div>
+        <div class="card-icon" style="background:#1a2030;border:1px solid #768390;">~</div>
         <div>
-          <div class="card-title">Org & Infrastructure</div>
-          <div class="card-subtitle">11 initiatives / Org + Infra tracks</div>
+          <div class="card-title">Misc</div>
+          <div class="card-subtitle">Org + Infra</div>
         </div>
-        <div class="card-status status-wip">In Progress</div>
+        <div class="card-status status-misc">Ongoing</div>
       </div>
-      <div class="card-desc">Team formation (+4 people, +$10K/mo), bus factor elimination, CI/CD, monitoring. CTO 3-phase plan: teams → processes → standards.</div>
-      <ul class="init-list wip">
-        <li><b>ORG-1</b> Team formation — 6 teams target</li>
-        <li><b>ORG-2</b> Bus factor — duplicates for Boris, Ruslan, Denis, Tolik</li>
-        <li><b>INF-3</b> CI/CD — SDK done, platform pending</li>
+      <div class="card-desc">Organizational and infrastructure work that supports all other tracks.</div>
+      <ul class="init-list misc">
+        <li>Migration to Asana as unified project management tool (Zakhar / PSV standards)</li>
+        <li>Documentation and audit of all projects — capture tribal knowledge</li>
+        <li>Team staffing: +4 people, +$10K/mo — data engineer, frontend #2, QA, infra</li>
+        <li>Bus factor elimination — duplicates for Boris, Ruslan, Denis, Tolik</li>
+        <li>CI/CD pipelines for all products (SDK done, platform pending)</li>
+        <li>Security audit and monitoring/alerting setup</li>
+        <li>KPI and delivery metrics (CTO iteration 2)</li>
+        <li>DX — SDK documentation audit, integration quickstart, developer portal</li>
       </ul>
-      <ul class="init-list next">
-        <li>ORG-3 Documentation and project audit</li>
-        <li>ORG-4 Process adoption (Asana, Zakhar standards)</li>
-        <li>INF-1 Security audit</li>
-        <li>INF-5 Monitoring and alerting</li>
-      </ul>
-      <div class="next-steps">
-        <div class="next-label">Next Steps</div>
-        <ul>
-          <li>Hire data engineer and frontend #2 <span class="owner">Vova</span></li>
-          <li>Document all tribal knowledge <span class="owner">Vova + Product</span></li>
-          <li>Set up CI/CD for OneBI <span class="owner">Infra team</span></li>
-        </ul>
-      </div>
     </div>
 
   </div>
