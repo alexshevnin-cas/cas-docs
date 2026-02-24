@@ -334,29 +334,31 @@
       <div class="card-header">
         <div class="card-icon" style="background:#2a2010;border:1px solid #d29922;">D</div>
         <div>
-          <div class="card-title">Данные — ClickHouse</div>
-          <div class="card-subtitle">Data-платформа</div>
+          <div class="card-title">Data-платформа</div>
+          <div class="card-subtitle">Данные</div>
         </div>
         <div class="card-status status-wip">В работе</div>
       </div>
-      <div class="card-desc">Аналитика на ClickHouse: материализованные представления, ILRD-обработка, event server, коннекторы к Bitrix/MMP/расходам.</div>
+      <div class="card-desc">Инициативы дата-команды. Продукт наблюдает — это enablers и зависимости для всех продуктовых треков. Список неполный — уточнить у Бориса.</div>
       <ul class="init-list wip">
-        <li><b>D1</b> Материализованные представления из Network Reports</li>
-        <li><b>D2</b> Миграция ClickHouse на свой сервер (500 ГБ ILRD)</li>
+        <li>Материализованные представления из Network Reports</li>
+        <li>Миграция ClickHouse на свой сервер (500 ГБ ILRD)</li>
       </ul>
       <ul class="init-list next">
-        <li>D3 ILRD Processing — доход на уровне показа</li>
-        <li>D7 CAS Event Server — сессии, IAP, атрибуция</li>
-        <li>D10 Bitrix Connector — лиды, стадии, активность AM</li>
-        <li>D11 Импорт маркетинговых расходов</li>
-        <li>D12 Мост атрибуции Лид→Клиент→Доход</li>
-        <li>D9 Миграция данных из 1С в ClickHouse</li>
+        <li>ILRD Processing — доход на уровне показа</li>
+        <li>CAS Event Server — сессии, IAP, атрибуция</li>
+        <li>Bitrix Connector — лиды, стадии, активность AM</li>
+        <li>Импорт маркетинговых расходов</li>
+        <li>Мост атрибуции Лид→Клиент→Доход</li>
+        <li>Миграция данных из 1С в ClickHouse</li>
+        <li>Чистка SOURCE_ID в Битриксе (79% лидов без атрибуции)</li>
+        <li>UTM-атрибуция по всем каналам</li>
       </ul>
       <div class="next-steps">
         <div class="next-label">Следующие шаги</div>
         <ul>
           <li>Завершить мат. представления — блокирует MVP BI <span class="owner">Борис</span></li>
-          <li>Начать ILRD-обработку после D1 <span class="owner">Борис + дата-инженер</span></li>
+          <li>Начать ILRD-обработку после мат. представлений <span class="owner">Борис + дата-инженер</span></li>
           <li>Bitrix-коннектор для маркетинговой воронки <span class="owner">TBD</span></li>
         </ul>
       </div>
@@ -423,36 +425,6 @@
           <li>Редизайн UI платежей в новой платформе <span class="owner">Руслан + Продукт</span></li>
           <li>Фронтенд реферальной программы <span class="owner">Толик (бэк) + Руслан</span></li>
           <li>C-level дашборд в BI вместо 1С <span class="owner">Борис + Продукт</span></li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- ── Marketing Funnel ── -->
-    <div class="product-card">
-      <div class="card-header">
-        <div class="card-icon" style="background:#2a1030;border:1px solid #a371f7;">M</div>
-        <div>
-          <div class="card-title">Маркетинговая воронка</div>
-          <div class="card-subtitle">Кросс-трек</div>
-        </div>
-        <div class="card-status status-plan">Планируется</div>
-      </div>
-      <div class="card-desc">Сквозная видимость: канал → лид → квалификация → онбординг → SDK → первый доход → MRR. Сейчас 3 разрозненных системы.</div>
-      <ul class="init-list next">
-        <li>G12 Чистка SOURCE_ID в Битриксе (79% лидов без атрибуции)</li>
-        <li>G13 UTM-атрибуция по всем каналам</li>
-        <li>D10 Bitrix-коннектор к ClickHouse</li>
-        <li>D11 Импорт маркетинговых расходов</li>
-        <li>D12 Мост атрибуции Лид→Клиент→Доход</li>
-        <li>P13 Дашборд маркетинговой воронки для C-level</li>
-        <li>P14 Вьюха эффективности AM</li>
-      </ul>
-      <div class="next-steps">
-        <div class="next-label">Следующие шаги</div>
-        <ul>
-          <li>Начать G12 сейчас — чистка SOURCE_ID в Битриксе <span class="owner">Маркетинг + AM</span></li>
-          <li>Построить Bitrix ETL-коннектор <span class="owner">Data-команда</span></li>
-          <li>C-level дашборд после моста атрибуции <span class="owner">Продукт</span></li>
         </ul>
       </div>
     </div>
