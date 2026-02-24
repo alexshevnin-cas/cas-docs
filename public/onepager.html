@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>CAS.AI — Product Map & Initiatives</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #0d1117;
+      color: #c9d1d9;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+    }
+
+    /* ── Header ── */
+    .header {
+      padding: 40px 48px 24px;
+      border-bottom: 1px solid #21262d;
+    }
+    .header h1 {
+      font-size: 32px;
+      font-weight: 700;
+      color: #e6edf3;
+      letter-spacing: -0.5px;
+    }
+    .header .sub {
+      font-size: 14px;
+      color: #7d8590;
+      margin-top: 4px;
+    }
+
+    /* ── Architecture Map ── */
+    .map-section {
+      padding: 40px 48px;
+      display: flex;
+      justify-content: center;
+    }
+    .arch-map {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #c9d1d9;
+      white-space: pre;
+      max-width: 1100px;
+      width: 100%;
+    }
+    .cl-platform { color: #58A6FF; font-weight: 700; }
+    .cl-data { color: #d29922; }
+    .cl-sdk { color: #42b983; }
+    .cl-legacy { color: #f85149; }
+    .cl-dim { color: #484f58; }
+    .cl-label { color: #7d8590; }
+    .cl-accent { color: #a371f7; }
+    .cl-connect { color: #484f58; }
+
+    /* ── Initiatives Grid ── */
+    .init-section {
+      padding: 0 48px 60px;
+    }
+    .init-section h2 {
+      font-size: 22px;
+      font-weight: 600;
+      color: #e6edf3;
+      margin-bottom: 24px;
+      padding-top: 40px;
+      border-top: 1px solid #21262d;
+    }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 16px;
+    }
+    .product-card {
+      background: #161b22;
+      border: 1px solid #21262d;
+      border-radius: 8px;
+      padding: 20px 24px;
+      transition: border-color 0.2s;
+    }
+    .product-card:hover {
+      border-color: #30363d;
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .card-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #e6edf3;
+    }
+    .card-subtitle {
+      font-size: 12px;
+      color: #7d8590;
+    }
+    .card-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-left: auto;
+    }
+    .status-prod { background: #1a472a; color: #42b983; }
+    .status-wip { background: #1a2a4a; color: #58A6FF; }
+    .status-plan { background: #2a2010; color: #d29922; }
+    .status-legacy { background: #3a1515; color: #f85149; }
+
+    .card-desc {
+      font-size: 13px;
+      color: #7d8590;
+      margin-bottom: 12px;
+    }
+    .init-list {
+      list-style: none;
+      margin-bottom: 14px;
+    }
+    .init-list li {
+      font-size: 13px;
+      padding: 3px 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .init-list li::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+    .init-list.done li::before { background: #42b983; }
+    .init-list.wip li::before { background: #58A6FF; }
+    .init-list.next li::before { background: #d29922; }
+
+    .next-steps {
+      border-top: 1px solid #21262d;
+      padding-top: 10px;
+      margin-top: 4px;
+    }
+    .next-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #d29922;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .next-steps ul {
+      list-style: none;
+    }
+    .next-steps li {
+      font-size: 13px;
+      color: #c9d1d9;
+      padding: 2px 0;
+      padding-left: 14px;
+      position: relative;
+    }
+    .next-steps li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: #d29922;
+    }
+    .owner {
+      font-size: 11px;
+      color: #484f58;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      padding: 24px 48px;
+      border-top: 1px solid #21262d;
+      font-size: 12px;
+      color: #484f58;
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>CAS.AI — Product Map & Initiatives</h1>
+  <div class="sub">87 initiatives / 10 tracks / 11 goals — Roadmap v3.0, February 2026</div>
+</div>
+
+<!-- ════════ ARCHITECTURE MAP ════════ -->
+<div class="map-section">
+  <div class="arch-map"><span class="cl-dim">                   ┌──────────────────────────────────────────────────────┐</span>
+<span class="cl-dim">                   │</span>    <span class="cl-platform">UNIFIED PLATFORM — OneBI</span>    <span class="cl-label">Vue 3 + Tailwind SPA</span>     <span class="cl-dim">│</span>
+<span class="cl-dim">                   │</span>                                                          <span class="cl-dim">│</span>
+<span class="cl-dim">                   │</span>  <span class="cl-platform">B2B Views</span>              <span class="cl-dim">│</span>  <span class="cl-accent">Internal Views</span>            <span class="cl-dim">│</span>
+<span class="cl-dim">                   │</span>  Quick View  Reports    <span class="cl-dim">│</span>  Admin Dashboard           <span class="cl-dim">│</span>
+<span class="cl-dim">                   │</span>  L2 Features  Payments  <span class="cl-dim">│</span>  AM Performance            <span class="cl-dim">│</span>
+<span class="cl-dim">                   │</span>  Onboarding             <span class="cl-dim">│</span>  App Card / Product Health <span class="cl-dim">│</span>
+<span class="cl-dim">                   │</span>                         <span class="cl-dim">│</span>  <span class="cl-accent">Marketing Funnel</span>          <span class="cl-dim">│</span>
+<span class="cl-dim">                   │</span>  <span class="cl-platform">Publisher Views</span>        <span class="cl-dim">│</span>                             <span class="cl-dim">│</span>
+<span class="cl-dim">                   │</span>  Pub Dashboard           <span class="cl-dim">│</span>  <span class="cl-accent">SSP Views</span>                 <span class="cl-dim">│</span>
+<span class="cl-dim">                   │</span>  PubC Portal             <span class="cl-dim">│</span>  SSP CMS / SSP Analytics   <span class="cl-dim">│</span>
+<span class="cl-dim">                   │</span>  Inventory               <span class="cl-dim">│</span>                             <span class="cl-dim">│</span>
+<span class="cl-dim">                   │</span>                                                          <span class="cl-dim">│</span>
+<span class="cl-dim">                   │</span>  <span class="cl-label">PSV Cross Promo</span>                                       <span class="cl-dim">│</span>
+<span class="cl-dim">                   └────────────────────────┬─────────────────────────────┘</span>
+                                            <span class="cl-connect">│</span>
+                                       <span class="cl-label">REST API / JSON</span>
+                                            <span class="cl-connect">│</span>
+<span class="cl-dim">       ┌────────────────────────────────────┼───────────────────────────────────┐</span>
+<span class="cl-dim">       │</span>                                        <span class="cl-connect">│</span>                                   <span class="cl-dim">│</span>
+<span class="cl-dim">       ▼</span>                                        <span class="cl-connect">▼</span>                                   <span class="cl-dim">▼</span>
+<span class="cl-data"> CAS Event Server</span>                  <span class="cl-data">ClickHouse</span>                          <span class="cl-legacy">1C (migration</span>
+<span class="cl-label"> Sessions, IAP,</span>                   <span class="cl-data">+ ILRD Processing</span>                   <span class="cl-legacy">  → ClickHouse)</span>
+<span class="cl-label"> Attribution</span>                       <span class="cl-data">+ Materialized Views</span>
+                                      <span class="cl-data">+ Semantic Layer</span>
+<span class="cl-dim">       │</span>                                        <span class="cl-connect">│</span>
+<span class="cl-dim">       │</span>           <span class="cl-dim">┌───────────────────────────┼────────────────────────────┐</span>
+<span class="cl-dim">       │</span>           <span class="cl-dim">│</span>                           <span class="cl-connect">│</span>                            <span class="cl-dim">│</span>
+<span class="cl-dim">       │</span>           <span class="cl-dim">▼</span>                           <span class="cl-connect">▼</span>                            <span class="cl-dim">▼</span>
+<span class="cl-dim">       │</span>    <span class="cl-label">Bitrix Connector</span>          <span class="cl-label">MMP Connectors</span>              <span class="cl-label">Spend Import</span>
+<span class="cl-dim">       │</span>    <span class="cl-label">Leads, stages, AM</span>         <span class="cl-label">AF, Adjust, Tenjin</span>          <span class="cl-label">Google Ads, channels</span>
+<span class="cl-dim">       │</span>
+<span class="cl-dim">       │</span>                           <span class="cl-connect">│</span>
+<span class="cl-dim">       │</span>              <span class="cl-dim">┌──────────────┼──────────────┐</span>
+<span class="cl-dim">       │</span>              <span class="cl-dim">▼</span>              <span class="cl-connect">▼</span>              <span class="cl-dim">▼</span>
+<span class="cl-dim">       │</span>
+<span class="cl-dim">       ▼</span>         <span class="cl-sdk">CAS SDK v4</span>      <span class="cl-sdk">Server Bidding</span>    <span class="cl-sdk">CAS Exchange</span>
+                 <span class="cl-label">5000+ apps</span>       <span class="cl-label">s2s auctions</span>       <span class="cl-label">→ CAS SSP</span>
+                 <span class="cl-label">1B imp/mo</span>        <span class="cl-label">8+ networks</span>        <span class="cl-label">VAST 4.0+</span>
+                      <span class="cl-connect">│</span>
+                 <span class="cl-sdk">Publishing SDK</span>
+                 <span class="cl-label">Auto ILRD</span>
+                                            <span class="cl-connect">│</span>
+<span class="cl-dim">                              ┌──────────────┼──────────────┐</span>
+<span class="cl-dim">                              ▼              ▼              ▼</span>
+                         <span class="cl-dim">AdMob    AppLovin    Unity    ironSource    Meta    Pangle    Bigo    Liftoff ...</span>
+
+
+<span class="cl-dim"> CRM:</span>  <span class="cl-label">Bitrix24</span> ←→ <span class="cl-label">HubSpot</span>       <span class="cl-dim">Marketing:</span>  <span class="cl-label">cas.ai</span> → <span class="cl-label">Blog</span> → <span class="cl-label">MailChimp</span>       <span class="cl-dim">Infra:</span>  <span class="cl-label">CI/CD  Monitoring  Security</span></div>
+</div>
+
+<!-- ════════ INITIATIVES ════════ -->
+<div class="init-section">
+  <h2>Product Initiatives & Next Steps</h2>
+
+  <div class="products-grid">
+
+    <!-- ── OneBI Platform ── -->
+    <div class="product-card">
+      <div class="card-header">
+        <div class="card-icon" style="background:#1a2a4a;border:1px solid #58A6FF;">B</div>
+        <div>
+          <div class="card-title">OneBI — Unified Platform</div>
+          <div class="card-subtitle">14 initiatives / Portal track</div>
+        </div>
+        <div class="card-status status-wip">In Progress</div>
+      </div>
+      <div class="card-desc">Unified product replacing legacy B2B cabinet. Vue 3 + Tailwind SPA with role-based views for all client types and internal roles.</div>
+      <ul class="init-list wip">
+        <li><b>P1</b> MVP BI — Quick View + Reports, dark theme, CSV export</li>
+      </ul>
+      <ul class="init-list next">
+        <li>P1a Toggle gross/net</li>
+        <li>P1b App card (owner, portfolio, manager)</li>
+        <li>P1c UX fixes (10 bugs from interviews)</li>
+        <li>P6 Admin Dashboard — portfolio, anomalies</li>
+        <li>P2 L2 Features — SDK splits, saved views</li>
+        <li>P13 Marketing Funnel Dashboard</li>
+        <li>P14 AM Performance View</li>
+      </ul>
+      <div class="next-steps">
+        <div class="next-label">Next Steps</div>
+        <ul>
+          <li>Ship MVP BI on live data (depends on D1) <span class="owner">Ruslan</span></li>
+          <li>Admin Dashboard for internal roles <span class="owner">Ruslan + Product</span></li>
+          <li>Kill legacy B2B in Q3 (P7) <span class="owner">Vova + Ruslan</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ── Data Platform ── -->
+    <div class="product-card">
+      <div class="card-header">
+        <div class="card-icon" style="background:#2a2010;border:1px solid #d29922;">D</div>
+        <div>
+          <div class="card-title">Data Platform — ClickHouse</div>
+          <div class="card-subtitle">12 initiatives / Data track</div>
+        </div>
+        <div class="card-status status-wip">In Progress</div>
+      </div>
+      <div class="card-desc">ClickHouse-based analytics: materialized views, ILRD processing, event server, connectors for Bitrix/MMP/spend data.</div>
+      <ul class="init-list wip">
+        <li><b>D1</b> Materialized Views from Network Reports</li>
+        <li><b>D2</b> Self-hosted ClickHouse migration (500 GB ILRD)</li>
+      </ul>
+      <ul class="init-list next">
+        <li>D3 ILRD Processing — impression-level revenue</li>
+        <li>D7 CAS Event Server — sessions, IAP, attribution</li>
+        <li>D10 Bitrix Connector — leads, stages, AM activity</li>
+        <li>D11 Marketing spend import</li>
+        <li>D12 Attribution bridge Lead→Client→Revenue</li>
+        <li>D9 1C data migration to ClickHouse</li>
+      </ul>
+      <div class="next-steps">
+        <div class="next-label">Next Steps</div>
+        <ul>
+          <li>Finish materialized views — blocks MVP BI <span class="owner">Boris</span></li>
+          <li>Start ILRD processing after D1 <span class="owner">Boris + data eng</span></li>
+          <li>Bitrix connector for marketing funnel <span class="owner">TBD</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ── CAS SDK ── -->
+    <div class="product-card">
+      <div class="card-header">
+        <div class="card-icon" style="background:#1a472a;border:1px solid #42b983;">S</div>
+        <div>
+          <div class="card-title">CAS SDK</div>
+          <div class="card-subtitle">17 initiatives / Core track</div>
+        </div>
+        <div class="card-status status-prod">Production</div>
+      </div>
+      <div class="card-desc">Core mediation SDK. 5000+ apps, 1B impressions/month. 53 tasks in Trello backlog, 16 bugs. Zero deadlines set.</div>
+      <ul class="init-list done">
+        <li><b>C4</b> Monetization Management tool</li>
+        <li><b>C5</b> SDK Release Process automation</li>
+      </ul>
+      <ul class="init-list wip">
+        <li><b>C1</b> SDK stability — 16 bugs in backlog</li>
+        <li><b>C2</b> New ad networks — Amazon, Moloko, TaurusX</li>
+        <li><b>C3a</b> Server Bidding Stage 1 — 8 networks</li>
+        <li><b>C18</b> Publishing SDK — auto-init, ILRD</li>
+      </ul>
+      <ul class="init-list next">
+        <li>C3b Server Bidding Stage 2 — new integrations</li>
+        <li>C17 Tracking & Events — session throttling, IAP/Attribution API</li>
+        <li>C19 Cross Promo — update adapter for CAS 4</li>
+        <li>C12 Google MCM status + SDK Partnership</li>
+      </ul>
+      <div class="next-steps">
+        <div class="next-label">Next Steps</div>
+        <ul>
+          <li>Complete SB Stage 1 (8 networks) by April <span class="owner">Denis</span></li>
+          <li>Ship Publishing SDK <span class="owner">Yura</span></li>
+          <li>Launch Cross Promo (board priority) <span class="owner">Denis</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ── CAS SSP ── -->
+    <div class="product-card">
+      <div class="card-header">
+        <div class="card-icon" style="background:#1a472a;border:1px solid #42b983;">X</div>
+        <div>
+          <div class="card-title">CAS Exchange → CAS SSP</div>
+          <div class="card-subtitle">4 initiatives / SSP track</div>
+        </div>
+        <div class="card-status status-wip">Evolving</div>
+      </div>
+      <div class="card-desc">Internal ad exchange evolving into a full SSP product with CMS, analytics, and new ad formats.</div>
+      <ul class="init-list wip">
+        <li><b>SSP-1</b> VAST 3.0/4.0+, VPAID, video progress, OM SDK</li>
+      </ul>
+      <ul class="init-list next">
+        <li>SSP-2 New formats — Native, AppOpen, customization</li>
+        <li>SSP-3 SSP CMS — configuration management</li>
+        <li>SSP-4 SSP Analytics — metrics and filters</li>
+      </ul>
+      <div class="next-steps">
+        <div class="next-label">Next Steps</div>
+        <ul>
+          <li>Complete VAST 4.0+ and VPAID support <span class="owner">Denis</span></li>
+          <li>Build SSP CMS for configuration <span class="owner">CMS team</span></li>
+          <li>Position Exchange as a standalone SSP product <span class="owner">CTO</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ── Finance / 1C ── -->
+    <div class="product-card">
+      <div class="card-header">
+        <div class="card-icon" style="background:#3a1515;border:1px solid #f85149;">F</div>
+        <div>
+          <div class="card-title">Finance & 1C</div>
+          <div class="card-subtitle">5 initiatives / Finance track</div>
+        </div>
+        <div class="card-status status-legacy">Legacy</div>
+      </div>
+      <div class="card-desc">1C handles billing, commissions, and reporting for CEO. Migration to ClickHouse planned for H2. Referral program backend in 1C.</div>
+      <ul class="init-list next">
+        <li>F1 Payments UI redesign</li>
+        <li>F2 Commission management — per-app rates, gross/net</li>
+        <li>F5 Referral program — backend ready, need frontend</li>
+        <li>F3 Revenue reconciliation automation</li>
+        <li>F4 Full 1C migration — kill legacy</li>
+      </ul>
+      <div class="next-steps">
+        <div class="next-label">Next Steps</div>
+        <ul>
+          <li>Payments UI redesign in new platform <span class="owner">Ruslan + Product</span></li>
+          <li>Referral frontend <span class="owner">Tolik (backend) + Ruslan</span></li>
+          <li>C-level dashboard in BI to replace 1C <span class="owner">Boris + Product</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ── Marketing Funnel ── -->
+    <div class="product-card">
+      <div class="card-header">
+        <div class="card-icon" style="background:#2a1030;border:1px solid #a371f7;">M</div>
+        <div>
+          <div class="card-title">Marketing Funnel</div>
+          <div class="card-subtitle">GOAL-11 / Cross-track</div>
+        </div>
+        <div class="card-status status-plan">Planned</div>
+      </div>
+      <div class="card-desc">End-to-end visibility: channel → lead → qualification → onboarding → SDK → first revenue → MRR. Currently 3 disconnected systems.</div>
+      <ul class="init-list next">
+        <li>G12 Bitrix SOURCE_ID cleanup (79% leads unattributed)</li>
+        <li>G13 UTM attribution across all channels</li>
+        <li>D10 Bitrix connector to ClickHouse</li>
+        <li>D11 Marketing spend data import</li>
+        <li>D12 Attribution bridge Lead→Client→Revenue</li>
+        <li>P13 C-level Marketing Funnel Dashboard</li>
+        <li>P14 AM Performance View</li>
+      </ul>
+      <div class="next-steps">
+        <div class="next-label">Next Steps</div>
+        <ul>
+          <li>Start G12 now — cleanup Bitrix SOURCE_ID <span class="owner">Marketing + AM</span></li>
+          <li>Build Bitrix ETL connector <span class="owner">Data team</span></li>
+          <li>C-level dashboard after attribution bridge <span class="owner">Product</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ── Growth / Marketing ── -->
+    <div class="product-card">
+      <div class="card-header">
+        <div class="card-icon" style="background:#102a2a;border:1px solid #39d2c0;">G</div>
+        <div>
+          <div class="card-title">Growth & Marketing</div>
+          <div class="card-subtitle">13 initiatives / Growth track</div>
+        </div>
+        <div class="card-status status-plan">Planned</div>
+      </div>
+      <div class="card-desc">cas.ai website (8 languages), content machine, PubC funnel, referral program. Target: marketing spend 30% of profit.</div>
+      <ul class="init-list next">
+        <li>G1 PubC landing "Submit your game"</li>
+        <li>G2 Landings by client type (L1/L2/Pub)</li>
+        <li>G3 Content machine — blog, Telegram, LinkedIn</li>
+        <li>G4 BI showcase on website</li>
+        <li>G10 PubC Retention Program</li>
+        <li>G11 Marketing budget to 30% of profit</li>
+      </ul>
+      <div class="next-steps">
+        <div class="next-label">Next Steps</div>
+        <ul>
+          <li>Launch PubC landing and L1 landing <span class="owner">Nikita</span></li>
+          <li>Start content machine <span class="owner">Nikita + Irina</span></li>
+          <li>BI showcase after MVP BI ships <span class="owner">Nikita + Product</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ── Org & Infra ── -->
+    <div class="product-card">
+      <div class="card-header">
+        <div class="card-icon" style="background:#1a2030;border:1px solid #768390;">O</div>
+        <div>
+          <div class="card-title">Org & Infrastructure</div>
+          <div class="card-subtitle">11 initiatives / Org + Infra tracks</div>
+        </div>
+        <div class="card-status status-wip">In Progress</div>
+      </div>
+      <div class="card-desc">Team formation (+4 people, +$10K/mo), bus factor elimination, CI/CD, monitoring. CTO 3-phase plan: teams → processes → standards.</div>
+      <ul class="init-list wip">
+        <li><b>ORG-1</b> Team formation — 6 teams target</li>
+        <li><b>ORG-2</b> Bus factor — duplicates for Boris, Ruslan, Denis, Tolik</li>
+        <li><b>INF-3</b> CI/CD — SDK done, platform pending</li>
+      </ul>
+      <ul class="init-list next">
+        <li>ORG-3 Documentation and project audit</li>
+        <li>ORG-4 Process adoption (Asana, Zakhar standards)</li>
+        <li>INF-1 Security audit</li>
+        <li>INF-5 Monitoring and alerting</li>
+      </ul>
+      <div class="next-steps">
+        <div class="next-label">Next Steps</div>
+        <ul>
+          <li>Hire data engineer and frontend #2 <span class="owner">Vova</span></li>
+          <li>Document all tribal knowledge <span class="owner">Vova + Product</span></li>
+          <li>Set up CI/CD for OneBI <span class="owner">Infra team</span></li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <div>CAS.AI Product Team — Roadmap v3.0</div>
+  <div>Updated: February 24, 2026</div>
+</div>
+
+</body>
+</html>
