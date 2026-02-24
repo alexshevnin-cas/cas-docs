@@ -151,6 +151,31 @@
     .init-list.next li::before { background: #d29922; }
     .init-list.misc li::before { background: #768390; }
 
+    /* ── Phases (OneBI card) ── */
+    .phases {
+      margin-bottom: 14px;
+    }
+    .phase-item {
+      padding: 6px 0;
+      border-left: 2px solid #30363d;
+      padding-left: 12px;
+      margin-left: 4px;
+      margin-bottom: 4px;
+    }
+    .phase-item.active {
+      border-left-color: #58A6FF;
+    }
+    .phase-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #e6edf3;
+    }
+    .phase-desc {
+      font-size: 12px;
+      color: #7d8590;
+      margin-top: 1px;
+    }
+
     .next-steps {
       border-top: 1px solid #21262d;
       padding-top: 10px;
@@ -269,16 +294,32 @@
         <div class="card-status status-wip">In Progress</div>
       </div>
       <div class="card-desc">Flagship project — each component we build here modernizes the entire product ecosystem. Every phase expands the audience and unlocks new use cases.</div>
-      <ul class="init-list wip">
-        <li><b>MVP on B2B cabinet.</b> Under the hood: transition to ClickHouse (speed). New UI: Quick View + Reports as the foundation for all future dashboards. Dark theme. Audience: L1 clients.</li>
-      </ul>
-      <ul class="init-list next">
-        <li><b>SuperAdmin View.</b> If MVP works: add admin panel with all apps grouped by managers, portfolio overview, anomaly detection. Audience: internal (Admin, AM).</li>
-        <li><b>ILRD data.</b> Add impression-level revenue data — immediately enriches the analytics spectrum for L2 clients: SDK/App version splits, network diagnostics, cohort analysis.</li>
-        <li><b>Split engine.</b> Add A/B testing split engine — instant tool for the RND department. Experiment registry with results visible in BI.</li>
-        <li><b>MMP data.</b> Connect AppsFlyer, Adjust, Tenjin — unlocks Unified Report (spend + revenue + events in one place). Audience: UA team.</li>
-        <li><b>Publishing dashboards.</b> Profit, ROAS, health indicator, A/B comparison, creative performance. Audience: Publishing producers.</li>
-      </ul>
+      <div class="phases">
+        <div class="phase-item active">
+          <div class="phase-title">MVP on B2B cabinet</div>
+          <div class="phase-desc">ClickHouse under the hood. New UI: Quick View + Reports — foundation for all dashboards. Dark theme.</div>
+        </div>
+        <div class="phase-item">
+          <div class="phase-title">SuperAdmin View</div>
+          <div class="phase-desc">All apps grouped by managers, portfolio overview, anomaly detection.</div>
+        </div>
+        <div class="phase-item">
+          <div class="phase-title">ILRD data</div>
+          <div class="phase-desc">Impression-level revenue — SDK/App version splits, network diagnostics, cohorts. Unlocks L2.</div>
+        </div>
+        <div class="phase-item">
+          <div class="phase-title">Split engine</div>
+          <div class="phase-desc">A/B testing for RND. Experiment registry with results in BI.</div>
+        </div>
+        <div class="phase-item">
+          <div class="phase-title">MMP data</div>
+          <div class="phase-desc">AppsFlyer, Adjust, Tenjin — Unified Report for UA team.</div>
+        </div>
+        <div class="phase-item">
+          <div class="phase-title">Publishing dashboards</div>
+          <div class="phase-desc">Profit, ROAS, health indicator, creative performance for producers.</div>
+        </div>
+      </div>
       <div class="next-steps">
         <div class="next-label">Next Steps</div>
         <ul>
