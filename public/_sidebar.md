@@ -5,6 +5,7 @@
   - [User Stories](user-stories.md)
   - [Roadmap](roadmap.md)
   - [Component Map](component-map.md)
+  - [SDK Release Policy](sdk-release-policy.md)
 
 - **BI Reference**
   - [Metrics Dictionary](metrics-dictionary.md)
