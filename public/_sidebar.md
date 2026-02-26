@@ -1,7 +1,6 @@
 - **One BI**
   - [Roadmap](onebi-roadmap.md)
   - [Glossary](onebi-glossary.md)
-  - [Project Plan](bi-mvp-project-plan.md)
   - [Metrics Dictionary](metrics-dictionary.md)
   - [Filters & Splits](filters.md)
 
