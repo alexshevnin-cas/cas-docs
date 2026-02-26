@@ -15,6 +15,9 @@ on:
       - '03-product/onebi-glossary.md'
       - '03-product/onebi-roadmap.md'
       - '03-product/onebi-wiki-plan.md'
+      - '03-product/ddd-conventions.md'
+      - '03-product/api-contract.md'
+      - '04-bi/data-catalog.md'
       - '05-research/bitrix-crm-analysis.md'
       - '05-research/hubspot-pipeline-analysis.md'
       - '.github/workflows/docs.yml'
@@ -53,6 +56,9 @@ jobs:
           cp 03-product/onebi-glossary.md public/onebi-glossary.md
           cp 03-product/onebi-roadmap.md public/onebi-roadmap.md
           cp 03-product/onebi-wiki-plan.md public/onebi-wiki-plan.md
+          cp 03-product/ddd-conventions.md public/ddd-conventions.md
+          cp 03-product/api-contract.md public/api-contract.md
+          cp 04-bi/data-catalog.md public/data-catalog.md
 
       - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3

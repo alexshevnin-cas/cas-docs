@@ -75,8 +75,8 @@ One BI/
 
 **Кто делает:** Борис (CH-колонки) + Руслан (API param names)
 
-### 5. Data Catalog — 🔴 создать
-Новый файл: `04-bi/data-catalog.md`
+### 5. Data Catalog — 🟡 плейсхолдер создан
+Файл: `04-bi/data-catalog.md`
 
 Техническая карта всего, что лежит в ClickHouse.
 
@@ -111,8 +111,8 @@ One BI/
 
 **Кто делает:** Борис (он знает схему) + Алексей (ревью)
 
-### 6. API Contract — 🔴 создать
-Новый файл: `03-product/api-contract.md`
+### 6. API Contract — 🟡 плейсхолдер создан
+Файл: `03-product/api-contract.md`
 
 Контракт между бэкендом (Руслан) и фронтендом / внешними клиентами.
 
@@ -157,8 +157,8 @@ GET /api/v1/admin/customers?manager_id=m1
 
 **Кто делает:** Руслан (он проектирует API) + Алексей (ревью бизнес-полей)
 
-### 7. DDD Conventions — 🔴 создать
-Новый файл: `03-product/ddd-conventions.md`
+### 7. DDD Conventions — 🟡 плейсхолдер создан
+Файл: `03-product/ddd-conventions.md`
 
 Единый язык: как называть вещи в коде, в документах, в разговорах.
 
