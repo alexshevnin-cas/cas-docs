@@ -1,17 +1,15 @@
-- **BI MVP**
+- **One BI**
+  - [Roadmap](onebi-roadmap.md)
+  - [Glossary](onebi-glossary.md)
   - [Project Plan](bi-mvp-project-plan.md)
+  - [Metrics Dictionary](metrics-dictionary.md)
+  - [Filters & Splits](filters.md)
 
 - **Product**
   - [User Stories](user-stories.md)
   - [Roadmap](roadmap.md)
   - [Component Map](component-map.md)
-  - [One BI — Roadmap](onebi-roadmap.md)
-  - [One BI — Glossary](onebi-glossary.md)
   - [SDK Release Policy](sdk-release-policy.md)
-
-- **BI Reference**
-  - [Metrics Dictionary](metrics-dictionary.md)
-  - [Filters & Splits](filters.md)
 
 - **Research**
   - [Битрикс CRM — анализ pipeline](bitrix-crm-analysis.md)
