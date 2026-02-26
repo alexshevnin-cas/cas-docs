@@ -1,6 +1,7 @@
 - **One BI**
   - [Roadmap](onebi-roadmap.md)
   - [Glossary](onebi-glossary.md)
+  - [Wiki Plan](onebi-wiki-plan.md)
   - [Metrics Dictionary](metrics-dictionary.md)
   - [Filters & Splits](filters.md)
 

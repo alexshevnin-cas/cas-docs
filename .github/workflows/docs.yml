@@ -14,6 +14,7 @@ on:
       - '03-product/sdk-release-policy.md'
       - '03-product/onebi-glossary.md'
       - '03-product/onebi-roadmap.md'
+      - '03-product/onebi-wiki-plan.md'
       - '05-research/bitrix-crm-analysis.md'
       - '05-research/hubspot-pipeline-analysis.md'
       - '.github/workflows/docs.yml'
@@ -51,6 +52,7 @@ jobs:
           cp 03-product/sdk-release-policy.md public/sdk-release-policy.md
           cp 03-product/onebi-glossary.md public/onebi-glossary.md
           cp 03-product/onebi-roadmap.md public/onebi-roadmap.md
+          cp 03-product/onebi-wiki-plan.md public/onebi-wiki-plan.md
 
       - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3
