@@ -25,7 +25,43 @@
 
 ---
 
-## Step 1–2: B2B база → новый UI
+## Архитектура (целевая)
+
+```
+                              Semantic Layer
+                    ┌─────────────────────────────────────────┐
+                    │                                         │
+ Sources            │  Data     Norma-    Metrics     Views   │   UI            Users
+ ───────            │  Lake     lization  ─────────           │   ──            ─────
+                    │                                         │
+┌─────────┐         │                     ┌────────────┐      │              Customer
+│   CMS   │         │                     │ Basic      │      │   ┌────────┐ Producer
+├─────────┤         │                     │ Metrics    │      │   │Unified │ UA Manager
+│split tool│        │                     ├────────────┤      │   │  UI    │ C-Level
+└─────────┘         │                     │ Billing    │      │   │        │
+  CAS.SDK ──►       │  ┌──┐    ┌──────┐  │ Fees/      │ ┌──┐ │   │ Quick  │
+  MMP     ──►       │  │  │    │      │  │ RevShare   │ │  │─┼──►│ View   │
+  Ad Nets ──►───────┼─►│  │───►│      │──┤            │►│  │ │   │ Reports│
+  UA Nets ──►       │  │  │    │      │  ├────────────┤ │  │ │   └───┬────┘
+                    │  └──┘    └──────┘  │ etc        │ └──┘ │       │
+┌─────────┐         │                     ├────────────┤      │   ┌───┴────┐  Analyst
+│Vocabulary│        │                     │ Prediction │      │   │Admin   │  Monetisation Mgr
+├─────────┤         │                     │ Models     │      │   │API     │  AdOps
+│   1С    │         │                     └────────────┘      │   └───┬────┘
+└─────────┘         │                                         │       │
+                    └─────────────────────────────────────────┘       ▼
+                                                                  Raw Data
+```
+
+**Слева направо:** источники данных → Data Lake → нормализация → метрики/модели → views → API → UI.
+
+**Два выхода:**
+- **Unified UI** (Quick View + Reports) → для клиентов, продюсеров, UA, C-level
+- **Admin API** + Raw Data → для аналитиков, менеджеров монетизации, AdOps
+
+---
+
+## Этапы 1–2: B2B база → новый UI
 
 Стартуем на текущем бэкенде b2b.cas.ai. Руслан строит новое SPA (Vue 3, шаблон, тёмная тема). Данные — API рекламных сетей, задержка ~1.5 суток.
 
@@ -66,18 +102,18 @@
 
 ### UI
 
-| Компонент | Что это | Step |
+| Компонент | Что это | Этап |
 |-----------|---------|------|
-| **Quick View** | Карточки (DAU, Revenue, ARPDAU, eCPM, Impr/DAU) + Revenue Trend chart + Revenue by Network | Step 1 |
-| **Reports** | Таблица + графики с chip-фильтрами, сплитами, сортировкой, CSV export | Step 2 |
-| **Metric Card** | Виджет: число + динамика ("+8.5%") | Step 1 |
-| **Chart** | График (line, bar, donut) | Step 1 |
-| **Table** | Данные с сортировкой, sticky header, зебра | Step 2 |
-| **Chip** | Тег-кнопка для фильтра / сплита / метрики | Step 2 |
+| **Quick View** | Карточки (DAU, Revenue, ARPDAU, eCPM, Impr/DAU) + Revenue Trend chart + Revenue by Network | Этап 1 |
+| **Reports** | Таблица + графики с chip-фильтрами, сплитами, сортировкой, CSV export | Этап 2 |
+| **Metric Card** | Виджет: число + динамика ("+8.5%") | Этап 1 |
+| **Chart** | График (line, bar, donut) | Этап 1 |
+| **Table** | Данные с сортировкой, sticky header, зебра | Этап 2 |
+| **Chip** | Тег-кнопка для фильтра / сплита / метрики | Этап 2 |
 
 ---
 
-## Step 3: B2B база → ClickHouse (Борис)
+## Этап 3: B2B база → ClickHouse (Борис)
 
 Борис готовит данные в ClickHouse. Руслан переключает API. Те же Metrics, Filters, Splits — другой источник. UI не меняется, данные быстрее.
 
@@ -85,7 +121,7 @@
 
 ## Следующее: + ILRD → новые Metrics
 
-После Step 3. Борис подключает данные CAS-сервера. Metrics Layer расширяется — появляются новые строки в таблицах выше.
+После Этапа 3. Борис подключает данные CAS-сервера. Metrics Layer расширяется — появляются новые строки в таблицах выше.
 
 ### Что такое ILRD
 
