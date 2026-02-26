@@ -12,6 +12,7 @@ on:
       - '04-bi/metrics-dictionary.md'
       - '04-bi/filters.md'
       - '03-product/sdk-release-policy.md'
+      - '03-product/onebi-glossary.md'
       - '05-research/bitrix-crm-analysis.md'
       - '05-research/hubspot-pipeline-analysis.md'
       - '.github/workflows/docs.yml'
@@ -47,6 +48,7 @@ jobs:
           cp 03-product/roadmap.md public/roadmap.md
           cp 03-product/component-map.md public/component-map.md
           cp 03-product/sdk-release-policy.md public/sdk-release-policy.md
+          cp 03-product/onebi-glossary.md public/onebi-glossary.md
 
       - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3
