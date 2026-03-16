@@ -20,6 +20,7 @@ on:
       - '04-bi/data-catalog.md'
       - '05-research/bitrix-crm-analysis.md'
       - '05-research/hubspot-pipeline-analysis.md'
+      - '05-research/internal-novatska-creatives.md'
       - '.github/workflows/docs.yml'
 
 permissions:
@@ -50,6 +51,7 @@ jobs:
           cp 04-bi/filters.md public/filters.md
           cp 05-research/bitrix-crm-analysis.md public/bitrix-crm-analysis.md
           cp 05-research/hubspot-pipeline-analysis.md public/hubspot-pipeline-analysis.md
+          cp 05-research/internal-novatska-creatives.md public/internal-novatska-creatives.md
           cp 03-product/roadmap.md public/roadmap.md
           cp 03-product/component-map.md public/component-map.md
           cp 03-product/sdk-release-policy.md public/sdk-release-policy.md

@@ -19,3 +19,4 @@
   - [HubSpot — оценка пайплайна по менеджерам](hubspot-pipeline-analysis.md)
   - [Воронка рекламных каналов](bitrix-funnel-analysis.md)
   - [Dashboard Speed Test](dashboard-speed-results.md)
+  - [Creatives — интервью Novatska](internal-novatska-creatives.md)
