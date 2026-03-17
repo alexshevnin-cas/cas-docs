@@ -21,6 +21,7 @@ on:
       - '05-research/bitrix-crm-analysis.md'
       - '05-research/hubspot-pipeline-analysis.md'
       - '05-research/internal-novatska-creatives.md'
+      - 'CPOMind/product-architecture-research.md'
       - '.github/workflows/docs.yml'
 
 permissions:
@@ -61,6 +62,7 @@ jobs:
           cp 03-product/ddd-conventions.md public/ddd-conventions.md
           cp 03-product/api-contract.md public/api-contract.md
           cp 04-bi/data-catalog.md public/data-catalog.md
+          cp CPOMind/product-architecture-research.md public/product-architecture.md
 
       - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3

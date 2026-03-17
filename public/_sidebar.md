@@ -14,6 +14,9 @@
   - [Component Map](component-map.md)
   - [SDK Release Policy](sdk-release-policy.md)
 
+- **CPO Mind**
+  - [Product Architecture](product-architecture.html)
+
 - **Research**
   - [Битрикс CRM — анализ pipeline](bitrix-crm-analysis.md)
   - [HubSpot — оценка пайплайна по менеджерам](hubspot-pipeline-analysis.md)
