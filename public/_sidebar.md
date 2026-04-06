@@ -17,6 +17,9 @@
 - **CPO Mind**
   - [Product Architecture](product-architecture.html)
 
+- **Marketing**
+  - [LTV Calculator](ltv-calculator.html)
+
 - **Research**
   - [Битрикс CRM — анализ pipeline](bitrix-crm-analysis.md)
   - [HubSpot — оценка пайплайна по менеджерам](hubspot-pipeline-analysis.md)

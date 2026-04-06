@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ad Revenue Calculator — CAS.AI</title>
+<meta name="description" content="Calculate your app's monthly ad revenue in 60 seconds">
+<meta property="og:title" content="Ad Revenue Calculator — CAS.AI">
+<meta property="og:description" content="Calculate your app's monthly ad revenue in 60 seconds">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💰</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --primary: #6C5CE7;
+  --primary-glow: rgba(108, 92, 231, 0.4);
+  --accent: #00D2D3;
+  --bg: #0F0F1A;
+  --card: #1A1A2E;
+  --card-hover: #222240;
+  --card-active: #2A2A50;
+  --text: #F0F0F0;
+  --text-dim: #8888AA;
+  --green: #00E676;
+  --orange: #FF9100;
+  --purple: #B388FF;
+  --track-bg: #2A2A3E;
+}
+
+html { font-size: 16px; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 32px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.logo { font-size: 1.25rem; font-weight: 800; color: var(--primary); text-decoration: none; letter-spacing: -0.5px; }
+.header-sub { font-size: 0.8rem; color: var(--text-dim); }
+
+/* Progress */
+.progress-bar { display: flex; gap: 8px; padding: 10px 32px; max-width: 480px; margin: 0 auto; }
+.progress-step { flex: 1; height: 4px; border-radius: 2px; background: var(--track-bg); transition: background 0.4s; }
+.progress-step.active { background: var(--primary); }
+.progress-step.done { background: var(--accent); }
+
+/* Wizard */
+.wizard { max-width: 1100px; margin: 0 auto; padding: 16px 32px 40px; min-height: calc(100vh - 100px); display: flex; flex-direction: column; }
+.step { display: none; flex-direction: column; gap: 16px; animation: fadeIn 0.4s ease; flex: 1; }
+.step.active { display: flex; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+.step-title { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.5px; }
+.step-subtitle { font-size: 0.85rem; color: var(--text-dim); margin-top: -8px; }
+
+/* Buttons */
+.btn-row { display: flex; gap: 12px; margin-top: auto; padding-top: 16px; }
+.btn { padding: 10px 28px; border-radius: 10px; border: none; font-family: inherit; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { filter: brightness(1.15); }
+.btn-primary:disabled { opacity: 0.35; cursor: not-allowed; filter: none; }
+.btn-back { background: transparent; color: var(--text-dim); border: 1px solid rgba(255,255,255,0.1); }
+.btn-back:hover { border-color: rgba(255,255,255,0.25); color: var(--text); }
+
+/* ===== STEP 1: THREE PHONES ===== */
+.phones-row { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; }
+.phone-selector { display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer; user-select: none; }
+.phone-selector .phone-label { font-size: 0.85rem; font-weight: 600; color: var(--text-dim); transition: color 0.25s; }
+.phone-selector .phone-desc { font-size: 0.65rem; color: var(--text-dim); text-align: center; max-width: 140px; opacity: 0.6; transition: opacity 0.25s; }
+.phone-selector.selected .phone-label { color: var(--text); }
+.phone-selector.selected .phone-desc { opacity: 1; }
+
+.phone { width: 140px; height: 280px; background: #111; border-radius: 22px; border: 2px solid #333; position: relative; overflow: hidden; box-shadow: 0 8px 30px rgba(0,0,0,0.4); transition: all 0.3s ease; opacity: 0.5; }
+.phone-selector:hover .phone { opacity: 0.75; border-color: #555; }
+.phone-selector.selected .phone { opacity: 1; border-color: var(--primary); box-shadow: 0 8px 30px var(--primary-glow); }
+.phone-notch { width: 44px; height: 14px; background: #000; border-radius: 0 0 8px 8px; position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 10; }
+.phone-screen { position: absolute; inset: 5px; border-radius: 17px; background: #1a1a2a; overflow: hidden; display: flex; flex-direction: column; }
+.phone-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 22px 8px 8px; position: relative; }
+.phone-content .game-placeholder { width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,0.05); border: 1px dashed rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+.phone-content .game-text { font-size: 0.5rem; color: var(--text-dim); }
+
+.phone-banner-ad { position: absolute; bottom: 0; left: 0; right: 0; height: 22px; background: linear-gradient(90deg, var(--green), #00c853); display: flex; align-items: center; justify-content: space-between; padding: 0 6px; font-size: 0.45rem; font-weight: 600; color: #000; }
+.phone-inter-ad { position: absolute; inset: 0; background: rgba(0,0,0,0.75); display: flex; align-items: center; justify-content: center; }
+.phone-inter-ad-box { width: 85%; height: 60%; background: linear-gradient(135deg, var(--orange), #ff6d00); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 3px; position: relative; }
+.phone-inter-ad-box span { font-size: 0.5rem; font-weight: 700; color: #000; }
+.phone-inter-ad-box .skip { position: absolute; top: 3px; right: 5px; font-size: 0.4rem; color: rgba(0,0,0,0.5); }
+.phone-rewarded-ad { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.phone-rewarded-ad-btn { padding: 6px 10px; background: linear-gradient(135deg, var(--purple), var(--primary)); border-radius: 8px; font-size: 0.5rem; font-weight: 700; color: #fff; text-align: center; box-shadow: 0 4px 16px rgba(108,92,231,0.4); }
+.phone-check { position: absolute; top: 8px; right: 8px; width: 24px; height: 24px; border-radius: 50%; background: var(--primary); display: none; align-items: center; justify-content: center; font-size: 0.7rem; color: #fff; z-index: 20; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+.phone-selector.selected .phone-check { display: flex; }
+
+/* ===== STEP 2: SESSION BUILDER (vertical) ===== */
+.session-flow { display: flex; flex-direction: column; gap: 14px; }
+
+.param-card { background: var(--card); border-radius: 12px; padding: 14px 16px; }
+.param-card h3 { font-size: 0.8rem; font-weight: 600; margin-bottom: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* Round duration presets */
+.round-presets { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+.round-preset {
+  flex: 1; min-width: 100px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--bg);
+  border: 2px solid var(--track-bg);
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.25s;
+  user-select: none;
+}
+.round-preset:hover { border-color: #555; }
+.round-preset.active { border-color: var(--primary); background: var(--card-active); }
+.round-preset .preset-icon { font-size: 1.3rem; margin-bottom: 4px; }
+.round-preset .preset-name { font-size: 0.75rem; font-weight: 600; }
+.round-preset .preset-dur { font-size: 0.65rem; color: var(--accent); font-weight: 700; margin-top: 2px; }
+.round-preset .preset-ex { font-size: 0.55rem; color: var(--text-dim); margin-top: 1px; }
+
+.fine-tune { display: flex; align-items: center; gap: 12px; }
+.fine-tune label { font-size: 0.75rem; color: var(--text-dim); white-space: nowrap; }
+.fine-tune input[type="range"] { flex: 1; }
+.fine-tune .val { min-width: 36px; text-align: center; font-size: 1rem; font-weight: 700; color: var(--accent); }
+
+/* Rounds + derived */
+.rounds-row { display: flex; align-items: center; gap: 16px; }
+.rounds-row .slider-part { flex: 1; display: flex; align-items: center; gap: 12px; }
+.rounds-row .slider-part label { font-size: 0.8rem; font-weight: 500; white-space: nowrap; }
+.rounds-row .slider-part input[type="range"] { flex: 1; }
+.rounds-row .val { min-width: 32px; text-align: center; font-size: 1rem; font-weight: 700; color: var(--accent); }
+.derived-stats { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 6px; }
+.derived-stat { font-size: 0.75rem; color: var(--text-dim); padding: 4px 10px; background: rgba(255,255,255,0.03); border-radius: 6px; }
+.derived-stat strong { color: var(--accent); font-weight: 700; }
+
+input[type="range"] { -webkit-appearance: none; appearance: none; height: 6px; border-radius: 3px; background: var(--track-bg); outline: none; }
+input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--primary); cursor: pointer; border: 2px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
+
+.slider-row { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+.slider-row:last-child { margin-bottom: 0; }
+.slider-row label { min-width: 80px; font-size: 0.75rem; font-weight: 500; }
+.slider-row input[type="range"] { flex: 1; }
+.slider-row .val { min-width: 32px; text-align: center; font-size: 0.9rem; font-weight: 700; color: var(--accent); }
+
+/* Ad rules */
+.ad-rules-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.ad-rules-card { flex: 1; min-width: 180px; border-left: 3px solid; padding-left: 12px; }
+.ad-rules-card.banner-rules { border-color: var(--green); }
+.ad-rules-card.inter-rules { border-color: var(--orange); }
+.ad-rules-card.rewarded-rules { border-color: var(--purple); }
+.ad-rules-card .rule-title { font-size: 0.8rem; font-weight: 600; margin-bottom: 4px; }
+.ad-rules-card .rule-result { font-size: 0.7rem; color: var(--text-dim); }
+.ad-rules-card .rule-result strong { color: var(--text); }
+
+/* Timeline */
+.timeline-container { background: var(--card); border-radius: 12px; padding: 16px; overflow-x: auto; }
+.timeline-axis { padding: 0 0 6px 80px; border-bottom: 1px solid rgba(255,255,255,0.08); position: relative; height: 20px; }
+.timeline-tick { font-size: 0.6rem; color: var(--text-dim); position: absolute; transform: translateX(-50%); }
+.timeline-tracks { display: flex; flex-direction: column; gap: 2px; margin-top: 4px; }
+.timeline-track { display: flex; align-items: center; height: 36px; }
+.track-label { width: 80px; flex-shrink: 0; font-size: 0.7rem; font-weight: 600; display: flex; align-items: center; gap: 5px; }
+.track-label .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.track-lane { flex: 1; height: 28px; background: rgba(255,255,255,0.02); border-radius: 5px; position: relative; overflow: hidden; }
+.track-marker { position: absolute; top: 2px; bottom: 2px; border-radius: 3px; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; font-size: 0.5rem; font-weight: 600; color: rgba(0,0,0,0.6); }
+.track-marker.banner-m { background: rgba(0,230,118,0.5); border: 1px solid var(--green); min-width: 6px; }
+.track-marker.inter-m { background: rgba(255,145,0,0.5); border: 1px solid var(--orange); width: 14px; }
+.track-marker.rewarded-m { background: rgba(179,136,255,0.5); border: 1px solid var(--purple); width: 14px; }
+.track-lane.banner-lane { background: repeating-linear-gradient(90deg, rgba(0,230,118,0.06) 0px, rgba(0,230,118,0.06) 1px, transparent 1px, transparent 4px); }
+
+/* Round markers on timeline */
+.round-markers { display: flex; align-items: center; height: 20px; padding-left: 80px; gap: 0; margin-bottom: 2px; }
+.round-block { display: flex; align-items: center; justify-content: center; height: 18px; border-radius: 3px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); font-size: 0.5rem; color: var(--text-dim); transition: all 0.3s; }
+.round-divider { width: 2px; height: 18px; background: rgba(255,255,255,0.15); flex-shrink: 0; position: relative; }
+.round-divider::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); width: 1px; height: 100px; background: rgba(255,255,255,0.04); }
+
+.timeline-summary { padding: 8px 0 0 80px; font-size: 0.7rem; color: var(--text-dim); }
+
+/* ===== STEP 3: AUDIENCE + GEO ===== */
+.step3-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+.audience-card { background: var(--card); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.audience-card h3 { font-size: 0.85rem; font-weight: 600; }
+.mau-input { width: 100%; padding: 12px 14px; border-radius: 10px; border: 2px solid var(--track-bg); background: var(--bg); color: var(--text); font-family: inherit; font-size: 1.1rem; font-weight: 700; outline: none; transition: border-color 0.2s; }
+.mau-input:focus { border-color: var(--primary); }
+.mau-presets { display: flex; gap: 6px; flex-wrap: wrap; }
+.mau-preset { padding: 5px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: transparent; color: var(--text-dim); font-family: inherit; font-size: 0.75rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+.mau-preset:hover { border-color: var(--primary); color: var(--text); }
+.mau-preset.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+.geo-compact { background: var(--card); border-radius: 12px; padding: 16px; }
+.geo-compact h3 { font-size: 0.85rem; font-weight: 600; margin-bottom: 10px; }
+.geo-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.geo-row:last-child { margin-bottom: 0; }
+.geo-label { min-width: 85px; font-size: 0.75rem; font-weight: 600; }
+.geo-label .geo-dim { font-weight: 400; color: var(--text-dim); font-size: 0.6rem; }
+.geo-row input[type="range"] { flex: 1; }
+.geo-row .geo-pct { min-width: 36px; text-align: right; font-size: 0.85rem; font-weight: 700; color: var(--accent); }
+
+/* ===== STEP 4: RESULTS ===== */
+.result-hero { text-align: center; padding: 16px 0; }
+.result-label { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 2px; }
+.result-number { font-size: 3.5rem; font-weight: 800; letter-spacing: -2px; background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.result-per-month { font-size: 1rem; color: var(--text-dim); }
+
+.result-breakdown { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 4px; }
+.result-card { background: var(--card); border-radius: 12px; padding: 16px; }
+.result-card h3 { font-size: 0.8rem; font-weight: 600; color: var(--text-dim); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
+.breakdown-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.breakdown-row:last-child { border-bottom: none; }
+.breakdown-label { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; }
+.breakdown-value { font-size: 0.9rem; font-weight: 700; }
+.pie-legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.stacked-bar { height: 20px; border-radius: 5px; display: flex; overflow: hidden; margin-bottom: 12px; }
+.stacked-bar div { height: 100%; transition: width 0.5s ease; display: flex; align-items: center; justify-content: center; font-size: 0.55rem; font-weight: 700; color: rgba(0,0,0,0.6); }
+
+.upsell-card { background: linear-gradient(135deg, rgba(108,92,231,0.15), rgba(0,210,211,0.1)); border: 1px solid rgba(108,92,231,0.3); border-radius: 12px; padding: 20px; text-align: center; margin-top: 4px; }
+.upsell-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+.upsell-card p { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 14px; line-height: 1.4; }
+.upsell-numbers { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 16px; }
+.upsell-current { font-size: 1.2rem; font-weight: 600; color: var(--text-dim); text-decoration: line-through; }
+.upsell-arrow { color: var(--accent); font-size: 1.1rem; }
+.upsell-optimized { font-size: 1.6rem; font-weight: 800; color: var(--accent); }
+.upsell-diff { font-size: 0.8rem; color: var(--green); font-weight: 600; }
+.btn-cta { display: inline-block; padding: 12px 32px; background: linear-gradient(135deg, var(--primary), var(--accent)); color: #fff; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 700; cursor: pointer; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; }
+.btn-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--primary-glow); }
+
+/* Footer */
+.footer { text-align: center; padding: 24px; font-size: 0.75rem; color: var(--text-dim); border-top: 1px solid rgba(255,255,255,0.04); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .header { padding: 10px 16px; }
+  .wizard { padding: 12px 16px 40px; }
+  .step-title { font-size: 1.2rem; }
+  .phones-row { gap: 12px; }
+  .phone { width: 110px; height: 220px; border-radius: 18px; }
+  .phone-notch { width: 36px; height: 10px; }
+  .phone-screen { inset: 4px; border-radius: 14px; }
+  .phone-selector .phone-label { font-size: 0.75rem; }
+  .phone-selector .phone-desc { font-size: 0.55rem; }
+  .round-presets { gap: 6px; }
+  .round-preset { min-width: 70px; padding: 8px; }
+  .round-preset .preset-icon { font-size: 1rem; }
+  .ad-rules-row { flex-direction: column; }
+  .step3-grid { grid-template-columns: 1fr; }
+  .result-number { font-size: 2.5rem; }
+  .result-breakdown { grid-template-columns: 1fr; }
+  .upsell-numbers { flex-direction: column; gap: 8px; }
+  .slider-row { flex-wrap: wrap; }
+  .slider-row label { min-width: auto; flex-basis: 100%; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="https://cas.ai" class="logo">CAS.AI</a>
+  <span class="header-sub">Ad Revenue Calculator</span>
+</header>
+
+<div class="progress-bar">
+  <div class="progress-step active" data-step="1"></div>
+  <div class="progress-step" data-step="2"></div>
+  <div class="progress-step" data-step="3"></div>
+  <div class="progress-step" data-step="4"></div>
+</div>
+
+<main class="wizard">
+
+  <!-- ===== STEP 1: FORMATS ===== -->
+  <section class="step active" id="step1">
+    <h2 class="step-title">What ad formats do you use?</h2>
+    <p class="step-subtitle">Tap to select</p>
+
+    <div class="phones-row">
+      <div class="phone-selector" data-format="banner" onclick="toggleFormat(this)">
+        <div class="phone">
+          <div class="phone-check">&#10003;</div>
+          <div class="phone-notch"></div>
+          <div class="phone-screen"><div class="phone-content">
+            <div class="game-placeholder">&#127918;</div>
+            <div class="game-text">Your app</div>
+            <div class="phone-banner-ad"><span>Banner Ad</span><span>&#10005;</span></div>
+          </div></div>
+        </div>
+        <div class="phone-label">Banner</div>
+        <div class="phone-desc">Always on, auto-refreshes</div>
+      </div>
+      <div class="phone-selector" data-format="interstitial" onclick="toggleFormat(this)">
+        <div class="phone">
+          <div class="phone-check">&#10003;</div>
+          <div class="phone-notch"></div>
+          <div class="phone-screen"><div class="phone-content">
+            <div class="game-placeholder">&#127918;</div>
+            <div class="game-text">Your app</div>
+            <div class="phone-inter-ad"><div class="phone-inter-ad-box"><span>Interstitial Ad</span><span class="skip">Skip in 5s &#10005;</span></div></div>
+          </div></div>
+        </div>
+        <div class="phone-label">Interstitial</div>
+        <div class="phone-desc">Fullscreen between levels</div>
+      </div>
+      <div class="phone-selector" data-format="rewarded" onclick="toggleFormat(this)">
+        <div class="phone">
+          <div class="phone-check">&#10003;</div>
+          <div class="phone-notch"></div>
+          <div class="phone-screen"><div class="phone-content">
+            <div class="game-placeholder">&#127918;</div>
+            <div class="game-text">Your app</div>
+            <div class="phone-rewarded-ad"><div class="phone-rewarded-ad-btn">&#9654; Watch Ad<br>for Reward</div></div>
+          </div></div>
+        </div>
+        <div class="phone-label">Rewarded Video</div>
+        <div class="phone-desc">User opts-in, highest eCPM</div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" id="btn1next" disabled onclick="goStep(2)">Next</button>
+    </div>
+  </section>
+
+  <!-- ===== STEP 2: SESSION ===== -->
+  <section class="step" id="step2">
+    <h2 class="step-title">Design a typical game session</h2>
+
+    <div class="session-flow">
+      <!-- 1. Round duration -->
+      <div class="param-card">
+        <h3>How long is one round?</h3>
+        <div class="round-presets" id="roundPresets">
+          <div class="round-preset" data-dur="15" onclick="setRoundPreset(this, 15)">
+            <div class="preset-icon">&#9889;</div>
+            <div class="preset-name">Quick</div>
+            <div class="preset-dur">15s</div>
+            <div class="preset-ex">Hyper-casual, tap games</div>
+          </div>
+          <div class="round-preset active" data-dur="45" onclick="setRoundPreset(this, 45)">
+            <div class="preset-icon">&#127918;</div>
+            <div class="preset-name">Medium</div>
+            <div class="preset-dur">45s</div>
+            <div class="preset-ex">Puzzle, match-3, runner</div>
+          </div>
+          <div class="round-preset" data-dur="90" onclick="setRoundPreset(this, 90)">
+            <div class="preset-icon">&#9876;&#65039;</div>
+            <div class="preset-name">Long</div>
+            <div class="preset-dur">90s</div>
+            <div class="preset-ex">Strategy, RPG, simulation</div>
+          </div>
+          <div class="round-preset" data-dur="0" onclick="setRoundPreset(this, 0)">
+            <div class="preset-icon">&#9881;&#65039;</div>
+            <div class="preset-name">Custom</div>
+            <div class="preset-dur" id="customDurLabel">60s</div>
+            <div class="preset-ex">Set your own</div>
+          </div>
+        </div>
+        <div class="fine-tune" id="fineTune" style="display:none">
+          <label>Fine-tune:</label>
+          <input type="range" id="slRoundDur" min="5" max="180" value="45" step="5" oninput="updateSession()">
+          <span class="val" id="vRoundDur">45s</span>
+        </div>
+      </div>
+
+      <!-- 2. Rounds per session -->
+      <div class="param-card">
+        <h3>Rounds per session (average player)</h3>
+        <div class="rounds-row">
+          <div class="slider-part">
+            <input type="range" id="slRounds" min="1" max="20" value="5" oninput="updateSession()">
+            <span class="val" id="vRounds">5</span>
+          </div>
+        </div>
+        <div class="derived-stats">
+          <span class="derived-stat">Total session: <strong id="dSessionLen">3:45</strong></span>
+          <span class="derived-stat">Level transitions: <strong id="dTransitions">4</strong></span>
+        </div>
+      </div>
+
+      <!-- 3. Ad rules -->
+      <div class="param-card" id="adRulesPanel">
+        <h3>Ad placement rules</h3>
+        <div class="ad-rules-row" id="adRules"></div>
+      </div>
+
+      <!-- 4. Timeline -->
+      <div class="timeline-container">
+        <div class="round-markers" id="roundMarkers"></div>
+        <div class="timeline-axis" id="timelineAxis"></div>
+        <div class="timeline-tracks" id="timelineTracks"></div>
+        <div class="timeline-summary" id="timelineSummary"></div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-back" onclick="goStep(1)">Back</button>
+      <button class="btn btn-primary" onclick="goStep(3)">Next</button>
+    </div>
+  </section>
+
+  <!-- ===== STEP 3: AUDIENCE + GEO ===== -->
+  <section class="step" id="step3">
+    <h2 class="step-title">Your audience</h2>
+
+    <div class="step3-grid">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="audience-card">
+          <h3>Monthly Active Users (MAU)</h3>
+          <input type="text" class="mau-input" id="mauInput" placeholder="e.g. 100,000" oninput="formatMAU()">
+          <div class="mau-presets">
+            <button class="mau-preset" onclick="setMAU(10000)">10K</button>
+            <button class="mau-preset" onclick="setMAU(50000)">50K</button>
+            <button class="mau-preset" onclick="setMAU(100000)">100K</button>
+            <button class="mau-preset" onclick="setMAU(500000)">500K</button>
+            <button class="mau-preset" onclick="setMAU(1000000)">1M</button>
+          </div>
+        </div>
+        <div class="audience-card">
+          <h3>Sessions per user per day</h3>
+          <div class="slider-row" style="margin:0">
+            <input type="range" id="slSessions" min="1" max="10" value="3" oninput="document.getElementById('vSessions').textContent=this.value">
+            <span class="val" id="vSessions">3</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="geo-compact">
+        <h3>Where are your users?</h3>
+        <div class="geo-row">
+          <span class="geo-label">Tier 1 <span class="geo-dim">US, EU, JP</span></span>
+          <input type="range" id="geoSlider1" min="0" max="100" value="20" oninput="updateGeo()">
+          <span class="geo-pct" id="geoPct1">20%</span>
+        </div>
+        <div class="geo-row">
+          <span class="geo-label">Tier 2 <span class="geo-dim">BR, TR, TH</span></span>
+          <input type="range" id="geoSlider2" min="0" max="100" value="30" oninput="updateGeo()">
+          <span class="geo-pct" id="geoPct2">30%</span>
+        </div>
+        <div class="geo-row">
+          <span class="geo-label">Tier 3 <span class="geo-dim">IN, ID, rest</span></span>
+          <input type="range" id="geoSlider3" min="0" max="100" value="50" oninput="updateGeo()">
+          <span class="geo-pct" id="geoPct3">50%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-back" onclick="goStep(2)">Back</button>
+      <button class="btn btn-primary" id="btnCalc" disabled onclick="calculate()">Calculate Revenue</button>
+    </div>
+  </section>
+
+  <!-- ===== STEP 4: RESULTS ===== -->
+  <section class="step" id="step4">
+    <div class="result-hero">
+      <div class="result-label">Estimated Monthly Revenue</div>
+      <div class="result-number" id="resultNumber">$0</div>
+      <div class="result-per-month">per month</div>
+    </div>
+
+    <div class="result-breakdown">
+      <div class="result-card">
+        <h3>Revenue by Format</h3>
+        <div class="stacked-bar" id="stackedBar"></div>
+        <div id="formatBreakdown"></div>
+      </div>
+      <div class="result-card">
+        <h3>Per-User Metrics</h3>
+        <div id="userMetrics"></div>
+      </div>
+    </div>
+
+    <div class="upsell-card">
+      <h3>Want to earn more?</h3>
+      <p>CAS.AI mediation typically boosts ad revenue by 20-40% via smart waterfall optimization.</p>
+      <div class="upsell-numbers">
+        <span class="upsell-current" id="upsellCurrent">$0</span>
+        <span class="upsell-arrow">&rarr;</span>
+        <div>
+          <div class="upsell-optimized" id="upsellOptimized">$0</div>
+          <div class="upsell-diff" id="upsellDiff">+$0/mo</div>
+        </div>
+      </div>
+      <a href="https://cas.ai" class="btn-cta">Get Free Mediation Audit</a>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-back" onclick="goStep(3)">Recalculate</button>
+      <button class="btn btn-back" onclick="goStep(1)">Start Over</button>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">Built by <a href="https://cas.ai" style="color:var(--primary);text-decoration:none;font-weight:600">CAS.AI</a> — Ad mediation platform for mobile developers</footer>
+
+<script>
+// ===== STATE =====
+const state = {
+  formats: new Set(),
+  roundDur: 45,
+  rounds: 5,
+  interEvery: 2,   // show inter every N transitions
+  rewardedEvery: 3, // offer rewarded every N rounds
+  mau: 0,
+  sessions: 3,
+  geo: { tier1: 20, tier2: 30, tier3: 50 }
+};
+
+const ECPM = {
+  banner:       { tier1: 1.20, tier2: 0.45, tier3: 0.15 },
+  interstitial: { tier1: 12.00, tier2: 4.50, tier3: 1.50 },
+  rewarded:     { tier1: 18.00, tier2: 7.00, tier3: 2.50 }
+};
+
+// ===== NAVIGATION =====
+function goStep(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step' + n).classList.add('active');
+  document.querySelectorAll('.progress-step').forEach(p => {
+    const s = +p.dataset.step;
+    p.classList.toggle('done', s < n);
+    p.classList.toggle('active', s === n);
+  });
+  if (n === 2) updateSession();
+  if (n === 3) updateGeo();
+}
+
+// ===== STEP 1: FORMATS =====
+function toggleFormat(el) {
+  const fmt = el.dataset.format;
+  el.classList.toggle('selected');
+  if (state.formats.has(fmt)) state.formats.delete(fmt);
+  else state.formats.add(fmt);
+  document.getElementById('btn1next').disabled = state.formats.size === 0;
+}
+
+// ===== STEP 2: SESSION =====
+function setRoundPreset(el, dur) {
+  document.querySelectorAll('.round-preset').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  const fineTune = document.getElementById('fineTune');
+  if (dur === 0) {
+    // Custom — show slider
+    fineTune.style.display = 'flex';
+    state.roundDur = +document.getElementById('slRoundDur').value;
+  } else {
+    fineTune.style.display = 'none';
+    state.roundDur = dur;
+    document.getElementById('slRoundDur').value = dur;
+    document.getElementById('vRoundDur').textContent = dur + 's';
+  }
+  updateSession();
+}
+
+function updateSession() {
+  // Only read slider if custom is active
+  const customActive = document.querySelector('.round-preset[data-dur="0"].active');
+  if (customActive) {
+    state.roundDur = +document.getElementById('slRoundDur').value;
+    document.getElementById('vRoundDur').textContent = state.roundDur + 's';
+    document.getElementById('customDurLabel').textContent = state.roundDur + 's';
+  }
+  state.rounds = +document.getElementById('slRounds').value;
+  document.getElementById('vRounds').textContent = state.rounds;
+
+  const totalSec = state.roundDur * state.rounds;
+  const transitions = Math.max(0, state.rounds - 1);
+  const mins = Math.floor(totalSec / 60);
+  const secs = totalSec % 60;
+  document.getElementById('dSessionLen').textContent = mins + ':' + String(secs).padStart(2, '0');
+  document.getElementById('dTransitions').textContent = transitions;
+
+  // Build ad rules UI
+  buildAdRules(totalSec, transitions);
+  renderTimeline(totalSec);
+}
+
+function buildAdRules(totalSec, transitions) {
+  const el = document.getElementById('adRules');
+  el.innerHTML = '';
+
+  if (state.formats.has('banner')) {
+    const bannerCount = Math.max(1, Math.floor(totalSec / 30));
+    const div = document.createElement('div');
+    div.className = 'ad-rules-card banner-rules';
+    div.innerHTML =
+      '<div class="rule-title" style="color:var(--green)">Banner</div>' +
+      '<div class="rule-result">Always on, refresh 30s &rarr; <strong>' + bannerCount + ' impressions</strong></div>';
+    el.appendChild(div);
+  }
+
+  if (state.formats.has('interstitial') && transitions > 0) {
+    const interCount = Math.max(1, Math.floor(transitions / state.interEvery));
+    const div = document.createElement('div');
+    div.className = 'ad-rules-card inter-rules';
+    div.innerHTML =
+      '<div class="rule-title" style="color:var(--orange)">Interstitial</div>' +
+      '<div class="slider-row" style="margin:6px 0">' +
+        '<label style="min-width:auto;font-size:0.7rem">Every</label>' +
+        '<input type="range" min="1" max="' + Math.max(transitions, 1) + '" value="' + state.interEvery + '" step="1" oninput="state.interEvery=+this.value; updateSession()">' +
+        '<span class="val" style="font-size:0.8rem">' + state.interEvery + '</span>' +
+        '<span style="font-size:0.65rem;color:var(--text-dim)">transitions</span>' +
+      '</div>' +
+      '<div class="rule-result">' + transitions + ' transitions &rarr; <strong>' + interCount + ' inters</strong></div>';
+    el.appendChild(div);
+  }
+
+  if (state.formats.has('rewarded')) {
+    const rewardedCount = Math.max(1, Math.floor(state.rounds / state.rewardedEvery));
+    const div = document.createElement('div');
+    div.className = 'ad-rules-card rewarded-rules';
+    div.innerHTML =
+      '<div class="rule-title" style="color:var(--purple)">Rewarded</div>' +
+      '<div class="slider-row" style="margin:6px 0">' +
+        '<label style="min-width:auto;font-size:0.7rem">Every</label>' +
+        '<input type="range" min="1" max="' + Math.max(state.rounds, 1) + '" value="' + state.rewardedEvery + '" step="1" oninput="state.rewardedEvery=+this.value; updateSession()">' +
+        '<span class="val" style="font-size:0.8rem">' + state.rewardedEvery + '</span>' +
+        '<span style="font-size:0.65rem;color:var(--text-dim)">rounds</span>' +
+      '</div>' +
+      '<div class="rule-result">' + state.rounds + ' rounds &rarr; <strong>' + rewardedCount + ' rewarded</strong></div>';
+    el.appendChild(div);
+  }
+
+  if (el.innerHTML === '') {
+    el.innerHTML = '<div style="font-size:0.75rem;color:var(--text-dim)">Select formats in step 1</div>';
+  }
+}
+
+function getAdCounts() {
+  const totalSec = state.roundDur * state.rounds;
+  const transitions = Math.max(0, state.rounds - 1);
+  return {
+    banner: state.formats.has('banner') ? Math.max(1, Math.floor(totalSec / 30)) : 0,
+    interstitial: (state.formats.has('interstitial') && transitions > 0) ? Math.max(1, Math.floor(transitions / state.interEvery)) : 0,
+    rewarded: state.formats.has('rewarded') ? Math.max(1, Math.floor(state.rounds / state.rewardedEvery)) : 0
+  };
+}
+
+function renderTimeline(totalSec) {
+  const transitions = Math.max(0, state.rounds - 1);
+  const counts = getAdCounts();
+
+  // Round markers
+  const rm = document.getElementById('roundMarkers');
+  rm.innerHTML = '';
+  for (let i = 0; i < state.rounds; i++) {
+    const block = document.createElement('div');
+    block.className = 'round-block';
+    block.style.width = (100 / state.rounds) + '%';
+    block.textContent = 'R' + (i + 1);
+    rm.appendChild(block);
+    if (i < state.rounds - 1) {
+      const div = document.createElement('div');
+      div.className = 'round-divider';
+      rm.appendChild(div);
+    }
+  }
+
+  // Axis
+  const axisEl = document.getElementById('timelineAxis');
+  axisEl.innerHTML = '';
+  const tickInterval = totalSec <= 120 ? 15 : 30;
+  for (let t = 0; t <= totalSec; t += tickInterval) {
+    const pct = (t / totalSec) * 100;
+    const m = Math.floor(t / 60), s = t % 60;
+    const tick = document.createElement('span');
+    tick.className = 'timeline-tick';
+    tick.style.left = pct + '%';
+    tick.textContent = m + ':' + String(s).padStart(2, '0');
+    axisEl.appendChild(tick);
+  }
+
+  // Tracks
+  const tracksEl = document.getElementById('timelineTracks');
+  tracksEl.innerHTML = '';
+
+  if (counts.banner > 0) {
+    const row = makeTrack('Banners', 'var(--green)');
+    const lane = row.querySelector('.track-lane');
+    lane.classList.add('banner-lane');
+    const interval = totalSec / counts.banner;
+    for (let i = 0; i < counts.banner; i++) {
+      const m = document.createElement('div');
+      m.className = 'track-marker banner-m';
+      m.style.left = ((i * interval / totalSec) * 100) + '%';
+      m.style.width = Math.max(((interval / totalSec) * 100) - 0.5, 1) + '%';
+      m.title = 'Banner refresh #' + (i + 1);
+      lane.appendChild(m);
+    }
+    tracksEl.appendChild(row);
+  }
+
+  if (counts.interstitial > 0) {
+    const row = makeTrack('Inters', 'var(--orange)');
+    const lane = row.querySelector('.track-lane');
+    // Place at transition points
+    let placed = 0;
+    for (let t = 0; t < transitions && placed < counts.interstitial; t++) {
+      if ((t + 1) % state.interEvery === 0) {
+        const pos = ((t + 1) * state.roundDur / totalSec) * 100;
+        const m = document.createElement('div');
+        m.className = 'track-marker inter-m';
+        m.style.left = 'calc(' + pos + '% - 7px)';
+        m.title = 'Ad break after round ' + (t + 1);
+        lane.appendChild(m);
+        placed++;
+      }
+    }
+    tracksEl.appendChild(row);
+  }
+
+  if (counts.rewarded > 0) {
+    const row = makeTrack('Rewarded', 'var(--purple)');
+    const lane = row.querySelector('.track-lane');
+    let placed = 0;
+    for (let r = 0; r < state.rounds && placed < counts.rewarded; r++) {
+      if ((r + 1) % state.rewardedEvery === 0) {
+        const midRound = (r + 0.5) * state.roundDur;
+        const pos = (midRound / totalSec) * 100;
+        const m = document.createElement('div');
+        m.className = 'track-marker rewarded-m';
+        m.style.left = 'calc(' + pos + '% - 7px)';
+        m.innerHTML = '&#9654;';
+        m.title = 'Rewarded offer in round ' + (r + 1);
+        lane.appendChild(m);
+        placed++;
+      }
+    }
+    tracksEl.appendChild(row);
+  }
+
+  // Summary
+  const parts = [];
+  if (counts.banner > 0) parts.push(counts.banner + ' banner refreshes');
+  if (counts.interstitial > 0) parts.push(counts.interstitial + ' interstitial' + (counts.interstitial > 1 ? 's' : ''));
+  if (counts.rewarded > 0) parts.push(counts.rewarded + ' rewarded');
+  document.getElementById('timelineSummary').textContent = parts.join(' · ') || 'Select formats first';
+}
+
+function makeTrack(name, color) {
+  const row = document.createElement('div');
+  row.className = 'timeline-track';
+  const label = document.createElement('div');
+  label.className = 'track-label';
+  label.innerHTML = '<div class="dot" style="background:' + color + '"></div>' + name;
+  row.appendChild(label);
+  const lane = document.createElement('div');
+  lane.className = 'track-lane';
+  row.appendChild(lane);
+  return row;
+}
+
+// ===== STEP 3: AUDIENCE =====
+function formatMAU() {
+  const raw = document.getElementById('mauInput').value.replace(/[^0-9]/g, '');
+  state.mau = parseInt(raw) || 0;
+  if (raw) document.getElementById('mauInput').value = parseInt(raw).toLocaleString('en-US');
+  document.querySelectorAll('.mau-preset').forEach(b => b.classList.remove('active'));
+  document.getElementById('btnCalc').disabled = state.mau === 0;
+}
+
+function setMAU(n) {
+  state.mau = n;
+  document.getElementById('mauInput').value = n.toLocaleString('en-US');
+  document.querySelectorAll('.mau-preset').forEach(b => {
+    const v = parseInt(b.textContent.replace(/[KM]/g, '')) * (b.textContent.includes('M') ? 1000000 : 1000);
+    b.classList.toggle('active', v === n);
+  });
+  document.getElementById('btnCalc').disabled = false;
+}
+
+function updateGeo() {
+  const r1 = +document.getElementById('geoSlider1').value;
+  const r2 = +document.getElementById('geoSlider2').value;
+  const r3 = +document.getElementById('geoSlider3').value;
+  const total = r1 + r2 + r3 || 1;
+  state.geo.tier1 = Math.round(r1 / total * 100);
+  state.geo.tier2 = Math.round(r2 / total * 100);
+  state.geo.tier3 = 100 - state.geo.tier1 - state.geo.tier2;
+  document.getElementById('geoPct1').textContent = state.geo.tier1 + '%';
+  document.getElementById('geoPct2').textContent = state.geo.tier2 + '%';
+  document.getElementById('geoPct3').textContent = state.geo.tier3 + '%';
+}
+
+// ===== STEP 4: CALCULATE =====
+function calculate() {
+  goStep(4);
+  state.sessions = +document.getElementById('slSessions').value;
+  const counts = getAdCounts();
+  const t1 = state.geo.tier1 / 100, t2 = state.geo.tier2 / 100, t3 = state.geo.tier3 / 100;
+
+  let totalRevenue = 0;
+  const byFormat = {};
+  const fmts = {
+    banner: { count: counts.banner, ecpm: ECPM.banner },
+    interstitial: { count: counts.interstitial, ecpm: ECPM.interstitial },
+    rewarded: { count: counts.rewarded, ecpm: ECPM.rewarded }
+  };
+
+  Object.entries(fmts).forEach(([name, { count, ecpm }]) => {
+    if (count === 0) { byFormat[name] = 0; return; }
+    const daily = state.sessions * count;
+    const blended = t1 * ecpm.tier1 + t2 * ecpm.tier2 + t3 * ecpm.tier3;
+    const monthly = state.mau * daily * 30 * blended / 1000;
+    byFormat[name] = monthly;
+    totalRevenue += monthly;
+  });
+
+  animateCount(document.getElementById('resultNumber'), totalRevenue);
+
+  // Stacked bar
+  const bar = document.getElementById('stackedBar');
+  bar.innerHTML = '';
+  const colors = { banner: 'var(--green)', interstitial: 'var(--orange)', rewarded: 'var(--purple)' };
+  const labels = { banner: 'Banners', interstitial: 'Interstitials', rewarded: 'Rewarded' };
+  Object.entries(byFormat).forEach(([n, v]) => {
+    if (v === 0) return;
+    const d = document.createElement('div');
+    d.style.background = colors[n];
+    d.style.width = ((v / totalRevenue) * 100) + '%';
+    d.textContent = Math.round(v / totalRevenue * 100) + '%';
+    bar.appendChild(d);
+  });
+
+  const fbd = document.getElementById('formatBreakdown');
+  fbd.innerHTML = '';
+  Object.entries(byFormat).forEach(([n, v]) => {
+    if (v === 0) return;
+    const r = document.createElement('div');
+    r.className = 'breakdown-row';
+    r.innerHTML = '<span class="breakdown-label"><div class="pie-legend-dot" style="background:' + colors[n] + '"></div>' + labels[n] + '</span><span class="breakdown-value">$' + formatNum(v) + '</span>';
+    fbd.appendChild(r);
+  });
+
+  const totalDaily = Object.values(counts).reduce((a, b) => a + b, 0) * state.sessions;
+  const dau = state.mau * 0.3;
+  const arpdau = dau > 0 ? totalRevenue / 30 / dau : 0;
+  const arpu = state.mau > 0 ? totalRevenue / state.mau : 0;
+  document.getElementById('userMetrics').innerHTML =
+    '<div class="breakdown-row"><span class="breakdown-label">ARPDAU</span><span class="breakdown-value">$' + arpdau.toFixed(4) + '</span></div>' +
+    '<div class="breakdown-row"><span class="breakdown-label">Monthly ARPU</span><span class="breakdown-value">$' + arpu.toFixed(3) + '</span></div>' +
+    '<div class="breakdown-row"><span class="breakdown-label">Daily ads/user</span><span class="breakdown-value">' + totalDaily + '</span></div>' +
+    '<div class="breakdown-row"><span class="breakdown-label">Est. DAU (30% MAU)</span><span class="breakdown-value">' + formatNum(dau) + '</span></div>';
+
+  const opt = totalRevenue * 1.3;
+  document.getElementById('upsellCurrent').textContent = '$' + formatNum(totalRevenue);
+  document.getElementById('upsellOptimized').textContent = '$' + formatNum(opt);
+  document.getElementById('upsellDiff').textContent = '+$' + formatNum(opt - totalRevenue) + '/mo';
+}
+
+function animateCount(el, target) {
+  const dur = 1500, start = performance.now();
+  (function tick(now) {
+    const t = Math.min((now - start) / dur, 1);
+    el.textContent = '$' + formatNum(target * (1 - Math.pow(1 - t, 3)));
+    if (t < 1) requestAnimationFrame(tick);
+  })(start);
+}
+
+function formatNum(n) {
+  if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
+  if (n >= 1000) return Math.round(n).toLocaleString('en-US');
+  return n.toFixed(0);
+}
+
+// ===== INIT =====
+updateGeo();
+</script>
+</body>
+</html>

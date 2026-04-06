@@ -22,6 +22,7 @@ on:
       - '05-research/hubspot-pipeline-analysis.md'
       - '05-research/internal-novatska-creatives.md'
       - 'CPOMind/product-architecture-research.md'
+      - '06-marketing-site/ltv-calculator.html'
       - '.github/workflows/docs.yml'
 
 permissions:
@@ -63,6 +64,7 @@ jobs:
           cp 03-product/api-contract.md public/api-contract.md
           cp 04-bi/data-catalog.md public/data-catalog.md
           cp CPOMind/product-architecture-research.md public/product-architecture.md
+          cp 06-marketing-site/ltv-calculator.html public/ltv-calculator.html
 
       - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3
