@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EOS Organizational Checkup — 20 вопросов из Traction</title>
+<style>
+  :root {
+    --bg: #f7f7f5;
+    --card: #ffffff;
+    --text: #1a1a1a;
+    --muted: #6b6b6b;
+    --border: #e5e5e0;
+    --accent: #1e40af;
+    --accent-light: #eff6ff;
+    --green: #15803d;
+    --yellow: #ca8a04;
+    --red: #b91c1c;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 32px 16px 96px;
+    line-height: 1.5;
+  }
+  .container { max-width: 820px; margin: 0 auto; }
+  header {
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  h1 { font-size: 28px; margin: 0 0 8px; }
+  .subtitle { color: var(--muted); font-size: 15px; margin: 0 0 16px; }
+  .instructions {
+    background: var(--accent-light);
+    border-left: 3px solid var(--accent);
+    padding: 14px 18px;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #1e3a8a;
+  }
+  .instructions ul { margin: 8px 0 0; padding-left: 20px; }
+  .instructions li { margin: 4px 0; }
+
+  .group-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 28px 0 12px;
+    padding-left: 4px;
+  }
+  .group-label:first-of-type { margin-top: 8px; }
+
+  .question {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-bottom: 10px;
+  }
+  .q-number {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    background: #f0f0eb;
+    color: var(--muted);
+    border-radius: 50%;
+    font-size: 13px;
+    font-weight: 600;
+    margin-right: 10px;
+    vertical-align: top;
+  }
+  .q-text {
+    display: inline-block;
+    width: calc(100% - 44px);
+    font-size: 15px;
+    line-height: 1.45;
+  }
+  .scale {
+    display: flex;
+    gap: 6px;
+    margin-top: 14px;
+    padding-left: 38px;
+  }
+  .scale-option {
+    flex: 1;
+    text-align: center;
+  }
+  .scale-option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .scale-option label {
+    display: block;
+    padding: 8px 4px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--muted);
+    background: #fafaf8;
+    transition: all 0.12s ease;
+    user-select: none;
+  }
+  .scale-option label:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .scale-option input:checked + label {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+  .scale-labels {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 38px 0;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .actions {
+    margin-top: 32px;
+    text-align: center;
+  }
+  button {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 14px 36px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  button:hover { background: #1e3a8a; }
+  button:disabled { background: #cbd5e1; cursor: not-allowed; }
+
+  .reset {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    margin-left: 12px;
+    padding: 14px 24px;
+  }
+  .reset:hover { background: #f0f0eb; color: var(--text); }
+
+  .result {
+    display: none;
+    margin-top: 32px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+  }
+  .result.visible { display: block; }
+  .result h2 {
+    margin: 0 0 16px;
+    font-size: 20px;
+  }
+  .score-big {
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 1;
+    margin: 8px 0;
+  }
+  .score-of { color: var(--muted); font-size: 24px; font-weight: 400; }
+  .bar {
+    width: 100%;
+    height: 14px;
+    background: #f0f0eb;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 18px 0 24px;
+  }
+  .bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--red), var(--yellow), var(--green));
+    transition: width 0.5s ease;
+  }
+  .interp {
+    padding: 16px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.55;
+    margin-bottom: 20px;
+  }
+  .interp-bad { background: #fef2f2; border-left: 3px solid var(--red); color: #7f1d1d; }
+  .interp-mid { background: #fefce8; border-left: 3px solid var(--yellow); color: #713f12; }
+  .interp-good { background: #f0fdf4; border-left: 3px solid var(--green); color: #14532d; }
+
+  .breakdown {
+    margin-top: 8px;
+  }
+  .breakdown h3 {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin: 0 0 12px;
+  }
+  .comp-row {
+    display: grid;
+    grid-template-columns: 140px 1fr 60px;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+  .comp-row:last-child { border-bottom: none; }
+  .comp-name { font-weight: 500; }
+  .comp-bar {
+    height: 8px;
+    background: #f0f0eb;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .comp-fill {
+    height: 100%;
+    background: var(--accent);
+    transition: width 0.5s ease;
+  }
+  .comp-score {
+    text-align: right;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .footer-note {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--muted);
+    text-align: center;
+  }
+  .error {
+    color: var(--red);
+    text-align: center;
+    margin-top: 12px;
+    font-size: 14px;
+    display: none;
+  }
+  .error.visible { display: block; }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>EOS Organizational Checkup</h1>
+    <p class="subtitle">20 утверждений из начала книги Gino Wickman — Traction. Честно оцените, насколько каждое верно для вашей организации.</p>
+    <div class="instructions">
+      <strong>Как оценивать:</strong>
+      <ul>
+        <li><b>1</b> — слабо / почти не выполняется</li>
+        <li><b>2</b> — ниже среднего</li>
+        <li><b>3</b> — средне, частично работает</li>
+        <li><b>4</b> — хорошо, выполняется почти всегда</li>
+        <li><b>5</b> — отлично, embedded в ДНК компании</li>
+      </ul>
+    </div>
+  </header>
+
+  <form id="checkup">
+    <div class="group-label">Vision · Vision</div>
+    <!-- questions 1-7 will be inserted here by JS -->
+
+    <div class="group-label">People · Команда</div>
+    <!-- 8-10 -->
+
+    <div class="group-label">Issues · Открытость и решение проблем</div>
+    <!-- 11, 15 -->
+
+    <div class="group-label">Traction · Дисциплина и ритм</div>
+    <!-- 12, 13, 14 -->
+
+    <div class="group-label">Process · Процессы</div>
+    <!-- 16, 17, 20 -->
+
+    <div class="group-label">Data · Метрики</div>
+    <!-- 18, 19 -->
+
+    <div class="error" id="error">Пожалуйста, ответьте на все 20 вопросов перед подсчётом.</div>
+    <div class="actions">
+      <button type="button" id="calc">Посчитать результат</button>
+      <button type="button" class="reset" id="reset">Сбросить</button>
+    </div>
+  </form>
+
+  <div class="result" id="result">
+    <h2>Ваш Organizational Checkup</h2>
+    <div>
+      <span class="score-big" id="totalScore">0</span><span class="score-of"> / 100</span>
+    </div>
+    <div class="bar"><div class="bar-fill" id="barFill" style="width:0%"></div></div>
+    <div class="interp" id="interp"></div>
+
+    <div class="breakdown">
+      <h3>По компонентам EOS</h3>
+      <div id="breakdownList"></div>
+    </div>
+
+    <div class="footer-note">
+      Большинство компаний начинают с 30-50. Здоровая EOS-компания держит 80+. Прогоняйте чек-ап раз в квартал.
+    </div>
+  </div>
+</div>
+
+<script>
+const questions = [
+  // id, text, component
+  { id: 1,  text: "У нас есть чёткое видение (Vision) в письменном виде, оно правильно донесено и разделяется всеми сотрудниками.", comp: "Vision" },
+  { id: 2,  text: "Наши core values чётко определены, и мы нанимаем, оцениваем, поощряем и увольняем людей в соответствии с ними.", comp: "Vision" },
+  { id: 3,  text: "Наш Core Focus (основной бизнес) ясен, и наши системы и процессы это отражают.", comp: "Vision" },
+  { id: 4,  text: "Наш 10-Year Target (долгосрочная цель) ясен и донесён до всех в компании.", comp: "Vision" },
+  { id: 5,  text: "Наш целевой рынок (the list) определён, и маркетинг и продажи сфокусированы именно на нём.", comp: "Vision" },
+  { id: 6,  text: "Наши 3 Uniques (отличия от конкурентов) ясны, и все маркетинг и продажи их транслируют.", comp: "Vision" },
+  { id: 7,  text: "У нас есть proven process работы с клиентами — он назван, визуализирован, и все продажники его используют.", comp: "Vision" },
+  { id: 8,  text: "Все люди в нашей организации — правильные люди (fit нашей культуре и разделяют core values).", comp: "People" },
+  { id: 9,  text: "Наш Accountability Chart (структура ролей и ответственности) чёткий, полный и постоянно обновляется.", comp: "People" },
+  { id: 10, text: "Каждый на правильном месте (GWC: Gets it, Wants it, has Capacity to do it).", comp: "People" },
+  { id: 11, text: "Наша leadership-команда открыта и честна, демонстрирует высокий уровень доверия.", comp: "Issues" },
+  { id: 12, text: "У всех есть Rocks (90-дневные приоритеты), и фокус именно на них.", comp: "Traction" },
+  { id: 13, text: "У всех в компании есть Meeting Pulse и они вовлечены — еженедельные встречи в одно и то же время.", comp: "Traction" },
+  { id: 14, text: "Все встречи проходят в один и тот же день, в одно время, с одинаковой повесткой, начинаются и заканчиваются вовремя.", comp: "Traction" },
+  { id: 15, text: "Все команды чётко идентифицируют, обсуждают и решают issues для долгосрочного блага компании.", comp: "Issues" },
+  { id: 16, text: "Наши системы и процессы, которые двигают бизнес, задокументированы, упрощены и соблюдаются всеми для consistent результата.", comp: "Process" },
+  { id: 17, text: "У нас есть система регулярного фидбека от клиентов и сотрудников — мы всегда знаем уровень их удовлетворённости.", comp: "Process" },
+  { id: 18, text: "У нас есть Scorecard для отслеживания weekly-метрик.", comp: "Data" },
+  { id: 19, text: "У каждого в организации есть хотя бы одно число, за которое он отвечает каждую неделю.", comp: "Data" },
+  { id: 20, text: "Мы задокументировали основные процессы, сотрудники о них знают и им следуют.", comp: "Process" }
+];
+
+const componentOrder = ["Vision", "People", "Issues", "Traction", "Process", "Data"];
+const componentLabels = {
+  Vision: "Vision",
+  People: "People",
+  Issues: "Issues",
+  Traction: "Traction",
+  Process: "Process",
+  Data: "Data"
+};
+const scaleLabels = ["Слабо", "Ниже среднего", "Средне", "Хорошо", "Отлично"];
+
+function buildQuestions() {
+  const form = document.getElementById("checkup");
+  const groups = form.querySelectorAll(".group-label");
+
+  const byComp = {
+    "Vision": [1,2,3,4,5,6,7],
+    "People": [8,9,10],
+    "Issues": [11,15],
+    "Traction": [12,13,14],
+    "Process": [16,17,20],
+    "Data": [18,19]
+  };
+
+  componentOrder.forEach((comp, idx) => {
+    const label = groups[idx];
+    const ids = byComp[comp];
+    let html = "";
+    ids.forEach(id => {
+      const q = questions.find(x => x.id === id);
+      html += `
+        <div class="question">
+          <div>
+            <span class="q-number">${q.id}</span><span class="q-text">${q.text}</span>
+          </div>
+          <div class="scale">
+            ${[1,2,3,4,5].map(v => `
+              <div class="scale-option">
+                <input type="radio" name="q${q.id}" id="q${q.id}_${v}" value="${v}">
+                <label for="q${q.id}_${v}">${v}</label>
+              </div>
+            `).join("")}
+          </div>
+          <div class="scale-labels">
+            <span>1 — слабо</span>
+            <span>5 — отлично</span>
+          </div>
+        </div>
+      `;
+    });
+    label.insertAdjacentHTML("afterend", html);
+  });
+}
+
+function calculate() {
+  const answers = {};
+  let missing = false;
+  questions.forEach(q => {
+    const selected = document.querySelector(`input[name="q${q.id}"]:checked`);
+    if (!selected) { missing = true; }
+    else { answers[q.id] = parseInt(selected.value, 10); }
+  });
+
+  const errorEl = document.getElementById("error");
+  if (missing) {
+    errorEl.classList.add("visible");
+    return;
+  }
+  errorEl.classList.remove("visible");
+
+  // Total
+  let total = 0;
+  Object.values(answers).forEach(v => total += v);
+
+  // Per component
+  const compStats = {};
+  componentOrder.forEach(c => { compStats[c] = { sum: 0, count: 0 }; });
+  questions.forEach(q => {
+    compStats[q.comp].sum += answers[q.id];
+    compStats[q.comp].count += 1;
+  });
+
+  // Display
+  document.getElementById("totalScore").textContent = total;
+  document.getElementById("barFill").style.width = total + "%";
+
+  let interpClass, interpText;
+  if (total < 40) {
+    interpClass = "interp interp-bad";
+    interpText = "<b>Стартовая зона (20-40).</b> Большинство компаний начинают здесь. Дисциплины и системы пока нет — нужен фундамент: V/TO, Accountability Chart, weekly L10. Начните с одной команды, не пытайтесь раскатать всё сразу.";
+  } else if (total < 60) {
+    interpClass = "interp interp-mid";
+    interpText = "<b>Зона переходного периода (40-60).</b> Базовые инструменты внедрены, но работают неравномерно. Сфокусируйтесь на 2-3 слабых компонентах, выберите по 1 Rock на квартал для починки каждого.";
+  } else if (total < 80) {
+    interpClass = "interp interp-mid";
+    interpText = "<b>Working EOS company (60-80).</b> Система живёт. Дисциплина L10 и scorecard на месте. Сейчас важно <b>не откатываться</b> — каждый отпуск или кризис проверяет систему.";
+  } else {
+    interpClass = "interp interp-good";
+    interpText = "<b>Healthy EOS company (80+).</b> Редкая зона. Vision разделяется всеми, scorecard в ритме, IDS работает. Главный риск — самоуспокоенность. Прогоняйте чек-ап каждый квартал и смотрите на тренд, а не на абсолютное число.";
+  }
+
+  const interpEl = document.getElementById("interp");
+  interpEl.className = interpClass;
+  interpEl.innerHTML = interpText;
+
+  // Breakdown
+  const breakdownEl = document.getElementById("breakdownList");
+  breakdownEl.innerHTML = componentOrder.map(c => {
+    const max = compStats[c].count * 5;
+    const sum = compStats[c].sum;
+    const pct = Math.round((sum / max) * 100);
+    return `
+      <div class="comp-row">
+        <span class="comp-name">${componentLabels[c]}</span>
+        <div class="comp-bar"><div class="comp-fill" style="width:${pct}%"></div></div>
+        <span class="comp-score">${sum}/${max}</span>
+      </div>
+    `;
+  }).join("");
+
+  document.getElementById("result").classList.add("visible");
+  document.getElementById("result").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function resetForm() {
+  document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+  document.getElementById("result").classList.remove("visible");
+  document.getElementById("error").classList.remove("visible");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+buildQuestions();
+document.getElementById("calc").addEventListener("click", calculate);
+document.getElementById("reset").addEventListener("click", resetForm);
+</script>
+</body>
+</html>

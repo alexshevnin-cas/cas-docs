@@ -20,6 +20,9 @@
 - **Marketing**
   - [LTV Calculator](ltv-calculator.html)
 
+- **Management**
+  - [EOS Organizational Checkup](eos-checkup.html)
+
 - **Research**
   - [Битрикс CRM — анализ pipeline](bitrix-crm-analysis.md)
   - [HubSpot — оценка пайплайна по менеджерам](hubspot-pipeline-analysis.md)

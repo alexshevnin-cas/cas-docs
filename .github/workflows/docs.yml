@@ -23,6 +23,7 @@ on:
       - '05-research/internal-novatska-creatives.md'
       - 'CPOMind/product-architecture-research.md'
       - '06-marketing-site/ltv-calculator.html'
+      - '03-product/eos-checkup.html'
       - '.github/workflows/docs.yml'
 
 permissions:
@@ -65,6 +66,7 @@ jobs:
           cp 04-bi/data-catalog.md public/data-catalog.md
           cp CPOMind/product-architecture-research.md public/product-architecture.md
           cp 06-marketing-site/ltv-calculator.html public/ltv-calculator.html
+          cp 03-product/eos-checkup.html public/eos-checkup.html
 
       - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3
