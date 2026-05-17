@@ -21,7 +21,8 @@
   - [LTV Calculator](ltv-calculator.html)
 
 - **Management**
-  - [EOS Organizational Checkup](eos-checkup.html)
+  - [EOS Checkup (RU)](eos-checkup.html)
+  - [EOS Checkup (UA)](eos-checkup-ua.html)
 
 - **Research**
   - [Битрикс CRM — анализ pipeline](bitrix-crm-analysis.md)

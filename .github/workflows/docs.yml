@@ -24,6 +24,7 @@ on:
       - 'CPOMind/product-architecture-research.md'
       - '06-marketing-site/ltv-calculator.html'
       - '03-product/eos-checkup.html'
+      - '03-product/eos-checkup-ua.html'
       - '.github/workflows/docs.yml'
 
 permissions:
@@ -67,6 +68,7 @@ jobs:
           cp CPOMind/product-architecture-research.md public/product-architecture.md
           cp 06-marketing-site/ltv-calculator.html public/ltv-calculator.html
           cp 03-product/eos-checkup.html public/eos-checkup.html
+          cp 03-product/eos-checkup-ua.html public/eos-checkup-ua.html
 
       - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3
