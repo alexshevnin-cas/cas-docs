@@ -21,7 +21,7 @@
   - [LTV Calculator](ltv-calculator.html)
 
 - **Management**
-  - [EOS Checkup (RU)](eos-checkup.html)
+  - [EOS Checkup (RU)](eos-checkup-ru.html)
   - [EOS Checkup (UA)](eos-checkup-ua.html)
 
 - **Research**
