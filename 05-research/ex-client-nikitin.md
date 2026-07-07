@@ -134,4 +134,4 @@
 
 - Исходное интервью: удалено (сырой транскрипт, инсайты в этом файле)
 - User stories: `03-product/user-stories.md`
-- Обзор кабинета: `03-product/cabinet-overview.md`
+- Обзор кабинета: `03-product/cabinet/overview.md`

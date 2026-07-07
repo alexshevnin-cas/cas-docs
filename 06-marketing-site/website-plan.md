@@ -208,7 +208,7 @@ Ads / Organic / Конференции
 | A/B тесты | Google Optimize (deprecated) → VWO / Optimizely / самописное |
 | Аналитика | Google Analytics 4 + события в BI (когда будет) |
 | CRM/Leads | HubSpot (есть в fin-model action items) |
-| Email | Текущее решение + триггеры из product-strategy.md Stream 6 |
+| Email | Текущее решение + триггеры из product-strategy-1pager.md Stream 6 |
 
 ---
 
@@ -231,10 +231,10 @@ Ads / Organic / Конференции
 |----------|---------|
 | `02-business-model/cas-business-model.md` | Каналы привлечения (Inbound, Outbound, Referral) |
 | `02-business-model/CAS Fin Model 0.4 - Acquisition.csv` | Модель привлечения по каналам и месяцам |
-| `03-product/product-strategy.md` (Stream 6) | Маркетинговые нотификации, email-триггеры, upsell |
+| `03-product/product-strategy-1pager.md` (Stream 6) | Маркетинговые нотификации, email-триггеры, upsell |
 | `03-product/onboarding-flow.md` | Онбординг по типам клиентов |
 | `03-product/user-stories.md` (US-PubC-07) | Self-service тестирование прототипа |
-| `03-product/designer-screens.md` | Экраны кабинета для дизайнера — связь с артефактом #11 |
+| `03-product/cabinet/design-spec-cabinet.md` | ТЗ на рестайлинг кабинета (экраны для дизайнера) |
 | `05-research/competitive-ux-reference.md` | Voodoo self-service, AppQuantum лендинг |
 | `06-marketing-site/pub-faq.md` | FAQ для паблишеров — контент для лендинга PubC и блога |
 | `05-research/raw/markroadmap.md` | Транскрипт встречи 11 Feb (маркетинговый роадмап) |

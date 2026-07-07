@@ -12,7 +12,7 @@ $ARGUMENTS
 1. Прочитай `02-business-model/client-types.md` — понять профиль этого типа клиента
 2. Прочитай `03-product/user-stories.md` — какие stories уже есть для этого типа
 3. Прочитай `05-research/research-log.md` и релевантные анализы — что уже известно от похожих клиентов
-4. Прочитай `03-product/product-strategy.md` — текущие приоритеты
+4. Прочитай `03-product/product-strategy-1pager.md` — текущие приоритеты
 5. Прочитай `04-bi/metrics-dictionary.md` — какие метрики доступны / планируются для этого типа
 
 ## Вывод

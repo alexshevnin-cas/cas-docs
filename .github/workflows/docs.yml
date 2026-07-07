@@ -6,20 +6,13 @@ on:
     paths:
       - 'public/**'
       - '03-product/user-stories.md'
-      - '03-product/bi-mvp-project-plan.md'
       - '03-product/roadmap.md'
-      - '03-product/component-map.md'
       - '04-bi/metrics-dictionary.md'
       - '04-bi/filters.md'
       - '03-product/sdk-release-policy.md'
       - '03-product/onebi-glossary.md'
       - '03-product/onebi-roadmap.md'
-      - '03-product/onebi-wiki-plan.md'
-      - '03-product/ddd-conventions.md'
-      - '03-product/api-contract.md'
       - '04-bi/data-catalog.md'
-      - '05-research/bitrix-crm-analysis.md'
-      - '05-research/hubspot-pipeline-analysis.md'
       - '05-research/internal-novatska-creatives.md'
       - 'CPOMind/product-architecture-research.md'
       - '06-marketing-site/ltv-calculator.html'
@@ -50,20 +43,13 @@ jobs:
           # Remove symlinks first, then copy real files
           find public/ -type l -delete
           cp 03-product/user-stories.md public/user-stories.md
-          cp 03-product/bi-mvp-project-plan.md public/bi-mvp-project-plan.md
           cp 04-bi/metrics-dictionary.md public/metrics-dictionary.md
           cp 04-bi/filters.md public/filters.md
-          cp 05-research/bitrix-crm-analysis.md public/bitrix-crm-analysis.md
-          cp 05-research/hubspot-pipeline-analysis.md public/hubspot-pipeline-analysis.md
           cp 05-research/internal-novatska-creatives.md public/internal-novatska-creatives.md
           cp 03-product/roadmap.md public/roadmap.md
-          cp 03-product/component-map.md public/component-map.md
           cp 03-product/sdk-release-policy.md public/sdk-release-policy.md
           cp 03-product/onebi-glossary.md public/onebi-glossary.md
           cp 03-product/onebi-roadmap.md public/onebi-roadmap.md
-          cp 03-product/onebi-wiki-plan.md public/onebi-wiki-plan.md
-          cp 03-product/ddd-conventions.md public/ddd-conventions.md
-          cp 03-product/api-contract.md public/api-contract.md
           cp 04-bi/data-catalog.md public/data-catalog.md
           cp CPOMind/product-architecture-research.md public/product-architecture.md
           cp 06-marketing-site/ltv-calculator.html public/ltv-calculator.html

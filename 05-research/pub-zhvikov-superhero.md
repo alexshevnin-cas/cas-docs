@@ -55,5 +55,5 @@
 |---|----------|------------|
 | 1 | Добавить US-Pub-07: Предиктивный LTV для приоритизации разработки | `03-product/user-stories.md` |
 | 2 | Добавить US-Pub-08: Индикатор здоровья проекта | `03-product/user-stories.md` |
-| 3 | Добавить открытый вопрос: дифференциация Pub по размеру студии | `03-product/product-strategy.md` |
+| 3 | Добавить открытый вопрос: дифференциация Pub по размеру студии | `03-product/product-strategy-1pager.md` |
 | 4 | Обновить research-log.md | `05-research/research-log.md` |

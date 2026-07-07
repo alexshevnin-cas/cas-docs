@@ -1,1 +1,0 @@
-../03-product/ddd-conventions.md

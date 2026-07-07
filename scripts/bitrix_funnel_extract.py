@@ -36,6 +36,7 @@ WEBHOOK = env_vars["BITRIX_WEBHOOK"]
 OUT_DIR = Path(__file__).parent.parent / "05-research"
 
 # TRUE_ABOUT enum mapping (UF_CRM_1734002585)
+# Updated 2026-04-01: added new BD managers and TG channels
 TRUE_ABOUT_MAP = {
     "573": "Google Ads",
     "563": "Client",
@@ -52,6 +53,16 @@ TRUE_ABOUT_MAP = {
     "604": "Organic Search",
     "617": "BD Igor Maiorov",
     "577": "BD Zoriana Omelchuk",
+    "616": "BD Anton Zastanchenko",
+    "643": "BD Victoria Advertmobile",
+    "912": "BD Mykyta Zhalkovskyi",
+    "904": "BD Anton Proskurin",
+    "605": "BD Munteanu Alexandr",
+    "576": "BD Abd elrahman Abbas",
+    "571": "Iranian TG channel",
+    "572": "Indonesian TG channel",
+    "924": "LeadGen Yuliia",
+    "928": "BD Huz Victoria",
 }
 
 # SOURCE_ID mapping (from Bitrix CRM statuses)
@@ -86,9 +97,12 @@ MILESTONE_IDS = [
     "4",            # Собеседование
     "3",            # MQL
     "10",           # Создан Чат
-    "11",           # Интеграция
+    "11",           # Интеграция (ещё Deal — нет выручки)
+    "12",           # Интеграция 5-10% (User — есть выручка)
     "5",            # A/B test
     "6",            # Прошел A/B test
+    "8",            # Upsale push
+    "9",            # Перевел все игры на CAS
     "CONVERTED",    # Успешный клиент СAS
 ]
 
@@ -112,11 +126,35 @@ MILESTONE_LABELS = {
     "3": "MQL",
     "10": "Создан Чат",
     "11": "Интеграция",
+    "12": "Интеграция 5-10%",
     "5": "A/B test",
     "6": "Прошёл A/B",
     "7": "Отказавшиеся",
+    "8": "Upsale push",
+    "9": "Перевёл все",
     "CONVERTED": "Клиент",
 }
+
+# Unified 5-step funnel mapping (STATUS_ID → unified step)
+# Интеграция (11) = Deal (нет выручки), Интеграция 5-10% (12) = User (есть выручка)
+UNIFIED_FUNNEL = {
+    "NEW": "Prospect",
+    "IN_PROCESS": "Prospect",
+    "UC_75KI16": "Prospect",
+    "4": "Qualified Lead",
+    "3": "Qualified Lead",
+    "10": "Deal",
+    "11": "Deal",
+    "12": "User",
+    "5": "User",
+    "6": "User",
+    "8": "Client",
+    "9": "Client",
+    "CONVERTED": "Client",
+}
+
+UNIFIED_ORDER = ["Prospect", "Qualified Lead", "Deal", "User", "Client"]
+UNIFIED_DEPTH = {s: i for i, s in enumerate(UNIFIED_ORDER)}
 
 # Funnel depth order (for determining max stage)
 STAGE_DEPTH = {
@@ -387,6 +425,17 @@ def extract():
                 max_depth = depth
                 max_stage = status_labels.get(sid, sid)
 
+        # Unified funnel step (based on deepest non-rejection stage)
+        unified_step = ""
+        unified_depth = -1
+        for sid in stage_dates:
+            step = UNIFIED_FUNNEL.get(sid)
+            if step:
+                d = UNIFIED_DEPTH[step]
+                if d > unified_depth:
+                    unified_depth = d
+                    unified_step = step
+
         row = {
             "ID": lid,
             "Created": created,
@@ -398,6 +447,7 @@ def extract():
             "UTM": utm_source,
             "Status": status_name,
             "MaxStage": max_stage,
+            "UnifiedStep": unified_step,
             "Downloads": downloads,
             "Type": lead_type,
             "TotalDays": total_days,
@@ -518,7 +568,7 @@ def extract():
     # --- H1 2026 monthly breakdown ---
     md.append("### H1 2026 — помесячно\n")
 
-    for month_num, month_name in [(1, "Январь 2026"), (2, "Февраль 2026")]:
+    for month_num, month_name in [(1, "Январь 2026"), (2, "Февраль 2026"), (3, "Март 2026"), (4, "Апрель 2026")]:
         m_rows = [r for r in ad_rows
                   if r["HalfYear"] == "H1 2026"
                   and r["Created"][:7] == f"2026-{month_num:02d}"]
@@ -659,6 +709,142 @@ def extract():
             else:
                 cells.append("—")
         md.append(f"| {src} | " + " | ".join(cells) + " |")
+    md.append("")
+
+    # ---------------------------------------------------------------------------
+    # Unified 5-step funnel (Янв-Апр 2026, monthly)
+    # ---------------------------------------------------------------------------
+    md.append("## Единая воронка Янв-Апр 2026 (Bitrix)\n")
+    md.append("Маппинг: Интеграция = Deal, Интеграция 5-10%+ = User, "
+              "Upsale/Перевёл все/Успешный клиент = Client.\n")
+
+    q1_rows = [r for r in rows if r["Source"] != "Second Account"
+               and r["HalfYear"] == "H1 2026"
+               and r["Created"][:4] == "2026"
+               and int(r["Created"][5:7]) <= 4]
+
+    months = [(1, "Янв"), (2, "Фев"), (3, "Мар"), (4, "Апр")]
+
+    md.append("| Этап | " + " | ".join(m[1] for m in months) + " | Итого | % |")
+    md.append("|------|" + "|".join(["-----:" for _ in months]) + "|-----:|----:|")
+
+    # Pre-compute source sets for sub-rows
+    _INBOUND_SOURCES = {
+        "Google Ads", "Facebook", "Organic Search", "Reddit", "YouTube",
+        "LinkedIn", "TG Monetization", "Iranian TG channel",
+        "Indonesian TG channel", "Turkish forum", "Conference", "(не размечен)",
+    }
+    _REFERRAL_SOURCES = {"Client"}
+    _BD_SOURCES = {s for s in TRUE_ABOUT_MAP.values() if s.startswith("BD ")}
+    _BD_SOURCES.update(["LeadGen Yuliia", "Oleg Shlyamovych", "Evgeny Grishakov"])
+
+    for step in UNIFIED_ORDER:
+        cells = []
+        q1_total = 0
+        for m_num, _ in months:
+            m_rows = [r for r in q1_rows
+                      if r["Created"][5:7] == f"{m_num:02d}"
+                      and UNIFIED_DEPTH.get(r.get("UnifiedStep", ""), -1)
+                      >= UNIFIED_DEPTH[step]]
+            cells.append(str(len(m_rows)))
+            q1_total += len(m_rows)
+        pct = f"{q1_total / len(q1_rows) * 100:.0f}%" if q1_rows else "—"
+        bold = "**" if step == "Client" else ""
+        md.append(f"| {bold}{step}{bold} | " + " | ".join(cells)
+                  + f" | {bold}{q1_total}{bold} | {bold}{pct}{bold} |")
+
+        # Sub-rows under Prospect: Inbound / Referral / Outbound
+        if step == "Prospect":
+            for sub_label, sub_set in [
+                ("Inbound", _INBOUND_SOURCES),
+                ("Referral", _REFERRAL_SOURCES),
+                ("BD Outbound", _BD_SOURCES),
+            ]:
+                sub_cells = []
+                sub_total = 0
+                for m_num, _ in months:
+                    cnt = len([r for r in q1_rows
+                               if r["Created"][5:7] == f"{m_num:02d}"
+                               and r["Source"] in sub_set])
+                    sub_cells.append(str(cnt))
+                    sub_total += cnt
+                md.append(f"| · {sub_label} | " + " | ".join(sub_cells)
+                          + f" | {sub_total} |  |")
+
+    # Rejection row
+    rejected = [r for r in q1_rows
+                if r.get("UnifiedStep", "") == ""
+                or any(r.get(f"date_{MILESTONE_LABELS[rid]}", "")
+                       for rid in REJECTION_IDS)]
+    rej_cells = []
+    rej_total = 0
+    for m_num, _ in months:
+        m_rej = [r for r in q1_rows
+                 if r["Created"][5:7] == f"{m_num:02d}"
+                 and UNIFIED_DEPTH.get(r.get("UnifiedStep", ""), -1)
+                 < UNIFIED_DEPTH["Qualified Lead"]]
+        rej_cells.append(str(len(m_rej)))
+        rej_total += len(m_rej)
+    rej_pct = f"{rej_total / len(q1_rows) * 100:.0f}%" if q1_rows else "—"
+    md.append(f"| ↳ Отсев | " + " | ".join(rej_cells)
+              + f" | {rej_total} | {rej_pct} |")
+    md.append("")
+
+    # --- Unified funnel by source type ---
+    md.append("### По типу источника\n")
+
+    INBOUND_SOURCES = {
+        "Google Ads", "Facebook", "Organic Search", "Reddit", "YouTube",
+        "LinkedIn", "TG Monetization", "Iranian TG channel",
+        "Indonesian TG channel", "Turkish forum", "Conference", "(не размечен)",
+    }
+    REFERRAL_SOURCES = {"Client"}
+    BD_SOURCES = {s for s in TRUE_ABOUT_MAP.values() if s.startswith("BD ")}
+    BD_SOURCES.update(["LeadGen Yuliia", "Oleg Shlyamovych", "Evgeny Grishakov"])
+
+    for src_label, src_set in [
+        ("Inbound", INBOUND_SOURCES),
+        ("Referral", REFERRAL_SOURCES),
+        ("BD Outbound", BD_SOURCES),
+    ]:
+        src_rows = [r for r in q1_rows if r["Source"] in src_set]
+        if not src_rows:
+            continue
+
+        md.append(f"**{src_label}** ({len(src_rows)} лидов)\n")
+
+        md.append("| Этап | " + " | ".join(m[1] for m in months) + " | Итого | % |")
+        md.append("|------|" + "|".join(["-----:" for _ in months]) + "|-----:|----:|")
+
+        for step in UNIFIED_ORDER:
+            cells = []
+            q1_total = 0
+            for m_num, _ in months:
+                m_rows = [r for r in src_rows
+                          if r["Created"][5:7] == f"{m_num:02d}"
+                          and UNIFIED_DEPTH.get(r.get("UnifiedStep", ""), -1)
+                          >= UNIFIED_DEPTH[step]]
+                cells.append(str(len(m_rows)))
+                q1_total += len(m_rows)
+            pct = f"{q1_total / len(src_rows) * 100:.0f}%" if src_rows else "—"
+            md.append(f"| {step} | " + " | ".join(cells)
+                      + f" | {q1_total} | {pct} |")
+        md.append("")
+
+    # --- User list (Интеграция 5-10% and beyond) ---
+    md.append("## Список User и Client (Янв-Апр 2026)\n")
+    md.append("Лиды, достигшие стадии User (Интеграция 5-10%) или Client.\n")
+
+    user_client_rows = [r for r in q1_rows
+                        if UNIFIED_DEPTH.get(r.get("UnifiedStep", ""), -1)
+                        >= UNIFIED_DEPTH["User"]]
+    user_client_rows.sort(key=lambda r: r["Created"])
+
+    md.append("| # | ID | Название | Источник | Стадия (Bitrix) | Unified | Создан |")
+    md.append("|---|---:|----------|----------|-----------------|---------|--------|")
+    for i, r in enumerate(user_client_rows, 1):
+        md.append(f"| {i} | {r['ID']} | {r['Title'][:40]} | {r['Source']} "
+                  f"| {r['Status']} | {r['UnifiedStep']} | {r['Created']} |")
     md.append("")
 
     # Save markdown

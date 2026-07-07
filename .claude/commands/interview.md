@@ -20,8 +20,8 @@
 - Новые user stories → добавь в `03-product/user-stories.md`
 - Новые метрики → добавь в `04-bi/metrics-dictionary.md`
 - Новые фильтры → добавь в `04-bi/filters.md`
-- Изменения приоритетов → обнови `03-product/product-strategy.md`
-- Новые боли/инсайты → обнови `03-product/cabinet-overview.md` если нужно
+- Изменения приоритетов → обнови `03-product/product-strategy-1pager.md`
+- Новые боли/инсайты → обнови `03-product/cabinet/overview.md` если нужно
 
 При обновлении существующих файлов: добавляй, не переписывай. Пометь источник `(из интервью [имя], [дата])`.
 

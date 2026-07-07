@@ -6,7 +6,7 @@
 
 Прочитай все ключевые файлы и составь отчёт:
 
-1. `03-product/product-strategy.md` — фазы и приоритеты
+1. `03-product/product-strategy-1pager.md` — фазы и приоритеты
 2. `03-product/user-stories.md` — покрытие stories по типам клиентов
 3. `04-bi/metrics-dictionary.md` — сколько метрик определено
 4. `04-bi/filters.md` — сколько фильтров определено

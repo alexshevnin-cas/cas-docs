@@ -146,6 +146,6 @@
 | 3 | Встреча с Вовой: calendar + дизайнер | Организационное |
 | 4 | Встреча в четверг: revenue strategy, финмодель факт vs план | `02-business-model/` |
 | 5 | Поговорить с Алиевым (Ренас) — инди L1 клиент | `05-research/` — новое интервью |
-| 6 | Обновить roadmap: H1/H2 разделение | `03-product/product-strategy.md` |
+| 6 | Обновить roadmap: H1/H2 разделение | `03-product/product-strategy-1pager.md` |
 | 7 | Зафиксировать publishing ICP ограничения | `02-business-model/` |
 | 8 | AI knowledge base для техподдержки — идея на будущее | Пока не в scope |

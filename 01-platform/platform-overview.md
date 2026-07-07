@@ -24,10 +24,9 @@ AI не должен пытаться загружать всё сразу.
 4. Никогда не выдумывать отсутствующие продуктовые факты
 
 ## Порядок чтения
-1. `/01-platform/platform-overview.md`
+1. `/01-platform/product-architecture.md` — продуктовая архитектура (4 слоя, канон)
 2. `/02-business-model/cas-business-model.md`
-3. `/03-product/cabinet-overview.md`
-4. `/90-ai/ai-context-rules.md`
+3. `/03-product/cabinet/overview.md`
 
 ## В рамках текущей версии
 - Верхнеуровневое описание платформы

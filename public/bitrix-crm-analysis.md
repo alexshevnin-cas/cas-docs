@@ -1,1 +1,0 @@
-../05-research/bitrix-crm-analysis.md

@@ -113,6 +113,6 @@
 | 3 | Добавить US-L2-24: Metric education (рекомендуемые метрики) | `03-product/user-stories.md` |
 | 4 | Добавить UX-баги в design-spec или backlog | `03-product/design-spec-bi.md` |
 | 5 | Добавить гипотезу: ad churn A/B analysis | `03-product/rnd-hypotheses.md` |
-| 6 | Добавить открытый вопрос: Desktop/Extension SDK | `03-product/product-strategy.md` |
+| 6 | Добавить открытый вопрос: Desktop/Extension SDK | `03-product/product-strategy-1pager.md` |
 | 7 | Обновить research-log.md | `05-research/research-log.md` |
 | 8 | Перенести транскрипт в raw/ | `05-research/raw/` |

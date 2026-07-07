@@ -169,7 +169,7 @@
 | Документ | Что даёт |
 |----------|---------|
 | `06-marketing-site/website-plan.md` | Сайт как anchor-канал для hard content |
-| `03-product/product-strategy.md` (Stream 6) | Маркетинговые нотификации, email-триггеры |
+| `03-product/product-strategy-1pager.md` (Stream 6) | Маркетинговые нотификации, email-триггеры |
 | `03-product/rnd-hypotheses.md` | Темы для технического контента |
 | `02-business-model/cas-business-model.md` | Каналы привлечения, позиционирование |
 | `05-research/competitive-ux-reference.md` | Как конкуренты делают контент-маркетинг |

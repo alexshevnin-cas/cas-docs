@@ -80,7 +80,7 @@
 | 2 | Добавить US-Pub-09: A/B-тесты в дашборде для Pub | `03-product/user-stories.md` |
 | 3 | Добавить US-Pub-10: Тренды рынка | `03-product/user-stories.md` |
 | 4 | Уточнить US-Pub-05: воронки без лимита шагов | `03-product/user-stories.md` |
-| 5 | Добавить маркетинговые идеи | `03-product/product-strategy.md` |
+| 5 | Добавить маркетинговые идеи | `03-product/product-strategy-1pager.md` |
 | 6 | Добавить гипотезы: self-service онбординг, тренды как retention-инструмент | `03-product/rnd-hypotheses.md` |
 | 7 | Обновить research-log.md | `05-research/research-log.md` |
 | 8 | Перенести транскрипт в raw/ | `05-research/raw/` |
