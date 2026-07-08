@@ -147,6 +147,7 @@ revenue клиентов, предоставляя managed-сервис моне
 
 ## Связанные документы
 
+- Карта контекстов (границы, стыки, владельцы): `01-platform/context-map.md`
 - Стратегия: `03-product/product-strategy-1pager.md`
 - Roadmap: `03-product/roadmap.md`
 - Кабинет (Слой 3): `03-product/cabinet/overview.md`
