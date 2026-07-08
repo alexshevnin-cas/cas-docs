@@ -74,6 +74,7 @@ revenue клиентов, предоставляя managed-сервис моне
 | Внутренний | **Admin / Finance / Support** | Организации, роли, аудит, биллинг | Слой 4 (RBAC: 7 internal-ролей) |
 
 Детали внутренних АРМ и RBAC → `03-product/cabinet/am-cabinet.md`.
+Полный реестр пользователей (типы × RBAC-роли × BI-коды, с расхождениями) → `01-platform/platform-users.md`.
 
 ---
 
