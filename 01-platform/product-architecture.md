@@ -14,9 +14,10 @@ revenue клиентов, предоставляя managed-сервис моне
 
 - **Внешний контур** — клиенты (паблишеры и студии): видят и управляют своим портфелем
   через кабинет и аналитику.
-- **Внутренний контур** — команды CAS: аккаунт-менеджеры и BD (здоровье клиентов, churn,
-  upsell), маркетинг (креативы, кампании), монетизаторы и UA — работают с теми же данными
-  через ролевые АРМ и служебные инструменты.
+- **Внутренний контур** — команды CAS: Partnership Manager и BD (здоровье клиентов, churn,
+  upsell, pipeline), App Admin (монетизация + SDK + саппорт — редактируют приложения),
+  UA Manager/Маркетинг, Game Product Owner, Manager (топ-менеджмент и финансы, view-only) —
+  работают с теми же данными через ролевые АРМ и служебные инструменты.
 
 Платформа устроена как **четыре слоя**. Главное правило: **кабинет ≠ OneBI** — OneBI это слой
 аналитики, встроенный в кабинет, а кабинет шире.
@@ -39,7 +40,7 @@ revenue клиентов, предоставляя managed-сервис моне
        │
        └─ СЛОЙ 2 — OneBI (Unified UI) = раздел Analytics      [Live]
           Слой аналитики (Looker/Tableau/Superset-аналог), ВСТРОЕН в кабинет.
-          OneBI ⊂ кабинет. Аудитория: Customer / Producer / UA Manager / C-Level.
+          OneBI ⊂ кабинет. Аудитория: Customer / Game Product Owner / UA Manager / Manager.
           ├─ Quick View (KPI-карточки + дельты + trend)       [Live]
           ├─ Reports (measures + splits + filters, Table/Chart/Line, Save preset, Export)
           │    ← Mediation + Publishing СЛИТЫ сюда (отдельных страниц в nav нет)
@@ -64,17 +65,21 @@ revenue клиентов, предоставляя managed-сервис моне
 
 Роль определяет scope данных, доступные метрики и функции — интерфейс один, данные разные.
 
+Внутренний контур — целевая ролевая модель v2 (решение владельца 2026-07-09).
+
 | Контур | Кто | Что потребляет | Где в слоях |
 |--------|-----|----------------|-------------|
 | Внешний | **L1 / L2** (медиация), **Pub / PubC** (паблишинг) | Revenue, отчёты, платежи, портфель приложений | Слой 3 (кабинет) + Слой 2 (OneBI) |
-| Внутренний | **Account Manager / BD** | Портфель клиентов: BD Dashboard (Revenue / DAU / Churn Risk, дерево MRR→ARR), assignments, impersonation, OneBI SuperAdmin | Слой 4 |
-| Внутренний | **Монетизатор** | Разгон eCPM портфеля: CAS Configuration, SplitEngine A/B | Слой 4 |
-| Внутренний | **UA Manager** | Закреплённые игры/кампании: ROAS, LTV, CPI | Слой 4 |
-| Внутренний | **Маркетинг** | Creatives Catalog, Campaign Interactive Dashboards | Дата-платформа (Growth / Publishing) |
-| Внутренний | **Admin / Finance / Support** | Организации, роли, аудит, биллинг | Слой 4 (RBAC: 7 internal-ролей) |
+| Внутренний | **Partnership Manager** (экс-AM) | Портфель клиентов: BD Dashboard (Revenue / DAU / Churn Risk, дерево MRR→ARR), assignments, impersonation, OneBI SuperAdmin | Слой 4 |
+| Внутренний | **BD** | Новые клиенты: pipeline, конверсия лидов | Сейчас HubSpot/Bitrix (вне платформы); Единый реестр клиентов в 1С (ТЗ) |
+| Внутренний | **App Admin** (монетизаторы + R&D/SDK + Support) | Сетапы, A/B, сети, влияние SDK-версий, тикеты. **Редактирует приложения и конфигурации**: CAS Configuration, SplitEngine | Слой 4 |
+| Внутренний | **UA Manager / Маркетинг** | ROAS/LTV/CPI закреплённых игр; креативы и кампании: Creatives Catalog + Campaign Dashboards (планируется доступ + перенос Superset) | Слой 4 + Growth |
+| Внутренний | **Game Product Owner** | Пайплайн игры: тесты → софтланч → скейл; profit share | Слой 4 + Growth |
+| Внутренний | **Manager** (топ-менеджмент, финансы, аналитика) | Сводная выручка/портфель/деньги. **Смотрит, не редактирует** | Слой 4 |
+| Внутренний | **Super Admin** | Всё: организации, роли, биллинг, impersonation | Слой 4 |
 
 Детали внутренних АРМ и RBAC → `03-product/cabinet/am-cabinet.md`.
-Полный реестр пользователей (типы × RBAC-роли × BI-коды, с расхождениями) → `01-platform/platform-users.md`.
+Полный реестр пользователей (типы, роли, маппинг на RBAC) → `01-platform/platform-users.md`.
 
 ---
 

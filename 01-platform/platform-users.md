@@ -53,32 +53,25 @@
 | **Partnership Manager** (экс-Account Manager) | `account_manager` → переименовать ⚠ | Smirnov, Shcherbyna, Sabirov, Buha, Dubniak ⚠ (mock из прототипа RBAC, подтвердить) | Здоровье портфеля, churn, upsell L1→L2→Pub | АРМ AM: assignments, impersonation (30 мин idle, audit); BD Dashboard [planned]; OneBI SuperAdmin [planned] |
 | **BD** | ⚠ роли нет | Игорь, Вика | Новые клиенты: pipeline, конверсия лидов, outbound | Сегодня — HubSpot/Bitrix (вне платформы); Единый реестр клиентов в 1С (ТЗ); инструмента на платформе нет |
 | **App Admin** (монетизаторы + R&D/SDK + Support) | ⚠ новая роль (из существующих сюда входит `support`) | Монетизация: Влад Горик + команда; SDK/R&D: Denys Yeshchenko, Yuriy Vityuk, Olena Ostroverkha; Support: ⚠ не назван | Приложение работает и монетизируется оптимально: сетапы, A/B, сети (ARPDAU ~2000 apps); влияние SDK-версий на eCPM/ARPDAU/crash; разбор тикетов. **Редактирует приложения и конфигурации** | Целевой АРМ — CAS Configuration + SplitEngine; OneBI-разбивки по SDK Version / App Version; сегодня монетизация — 1С + Excel, мимо платформы |
-| **UA Manager / Маркетинг** | `ua_manager` (маркетинговая часть ⚠ вне RBAC) | Команда UA (под Проскурниным; поимённо не зафиксированы) + Mykyta Zhalkovskyi, Iryna Shlyamovych | ROAS/CPI закреплённых игр, скейл/стоп кампаний; креативы, кампании, лиды | АРМ UA: закреплённые игры, без финансов, без impersonation; Creatives Catalog + Campaign Interactive Dashboards [Project] |
+| **UA Manager / Маркетинг** | `ua_manager` | Команда UA (под Проскурниным; поимённо не зафиксированы) + Mykyta Zhalkovskyi, Iryna Shlyamovych | ROAS/CPI закреплённых игр, скейл/стоп кампаний; креативы, кампании, лиды | АРМ UA: закреплённые игры, без финансов, без impersonation; Creatives Catalog + Campaign Interactive Dashboards [Project]; планируется доступ к Creatives Catalog и перенос Superset |
 | **Game Product Owner** (экс-«продюсер паблишинга», объединён с паблишингом) | ⚠ новая роль | Anton Proskurnin, Zoriana Omelchuk | Пайплайн игры: тесты → софтланч → скейл; экономика profit share | OneBI (аудитория «Producer»); Publishing-отчёты в Analytics |
 | **Manager** (топ-менеджмент + финансы + аналитика) | ⚠ новая роль view-only (сейчас разрозненно: `finance`, `analyst`, `platform_admin`) | Олег Шлямович, Александр Осыка (топ-менеджмент); Толик, Igor Belov ⚠ (финансы); Borys Shyfrin (аналитика); Roman Petrov, Iryna Volkova ⚠ | Сводная картина: выручка, портфель, деньги. **Смотрит, но не редактирует приложения** | OneBI view-only; C-level дашборд (запрос Олега: отвязаться от 1С) — не существует ⚠; финансы сегодня в 1С |
 | **Super Admin** | `super_admin` | Alex Shevnin | Всё | Все организации, биллинг, роли, impersonation любого |
 
 ---
 
-## 3. Сверка трёх таксономий — расхождения
+## 3. Открытые расхождения
 
-Три системы описания пользователей существовали независимо:
-**BI-коды** (`client-types.md`) · **RBAC 13 ролей** (`am-cabinet.md`) · **аудитории канона** (потребители платформы, аудитория OneBI).
-
-> **Апдейт 2026-07-09:** целевая ролевая модель (раздел 2) закрывает находки 1–4: монетизатор,
-> R&D/SDK и Support объединены в **App Admin**; Producer → **Game Product Owner**; C-Level,
-> Analyst, Platform Admin и Финансы → **Manager** (view-only); маркетинг — в связке с **UA Manager**.
-> Находки сохранены как обоснование модели; осталось внедрить её в RBAC (вопрос 1 раздела 4).
+Исходная сверка трёх таксономий (BI-коды · RBAC v1 · аудитории канона) выявила 7 расхождений.
+Целевая модель v2 (2026-07-09) закрыла 5: монетизатор, R&D/SDK и Support → **App Admin**;
+Producer → **Game Product Owner**; C-Level, Analyst, Platform Admin и Финансы → **Manager**;
+маркетинг — в связке с **UA Manager** (доступ к Creatives Catalog и перенос Superset — запланированы).
+Остались два:
 
 | Находка | Детали |
 |---------|--------|
-| **1. Монетизатор невидим для всех таксономий** | Главный внутренний потребитель Уровня 2 стратегии не имеет ни RBAC-роли, ни BI-кода, ни доступа: работает в 1С + Excel мимо платформы. CAS Configuration закроет инструмент, но роль в RBAC нужно завести (например `monetization_manager`) |
-| **2. RND есть в BI, нет в RBAC** | `client-types.md` описывает RND-код с кросс-клиентскими разбивками, но среди 13 ролей RBAC его нет — непонятно, под какой ролью SDK-команда войдёт в платформу |
-| **3. Producer и C-Level существуют только в каноне** | Названы аудиторией OneBI, но нет ни ролей, ни кодов, ни сценариев. Для C-Level это активный запрос CEO (отвязка от 1С) |
-| **4. Маркетинг вне контура доступа** | Инструменты планируются (Superset), но Superset internal-only и не связан с RBAC платформы |
-| **5. Маппинг «тип клиента ↔ role template» не задокументирован** | Templates (`client.standard/analytics/full`, `studio.standard/full`) назначаются «админом при онбординге» — правило соответствия L1/L2/Pub/PubC нигде не зафиксировано |
-| **6. Роли без сценариев** | `support`, `analyst`, `finance` есть в RBAC, но ни одной user story и ни одного экрана под них не описано |
-| **7. BI-код `Admin` покрывает две RBAC-роли** | `super_admin` и `platform_admin` в BI неразличимы — вероятно, ок, но зафиксировать сознательно |
+| **1. Маппинг «тип клиента ↔ role template» не задокументирован** | Templates (`client.standard/analytics/full`, `studio.standard/full`) назначаются «админом при онбординге» — правило соответствия L1/L2/Pub/PubC нигде не зафиксировано |
+| **2. У внутреннего контура нет user stories** | `user-stories.md` покрывает только внешних клиентов; для v2-ролей (в первую очередь App Admin и Manager) сценарии не описаны — блокер проектирования АРМ |
 
 ---
 
