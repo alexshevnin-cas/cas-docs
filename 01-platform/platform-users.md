@@ -1,7 +1,7 @@
 # CAS Platform — Реестр пользователей платформы
 
-> **Статус:** v1 · 2026-07-08 · сведён из `client-types.md`, `cabinet/am-cabinet.md` (RBAC),
-> канона (потребители), `team.md`, `cabinet/overview.md`
+> **Статус:** v1.1 · внутренний контур — целевая ролевая модель, решение владельца 2026-07-09 ·
+> сведён из `client-types.md`, `cabinet/am-cabinet.md` (RBAC), канона (потребители), `team.md`, `cabinet/overview.md`
 > **Wiki-зеркало:** https://wiki.cas.ai/books/cas-platform/page/polzovateli-cas-platform (id=692, синхр. 2026-07-09)
 > **Назначение:** единая таблица всех, кто пользуется платформой, — внешний и внутренний контур.
 > Одновременно — сверка трёх существующих таксономий (BI-коды · RBAC-роли · потребители канона),
@@ -44,20 +44,19 @@
 
 ## 2. Внутренний контур — команды CAS
 
-| Роль | RBAC-роль | BI-код | Кто сегодня | Главный вопрос | Инструменты на платформе | Статус |
-|------|-----------|--------|-------------|----------------|---------------------------|--------|
-| **Account Manager / BD** | `account_manager` | `BD` | AM: Smirnov, Shcherbyna, Sabirov, Buha, Dubniak ⚠ (mock из прототипа RBAC, подтвердить); BD: Игорь, Вика | Здоровье портфеля, churn, upsell L1→L2→Pub | АРМ AM: assignments, impersonation (30 мин idle, audit); BD Dashboard [planned]; OneBI SuperAdmin [planned] | Alpha |
-| **Монетизатор** | ⚠ **роли нет** | ⚠ **кода нет** | Влад Горик + команда | ARPDAU портфолио (~2000 apps): сетапы, A/B, сети | ⚠ Сегодня — 1С + Excel, **мимо платформы**; целевой АРМ — CAS Configuration + SplitEngine | Project |
-| **UA Manager** | `ua_manager` | `UA` | Команда UA (Publishing, под Проскурниным; поимённо не зафиксированы) | ROAS/CPI закреплённых игр, скейл/стоп кампаний | АРМ UA: закреплённые игры; без финансов, без impersonation | Alpha |
-| **R&D / SDK** | ⚠ роли нет (ближайшая `analyst`) | `RND` | Denys Yeshchenko, Yuriy Vityuk, Olena Ostroverkha | Влияние SDK-версии на eCPM/ARPDAU/crash rate | OneBI-разбивки по SDK Version / App Version; A/B 50/50 (методология Yuriy) | — |
-| **Продюсер паблишинга** | ⚠ роли нет | ⚠ кода нет | Anton Proskurnin, Zoriana Omelchuk | Пайплайн: тесты → софтланч → скейл | Аудитория «Producer» в OneBI (по канону) — но роль нигде не определена | ⚠ gap |
-| **Маркетинг** | ⚠ роли нет | ⚠ кода нет | Mykyta Zhalkovskyi, Iryna Shlyamovych | Креативы, кампании, лиды | Creatives Catalog + Campaign Interactive Dashboards [Project] — на Superset, вне RBAC-контура | Project |
-| **Финансы CAS** | `finance` | — | Толик (1С); Igor Belov ⚠ (mock) | Выплаты, биллинг, revshare, компенсации | Сегодня — 1С; финансовый контекст кабинета без владельца (см. context-map) | — |
-| **Support** | `support` | — | ⚠ не назван в team.md | Разбор тикетов клиентов | Роль есть в RBAC, сценарии не описаны | ⚠ gap |
-| **Аналитик** | `analyst` | — | Borys Shyfrin (+ команда data) | Кросс-клиентская аналитика, витрины | Superset (internal-only), ClickHouse; в RBAC — без impersonation | — |
-| **Platform Admin** | `platform_admin` | `Admin` | Roman Petrov, Iryna Volkova ⚠ (mock) | Администрирование одной платформы (publishing / monetization / internal) | Организации, роли, аудит-лог своей платформы; Admin Panel «Kontora» [Project] | Alpha |
-| **Super Admin** | `super_admin` | `Admin` | Alex Shevnin | Всё | Все организации, биллинг, роли, impersonation любого | Alpha |
-| **C-Level** | ⚠ роли нет | ⚠ кода нет | Олег Шлямович (CEO), Александр Осыка (COO) | Сводная выручка и портфель **без 1С** | ⚠ «Нужен C-level дашборд, чтобы отвязать от 1С» (team.md) — не существует; аудитория «C-Level» заявлена в каноне OneBI | ⚠ gap |
+> **Целевая ролевая модель** (решение владельца продукта, 2026-07-09). Ключевой разделитель прав:
+> **App Admin** редактирует приложения и конфигурации, **Manager** — только смотрит.
+> Колонка «RBAC-роль» — соответствие текущей RBAC v1; ⚠ — роль нужно завести или переименовать.
+
+| Роль | RBAC-роль | Кто сегодня | Главный вопрос | Инструменты на платформе |
+|------|-----------|-------------|----------------|---------------------------|
+| **Partnership Manager** (экс-Account Manager) | `account_manager` → переименовать ⚠ | Smirnov, Shcherbyna, Sabirov, Buha, Dubniak ⚠ (mock из прототипа RBAC, подтвердить) | Здоровье портфеля, churn, upsell L1→L2→Pub | АРМ AM: assignments, impersonation (30 мин idle, audit); BD Dashboard [planned]; OneBI SuperAdmin [planned] |
+| **BD** | ⚠ роли нет | Игорь, Вика | Новые клиенты: pipeline, конверсия лидов, outbound | Сегодня — HubSpot/Bitrix (вне платформы); Единый реестр клиентов в 1С (ТЗ); инструмента на платформе нет |
+| **App Admin** (монетизаторы + R&D/SDK + Support) | ⚠ новая роль (из существующих сюда входит `support`) | Монетизация: Влад Горик + команда; SDK/R&D: Denys Yeshchenko, Yuriy Vityuk, Olena Ostroverkha; Support: ⚠ не назван | Приложение работает и монетизируется оптимально: сетапы, A/B, сети (ARPDAU ~2000 apps); влияние SDK-версий на eCPM/ARPDAU/crash; разбор тикетов. **Редактирует приложения и конфигурации** | Целевой АРМ — CAS Configuration + SplitEngine; OneBI-разбивки по SDK Version / App Version; сегодня монетизация — 1С + Excel, мимо платформы |
+| **UA Manager / Маркетинг** | `ua_manager` (маркетинговая часть ⚠ вне RBAC) | Команда UA (под Проскурниным; поимённо не зафиксированы) + Mykyta Zhalkovskyi, Iryna Shlyamovych | ROAS/CPI закреплённых игр, скейл/стоп кампаний; креативы, кампании, лиды | АРМ UA: закреплённые игры, без финансов, без impersonation; Creatives Catalog + Campaign Interactive Dashboards [Project] |
+| **Game Product Owner** (экс-«продюсер паблишинга», объединён с паблишингом) | ⚠ новая роль | Anton Proskurnin, Zoriana Omelchuk | Пайплайн игры: тесты → софтланч → скейл; экономика profit share | OneBI (аудитория «Producer»); Publishing-отчёты в Analytics |
+| **Manager** (топ-менеджмент + финансы + аналитика) | ⚠ новая роль view-only (сейчас разрозненно: `finance`, `analyst`, `platform_admin`) | Олег Шлямович, Александр Осыка (топ-менеджмент); Толик, Igor Belov ⚠ (финансы); Borys Shyfrin (аналитика); Roman Petrov, Iryna Volkova ⚠ | Сводная картина: выручка, портфель, деньги. **Смотрит, но не редактирует приложения** | OneBI view-only; C-level дашборд (запрос Олега: отвязаться от 1С) — не существует ⚠; финансы сегодня в 1С |
+| **Super Admin** | `super_admin` | Alex Shevnin | Всё | Все организации, биллинг, роли, impersonation любого |
 
 ---
 
@@ -65,6 +64,11 @@
 
 Три системы описания пользователей существовали независимо:
 **BI-коды** (`client-types.md`) · **RBAC 13 ролей** (`am-cabinet.md`) · **аудитории канона** (потребители платформы, аудитория OneBI).
+
+> **Апдейт 2026-07-09:** целевая ролевая модель (раздел 2) закрывает находки 1–4: монетизатор,
+> R&D/SDK и Support объединены в **App Admin**; Producer → **Game Product Owner**; C-Level,
+> Analyst, Platform Admin и Финансы → **Manager** (view-only); маркетинг — в связке с **UA Manager**.
+> Находки сохранены как обоснование модели; осталось внедрить её в RBAC (вопрос 1 раздела 4).
 
 | Находка | Детали |
 |---------|--------|
@@ -80,12 +84,12 @@
 
 ## 4. Открытые вопросы (кому адресовать)
 
-1. **Максим + Руслан (RBAC v1):** заводим ли роли `monetization_manager`, `rnd`, `producer`, `marketing`, `c_level`? Или маппим на существующие (`analyst`)?
-2. **Осыка/Олег:** C-level дашборд — это отдельная роль с отдельным вью или пресет поверх `super_admin`?
+1. **Максим + Руслан (RBAC v2):** внедрить целевую модель — завести роли `app_admin`, `game_product_owner`, `manager` (view-only), `bd`; переименовать `account_manager` → `partnership_manager`; смапить существующие `finance` / `analyst` / `platform_admin` / `support`.
+2. **Осыка/Олег:** наполнение вью роли Manager — C-level дашборд (отвязка от 1С) как дефолтный экран?
 3. **Максим (онбординг):** правило назначения role template по типу клиента — зафиксировать таблицей.
-4. **Горик:** состав команды монетизации (сколько человек получат АРМ).
-5. **team.md:** кто выполняет функцию Support — роль в RBAC есть, человека в команде нет.
-6. Подтвердить реальный состав ролей из прототипа RBAC (список AM, platform_admin, finance помечен там как mock).
+4. **Горик:** состав App Admin со стороны монетизации (сколько человек получат право редактирования).
+5. **Support (внутри App Admin):** кто выполняет функцию — человека в team.md нет.
+6. Подтвердить реальный состав из прототипа RBAC (список AM, Roman/Iryna, Igor Belov — помечены как mock).
 
 ---
 
