@@ -3,6 +3,9 @@
 > **Статус:** Alpha · хост platform.cas.ai (INTERNAL-сборка)
 > **Что это:** тот же кабинет, что видит клиент, **плюс служебные функции**. Канон слоёв → [product-architecture.md](../../01-platform/product-architecture.md).
 > **Источник RBAC:** прототип `/git-project/onebi/docs/research/rbac-overview.md` (v1 Alpha).
+> ⚠ **Документирует текущую RBAC v1.** Целевая ролевая модель v2 (решение владельца 2026-07-09,
+> 7 ролей: Partnership Manager, BD, App Admin, UA/Маркетинг, Game Product Owner, Manager,
+> Super Admin) → [platform-users.md](../../01-platform/platform-users.md).
 
 AM-кабинет — это не отдельный продукт, а **role-based workspace** поверх единого кабинета.
 Менеджер, владеющий клиентами, видит ту же систему + служебные зоны. INTERNAL-бейдж, пункты

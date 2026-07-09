@@ -30,6 +30,7 @@ revenue клиентов, предоставляя managed-сервис моне
 СЛОЙ 4 — КАБИНЕТ AM (Account Manager)                 [Alpha] platform.cas.ai · INTERNAL
 = кабинет пользователя + служебные функции; ролевые рабочие места (АРМ)
   ├─ АРМ Монетизатора · АРМ UA Manager · АРМ Account Manager
+  │    (имена АРМ — текущая RBAC v1; целевые роли v2 → 01-platform/platform-users.md)
   ├─ OneBI SuperAdmin (Portfolio by Manager/Client, Gross/Net, Churn, Anomaly, AM perf)
   └─ Admin / Internal Services / Super Admin
   └── детали → 03-product/cabinet/am-cabinet.md
